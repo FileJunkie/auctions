@@ -5,9 +5,7 @@ import java.util.List;
 import ru.spbstu.students.dao.UserDAO;
 import ru.spbstu.students.dto.UserInfo;
 
-import com.opensymphony.xwork2.ActionSupport;
-
-public class UserAction extends ActionSupport {
+public class ListUserAction extends BaseAction {
 
 	/**
 	 * 
@@ -34,6 +32,4 @@ public class UserAction extends ActionSupport {
 	public void setUserDao(UserDAO userDao) {
 		this.userDao = userDao;
 	}
-	
-
 }

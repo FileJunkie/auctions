@@ -4,16 +4,20 @@ public class UserInfo {
 	
 	private String email;
 	private String password;
-	private Integer category;
-	private Integer type;
+	private String category;
+	private String type;
 	
-	public UserInfo(String email, String password, Integer category, Integer type) {
+	private static int nextId = 1;
+	
+	public UserInfo(String email, String password, String category, String type) {
 		this.email = email;
 		this.password = password;
 		this.category = category;
 		this.type = type;
 	}
 	
+	public UserInfo() {}
+
 	public String getEmail() {
 		return email;
 	}
@@ -26,17 +30,21 @@ public class UserInfo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Integer getCategory() {
+	public String getCategory() {
 		return category;
 	}
-	public void setCategory(Integer category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
-	public Integer getType() {
+	public String getType() {
 		return type;
 	}
-	public void setType(Integer type) {
+	public void setType(String type) {
 		this.type = type;
+	}
+
+	public static int getNextId() {
+		return ++nextId;
 	}
 	
 	

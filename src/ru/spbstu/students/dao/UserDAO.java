@@ -6,7 +6,7 @@ import ru.spbstu.students.dto.UserInfo;
 
 public interface UserDAO {
 	
-	public void insertUser(UserInfo user);
+	public int insertUser(UserInfo user);
 	public List<UserInfo> listUser();
 
 }

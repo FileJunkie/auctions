@@ -19,7 +19,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport;
 
-
 public class QuerySupport extends SimpleJdbcDaoSupport{
 
     private static final Logger LOG = Logger.getLogger(QuerySupport.class);
@@ -1291,5 +1290,33 @@ public class QuerySupport extends SimpleJdbcDaoSupport{
                 return query.append("instr(upper(" + fieldName + "), upper('" + value + "')," + start + ") > 0");
             }
         };
+    }
+    
+    protected class IntegerFetcher extends Fetcher<Integer> {
+
+        private String fieldName;
+
+        public IntegerFetcher(final String fieldName) {
+            this.fieldName = fieldName;
+        }
+
+        @Override
+        protected final Integer fetch() {
+            return getInt(fieldName);
+        }
+    }
+    
+    protected class StringFetcher extends Fetcher<String> {
+        
+        private String stringFieldName;
+        
+        public StringFetcher(final String stringFieldName) {
+            this.stringFieldName = stringFieldName;
+        }
+        
+        @Override
+        protected final String fetch() {
+            return getString(stringFieldName);
+        }
     }
 }

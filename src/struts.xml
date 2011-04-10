@@ -3,10 +3,26 @@
 "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" />
+    <constant name="struts.ui.theme" value="simple" />
+    <constant name="struts.objectFactory" value="org.apache.struts2.spring.StrutsSpringObjectFactory" />
+    
 	<package name="default" extends="struts-default">
-		<action name="listUser" class="ru.spbstu.students.web.actions.UserAction">
-			<result name="success">/jsp/success.jsp</result>
+		
+		<action name="listUser" class="ru.spbstu.students.web.actions.ListUserAction">
+			<result name="success">/jsp/userList.jsp</result>
 			<result name="error">/jsp/error.jsp</result>
 		</action>
+		
+		<action name="insertUser" class="ru.spbstu.students.web.actions.InsertUserAction">
+			<result name="success" type="redirect">listUser</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="register" class="ru.spbstu.students.web.actions.RegisterAction">
+        	<result name="success">/jsp/register.jsp</result>
+        </action>
 	</package>
 </struts>
