@@ -10,9 +10,9 @@ import ru.spbstu.students.web.Types;
 
 public class UserDAOImpl extends QuerySupport implements UserDAO{
 
-	public int insertUser(UserInfo user) throws Exception {
+	public String insertUser(UserInfo user) throws Exception {
 		if (user == null || !Util.isValidUser(user))
-			return -1;
+			return "error";
 		
 		int category, type, registered;
 		
@@ -35,9 +35,9 @@ public class UserDAOImpl extends QuerySupport implements UserDAO{
 			
 			Util.sendActivationMail(user.getEmail());
 			
-			return 0;
+			return "success";
 		} else {
-			return -1;
+			return "error";
 		}
 	}
 
