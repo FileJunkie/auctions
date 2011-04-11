@@ -12,6 +12,7 @@
 </style>
 </head>
 <body>
+	<div id="userList">
 	<s:if test="result.size() > 0">
 		<div class="content">
 			<table class="userTable" cellpadding="5px">
@@ -31,5 +32,6 @@
 			</table>
 		</div>
 	</s:if>
+	</div>
 </body>
 </html>

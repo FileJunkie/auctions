@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-
+<link rel="stylesheet" type="text/css" href="<s:url value="/style.css"/>"/>
 <jsp:include page="/js/functions.jsp" />
 
-<script type="text/javascript">
+<!--<script type="text/javascript">
 	$(document).ready(function() {
 		$('#registration').dialog({
 			width : 400,
@@ -12,21 +12,27 @@
 			modal : true
 		});
 	});
-</script>
+</script>-->
 
 <div id="registration"
-	class="ui-widget ui-widget-content ui-state-active">
+	class="ui-widget ui-widget-content ui-state-active register">
 	<s:form id="register_form" action="insertUser">
 		<table cellpadding="3" cellspacing="0">
 			<tr>
 				<td>Email  </td>
-				<td><s:textfield name="email"
+				<td><s:textfield id="email" name="email"
 						cssClass="text ui-state-default ui-corner-all" />
 				</td>
 			</tr>
 			<tr>
 				<td>Password  </td>
-				<td><s:password name="password"
+				<td><s:password id="pass" name="password"
+						cssClass="text ui-state-default ui-corner-all" />
+				</td>
+			</tr>
+			<tr>
+				<td>Confirm password  </td>
+				<td><s:password id="confPass"
 						cssClass="text ui-state-default ui-corner-all" />
 				</td>
 			</tr>
@@ -46,7 +52,7 @@
 			</tr>
 		</table>
 		<div align="right" style="padding-right: 20px">
-			<span id="register">Register</span>
+			<input type='button' class="ui-state-default ui-corner-all" value="Register" onclick='jscript:beforeSubmit();'>
 		</div>
 	</s:form>
 </div>

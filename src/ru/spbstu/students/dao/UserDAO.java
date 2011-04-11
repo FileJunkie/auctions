@@ -6,7 +6,7 @@ import ru.spbstu.students.dto.UserInfo;
 
 public interface UserDAO {
 	
-	public int insertUser(UserInfo user);
+	public int insertUser(UserInfo user) throws Exception;
 	public List<UserInfo> listUser();
 
 }

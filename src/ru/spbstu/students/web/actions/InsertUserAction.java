@@ -16,9 +16,14 @@ public class InsertUserAction extends BaseAction implements ModelDriven<UserInfo
 	private UserInfo user = new UserInfo();
 
 	public String execute() {
-		if (userDao.insertUser(user) == 0) {
-			return SUCCESS;
-		} else return ERROR;
+		try {
+			if (userDao.insertUser(user) == 0) {
+				return SUCCESS;
+			} else return ERROR;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
 	}
 
 	public void setUserDao(UserDAO userDao) {
