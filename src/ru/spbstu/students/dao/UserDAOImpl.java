@@ -1,5 +1,7 @@
 package ru.spbstu.students.dao;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import ru.spbstu.students.dao.querysupport.QuerySupport;
@@ -14,7 +16,7 @@ public class UserDAOImpl extends QuerySupport implements UserDAO{
 		if (user == null || !Util.isValidUser(user))
 			return "error";
 		
-		int category, type, registered;
+		int category, type, registered, active;
 		
 		Query isExist = new Query("select count(*) as c from users ").append(where(eq("email",user.getEmail())));
 		registered = isExist.fetch(new IntegerFetcher("c"));
@@ -24,16 +26,20 @@ public class UserDAOImpl extends QuerySupport implements UserDAO{
 			String pass = Util.getHashMd5(user.getPassword());
 			category = Categories.getKeyByLabel(user.getCategory());
 			type = Types.getKeyByLabel(user.getType());
+			active = 0;
+			String key = Util.getHashMd5(user.getEmail());
 			
-			Query q = new Query("insert into users(email,password,category,type) values (")
+			Query q = new Query("insert into users(email,password,category,type,active,key) values (")
 			.append("'" + user.getEmail() + "',")
 			.append("'" + pass + "',")
 			.append(category + ",")
-			.append(type + ")");
+			.append(type + ",")
+			.append(active + ",")
+			.append("'" + key + "')");
 			
 			q.execute();
 			
-			Util.sendActivationMail(user.getEmail());
+			Util.sendActivationMail(user.getEmail(), key);
 			
 			return "success";
 		} else {
@@ -55,5 +61,33 @@ public class UserDAOImpl extends QuerySupport implements UserDAO{
 						getString("category"), getString("type"));
 			}
 		});
+	}
+
+	public String activateUser(String key) {
+		
+		if ((key == null) || (key.trim().length() == 0)) {
+			return "error";
+		}
+		
+		Query q = new Query("update users set active = 1 ").append(where(eq("key", key)));
+		q.execute();
+		return "success";
+	}
+	
+	public String loginUser (String email, String password) throws Exception {
+		if ((email == null) || (email.trim().length() == 0) || 
+				(password == null) || (password.trim().length() == 0)) {
+			return "error";
+		}
+		
+		int registered;
+		String pass = Util.getHashMd5(password);
+		Query isExist = new Query("select count(*) as c from users ").append(where(and(eq("email",email),eq("password",pass))));
+		registered = isExist.fetch(new IntegerFetcher("c"));
+		if (registered == 1) {
+			return "success";
+		} else {
+			return "error";
+		}
 	}
 }

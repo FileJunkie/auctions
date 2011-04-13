@@ -14,8 +14,8 @@ import javax.mail.internet.MimeMessage;
 
 public class EMail {
     
-	private static String mailhost = "smtp.gmail.com";
-    static String host = "smtp.gmail.com";
+	private static String mailhost = "smtp.mail.ru";
+    static String host = "smtp.mail.ru";
     static String username;
     static String password;    
     
@@ -28,13 +28,13 @@ public class EMail {
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
  
         Properties props = System.getProperties();
-        props.setProperty("mail.transport.protocol", "smtps");
-        props.setProperty("mail.smtps.host", mailhost);
-        props.put("mail.smtps.port", "465");
-        props.put("mail.smtps.auth", "true");
-        props.put("mail.smtps.socketFactory.port", "465");
-        props.put("mail.smtps.socketFactory.fallback", "false");
-        props.setProperty("mail.smtps.quitwait", "false");
+        props.setProperty("mail.transport.protocol", "smtp");
+        props.setProperty("mail.smtp.host", mailhost);
+        props.put("mail.smtp.port", "25");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.socketFactory.port", "25");
+        props.put("mail.smtp.socketFactory.fallback", "false");
+        props.setProperty("mail.smtp.quitwait", "false");
  
         Session session = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
@@ -47,7 +47,7 @@ public class EMail {
         message.setSender(new InternetAddress(sender));
         message.setSubject(subject);
         message.setContent(body, "text/plain");
-        Transport t = session.getTransport("smtps");
+        Transport t = session.getTransport("smtp");
         try {
             t.connect(host, username, password);
         } finally {

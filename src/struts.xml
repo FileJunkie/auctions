@@ -28,5 +28,8 @@
         <action name="activation" class="ru.spbstu.students.web.actions.ActivationAction">
         	<result name="success">/jsp/activationSuccess.jsp</result>
         </action>
+        <action name="login" class="ru.spbstu.students.web.actions.LoginAction">
+        	<result name="success">/jsp/activationSuccess.jsp</result>
+        </action>
 	</package>
 </struts>

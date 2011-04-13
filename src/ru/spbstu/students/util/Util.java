@@ -24,18 +24,18 @@ public class Util {
 		return md5;
 	}
 	
-	public static void sendActivationMail(String email) throws Exception {
+	public static void sendActivationMail(String email, String key) throws Exception {
 		String subject = "Registration new user";
 		String body = "Hello, " + email + "! To comlete the registration " +
 				"you should go to this link: ";
-		String sender = "group1721@gmail.com";
-		String user = "group1721";
-		String passw = ":vjnrfH4";
+		String sender = "auction.group51721@mail.ru";
+		String user = "auction.group51721";
+		String passw = "auction.group51721";
 		
 		try {
 	        InetAddress addr = InetAddress.getLocalHost();
 	        String hostname = addr.getHostName();
-	        body += "http://" + hostname + ":8080/Auction/activation.action";
+	        body += "http://" + hostname + ":8080/Auction/activation.action?key=" + key;
 	    } catch (UnknownHostException e) {
 	    	e.printStackTrace();
 	    }
