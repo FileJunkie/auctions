@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
+<% String email = (String) session.getAttribute ("email"); %>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -12,6 +14,8 @@
 </style>
 </head>
 <body>
+	${email}
+	<br>
 	<div id="userList">
 	<s:if test="result.size() > 0">
 		<div class="content">

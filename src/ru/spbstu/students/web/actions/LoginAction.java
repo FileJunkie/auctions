@@ -1,20 +1,30 @@
 package ru.spbstu.students.web.actions;
 
-import com.opensymphony.xwork2.ModelDriven;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
 
 import ru.spbstu.students.dao.UserDAO;
 
-public class LoginAction extends BaseAction implements ModelDriven<String[]>{
+import com.opensymphony.xwork2.ModelDriven;
+
+public class LoginAction extends BaseAction implements ModelDriven<String[]>,SessionAware{
 
 	private static final long serialVersionUID = -4144867964953564983L;
 	
 	private String password = new String();
 	private String email = new String();
 	private UserDAO userDao;
+	private Map<String, Object> session; 
+
 	
 	public String execute() {
 		try {
-			return userDao.loginUser(email, password);
+			String result = userDao.loginUser(email, password);
+			if (result.equals("success")) {
+				session.put ( "email", email); 
+			}
+			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ERROR;
@@ -44,6 +54,10 @@ public class LoginAction extends BaseAction implements ModelDriven<String[]>{
 	public String[] getModel() {
 		String[] args = {email, password};
 		return args;
+	}
+
+	public void setSession(Map<String, Object> session) {
+		this.session = session; 
 	}
 
 }

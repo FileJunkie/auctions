@@ -46,9 +46,6 @@
 	}
 	
 	function login() {
-		//var email = document.getElementById('email').value;
-		//var pass = document.getElementById('pass').value;
 		$('#login_form').submit();
-		//document.location('login.action?email=' + email + '&password=' + pass);
 	}
 </script>

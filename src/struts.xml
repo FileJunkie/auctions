@@ -18,18 +18,22 @@
 		
 		<action name="insertUser" class="ru.spbstu.students.web.actions.InsertUserAction">
 			<result name="success" type="redirect">listUser</result>
+			<result name="alreadyReg">/jsp/error.jsp</result>
 			<result name="error">/jsp/error.jsp</result>
 		</action>
 		
 		<action name="register" class="ru.spbstu.students.web.actions.RegisterAction">
         	<result name="success">/jsp/register.jsp</result>
+        	<result name="error">/jsp/error.jsp</result>
         </action>
         
         <action name="activation" class="ru.spbstu.students.web.actions.ActivationAction">
         	<result name="success">/jsp/activationSuccess.jsp</result>
         </action>
         <action name="login" class="ru.spbstu.students.web.actions.LoginAction">
-        	<result name="success">/jsp/activationSuccess.jsp</result>
+        	<result name="success" type="redirect">listUser</result>
+        	<result name="not login">/jsp/notLogin.jsp</result>
+        	<result name="error">/jsp/error.jsp</result>
         </action>
 	</package>
 </struts>

@@ -29,9 +29,9 @@
 				</tr>
 			</table>
 		</s:form>
-		<div>
-			<input type='button'  value="Login" onclick='jscript:login();'>
-		</div>
+	</div>
+	<div>
+		<input type='button' value="Login" onclick='jscript:login();'>
 	</div>
 </body>
 </html>
