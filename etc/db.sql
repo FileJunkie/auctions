@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS users (
 	password TEXT NOT NULL,
 	category INTEGER NOT NULL,
 	type INTEGER NOT NULL,
+	active INTEGER NOT NULL,
+	key TEXT NOT NULL,
 	FOREIGN KEY(category) REFERENCES u_categories(id),
 	FOREIGN KEY(type) REFERENCES u_types(id)
 );
