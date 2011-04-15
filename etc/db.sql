@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS users (
 	type INTEGER NOT NULL,
 	active INTEGER NOT NULL,
 	key TEXT NOT NULL,
+	admin INTEGER NOT NULL default 0,
 	FOREIGN KEY(category) REFERENCES u_categories(id),
 	FOREIGN KEY(type) REFERENCES u_types(id)
 );

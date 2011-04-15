@@ -5,13 +5,15 @@ public class UserInfo {
 	private String email;
 	private String password;
 	private String category;
-	private String type;	
+	private String type;
+	private boolean admin;
 	
-	public UserInfo(String email, String password, String category, String type) {
+	public UserInfo(String email, String password, String category, String type, boolean admin) {
 		this.email = email;
 		this.password = password;
 		this.category = category;
 		this.type = type;
+		this.admin = admin;
 	}
 	
 	public UserInfo() {}
@@ -39,5 +41,12 @@ public class UserInfo {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 }

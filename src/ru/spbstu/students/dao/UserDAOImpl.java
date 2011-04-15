@@ -72,7 +72,7 @@ public class UserDAOImpl extends QuerySupport implements UserDAO{
 			@Override
 			protected UserInfo fetch() {
 				return new UserInfo(getString("email"), getString("password"), 
-						getString("category"), getString("type"));
+						getString("category"), getString("type"), getInt("admin") != 0);
 			}
 		});
 	}
