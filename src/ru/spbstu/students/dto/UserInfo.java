@@ -5,9 +5,7 @@ public class UserInfo {
 	private String email;
 	private String password;
 	private String category;
-	private String type;
-	
-	private static int nextId = 1;
+	private String type;	
 	
 	public UserInfo(String email, String password, String category, String type) {
 		this.email = email;
