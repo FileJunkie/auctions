@@ -81,7 +81,7 @@ CREATE TABLE items(
 
 CREATE TABLE blacklist(
 	id INTEGER PRIMARY KEY ASC,
-	email TEXT NOT NULL
+	email TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE register(

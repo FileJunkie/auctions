@@ -123,4 +123,66 @@ public class UserDAOImpl extends QuerySupport implements UserDAO{
 		return isAdmin.fetch(new IntegerFetcher("admin")) != 0;
 		
 	}
+	
+	public UserInfo getUser(int id){
+		Query q = new Query("select  u.email as email, u.password,  c.name as category, t.name as type, u.admin as admin" +
+				" from users u " +
+				" join u_categories c on c.id = u.category " +
+				" join u_types t on t.id = u.type ").append(where(eq("u.id", id)));
+		
+		return q.list(new Fetcher<UserInfo> () {
+
+			@Override
+			protected UserInfo fetch() {
+				return new UserInfo(getString("email"), getString("password"), 
+						getString("category"), getString("type"), getInt("admin") != 0);
+			}
+		}).get(0);
+		
+	}
+	
+	public String editUser(int id, UserInfo user) throws Exception{
+		if (user == null || !Util.isValidUser(user)) {
+			log.error("Bad parameters to insert");
+			return "error";
+		}
+		
+		int category, type, registered, active;
+		
+		Query isExist = new Query("select count(*) as c from users ").append(where(eq("email",user.getEmail())));
+		registered = isExist.fetch(new IntegerFetcher("c"));
+		
+		if (registered != 0) {
+			
+			String pass = Util.getHashMd5(user.getPassword());
+			category = Categories.getKeyByLabel(user.getCategory());
+			type = Types.getKeyByLabel(user.getType());
+			active = 0;
+			String key = Util.getHashMd5(user.getEmail());
+			
+			Query q = new Query("UPDATE users SET ")
+			.append("email='" + user.getEmail() + "',")
+			.append("password='" + pass + "',")
+			.append("category=" + category + ",")
+			.append("type=" + type + ",")
+			.append("active=" + active + ",")
+			.append("key='" + key + "' ")
+			.append("WHERE id=" + id + ";");
+			try {
+				q.execute();
+			} catch (Exception e) {
+				log.error("Execute update query error");
+				e.printStackTrace();
+			}
+			return "success";
+		} else {
+			log.error("Attempted to edit unregistered user");
+			return "alreadyReg";
+		}
+	}
+	
+	public void removeUser(int id){
+		Query removeUser = new Query("DELETE FROM users ").append(where(eq("id", id)));
+		removeUser.execute();
+	}
 }

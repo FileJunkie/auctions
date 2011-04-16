@@ -11,5 +11,8 @@ public interface UserDAO {
 	public String activateUser(String key);
 	public String loginUser(String email, String password) throws Exception;
 	public boolean isAdmin(String email);
-
+	public UserInfo getUser(int id);
+	public String editUser(int id, UserInfo user) throws Exception;
+	public void removeUser(int id);
+	
 }
