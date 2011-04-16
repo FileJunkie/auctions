@@ -10,9 +10,9 @@ import ru.spbstu.students.util.Util;
 import ru.spbstu.students.web.Categories;
 import ru.spbstu.students.web.Types;
 
-public class UserDAOImpl extends QuerySupport implements UserDAO{
+public class UserDAOSQLite extends QuerySupport implements UserDAO{
 	
-	private static final Logger log = Logger.getLogger(UserDAOImpl.class);
+	private static final Logger log = Logger.getLogger(UserDAOSQLite.class);
 			
 	public String addUser(UserInfo user) throws Exception {
 		if (user == null || !Util.isValidUser(user)) {

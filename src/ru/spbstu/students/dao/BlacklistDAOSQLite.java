@@ -4,7 +4,7 @@ import java.util.List;
 
 import ru.spbstu.students.dao.querysupport.QuerySupport;
 
-public class BlacklistDAOImpl extends QuerySupport implements BlacklistDAO {
+public class BlacklistDAOSQLite extends QuerySupport implements BlacklistDAO {
 
 	public void ban(String email) {
 		Query ban = new Query("INSERT INTO blacklist(email) VALUES('").append(email).append("')");

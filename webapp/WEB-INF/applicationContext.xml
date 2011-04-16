@@ -23,7 +23,7 @@
 		<property name="poolPreparedStatements" value="true" />
 	</bean>
 	
-	<bean id="userDao" class="ru.spbstu.students.dao.UserDAOImpl">
+	<bean id="userDao" class="ru.spbstu.students.dao.UserDAOSQLite">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 </beans>
