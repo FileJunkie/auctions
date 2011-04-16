@@ -17,7 +17,7 @@
 	${email}
 	<br>
 	<div id="userList">
-	<s:if test="result.size() > 0">
+	<s:if test="%{result.size() > 0}">
 		<div class="content">
 			<table class="userTable" cellpadding="5px">
 				<tr class="even">
