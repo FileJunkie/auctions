@@ -14,6 +14,7 @@
 </head>
 <body>
 	${email}
+	<br />
 	<s:url id="list" action="listUser" escapeAmp="false"></s:url>
 	<s:a href="%{list}">List of users</s:a>
 	<s:url id="register" action="register" escapeAmp="false"></s:url>
@@ -21,6 +22,9 @@
 	<s:url id="logout" action="logout" escapeAmp="false"></s:url>
 	<s:a href="%{logout}">Log out</s:a>
 	<br />
+	<%
+		if (email == null) {
+	%>
 	<div id="login" class="register">
 		<s:form id="login_form" action="login">
 			<table cellpadding="3" cellspacing="0">
@@ -40,5 +44,8 @@
 	<div>
 		<input type='button' value="Login" onclick='jscript:login();'>
 	</div>
+	<%
+		}
+	%>
 </body>
 </html>
