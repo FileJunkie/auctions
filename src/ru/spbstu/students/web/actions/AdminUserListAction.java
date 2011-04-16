@@ -26,7 +26,7 @@ public class AdminUserListAction extends BaseAction implements SessionAware{
 			return ERROR;
 		}
 		
-		result = userDao.listUser();
+		result = userDao.getUsers();
 		if (result != null) {
 			return SUCCESS;
 		} else {

@@ -14,7 +14,7 @@ public class UserDAOImpl extends QuerySupport implements UserDAO{
 	
 	private static final Logger log = Logger.getLogger(UserDAOImpl.class);
 			
-	public String insertUser(UserInfo user) throws Exception {
+	public String addUser(UserInfo user) throws Exception {
 		if (user == null || !Util.isValidUser(user)) {
 			log.error("Bad parameters to insert");
 			return "error";
@@ -61,7 +61,7 @@ public class UserDAOImpl extends QuerySupport implements UserDAO{
 		}
 	}
 
-	public List<UserInfo> listUser() {
+	public List<UserInfo> getUsers() {
 		Query q = new Query("select  u.email as email, u.password,  c.name as category, t.name as type, u.admin as admin" +
 				" from users u " +
 				" join u_categories c on c.id = u.category " +

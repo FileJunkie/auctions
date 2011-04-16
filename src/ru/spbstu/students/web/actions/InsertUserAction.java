@@ -17,7 +17,7 @@ public class InsertUserAction extends BaseAction implements ModelDriven<UserInfo
 
 	public String execute() {
 		try {
-			return userDao.insertUser(user);
+			return userDao.addUser(user);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ERROR;
