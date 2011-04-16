@@ -85,19 +85,19 @@ CREATE TABLE blacklist(
 );
 
 CREATE TABLE register(
-	id INTEGER PRIMARY KEY ASC,
 	item INTEGER NOT NULL,
 	user INTEGER NOT NULL,
+	PRIMARY KEY (item, user),
 	FOREIGN KEY(item) REFERENCES items(id),
 	FOREIGN KEY(user) REFERENCES users(id)
 );
 
 CREATE TABLE autobids(
-	id INTEGER PRIMARY KEY ASC,
 	item INTEGER NOT NULL,
 	user INTEGER NOT NULL,
 	max REAL NOT NULL,
 	step REAL NOT NULL,
+	PRIMARY KEY(item, user),
 	FOREIGN KEY(item) REFERENCES items(id),
 	FOREIGN KEY(user) REFERENCES users(id)
 );
