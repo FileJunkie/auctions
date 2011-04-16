@@ -30,10 +30,15 @@
         <action name="activation" class="ru.spbstu.students.web.actions.ActivationAction">
         	<result name="success">/jsp/activationSuccess.jsp</result>
         </action>
+        
         <action name="login" class="ru.spbstu.students.web.actions.LoginAction">
         	<result name="success" type="redirect">listUser</result>
         	<result name="not login">/jsp/notLogin.jsp</result>
         	<result name="error">/jsp/error.jsp</result>
+        </action>
+        
+        <action name="logout" class="ru.spbstu.students.web.actions.LogoutAction">
+        	<result name="success">/index.jsp</result>
         </action>
 	</package>
 </struts>
