@@ -10,5 +10,6 @@ public interface UserDAO {
 	public List<UserInfo> listUser();
 	public String activateUser(String key);
 	public String loginUser(String email, String password) throws Exception;
+	public boolean isAdmin(String email);
 
 }

@@ -11,13 +11,13 @@
     
 	<package name="default" extends="struts-default">
 		
-		<action name="listUser" class="ru.spbstu.students.web.actions.ListUserAction">
-			<result name="success">/jsp/userList.jsp</result>
+		<action name="adminUserList" class="ru.spbstu.students.web.actions.AdminUserListAction">
+			<result name="success">/jsp/adminUserList.jsp</result>
 			<result name="error">/jsp/error.jsp</result>
 		</action>
 		
 		<action name="insertUser" class="ru.spbstu.students.web.actions.InsertUserAction">
-			<result name="success" type="redirect">listUser</result>
+			<result name="success" type="redirect">/index.jsp</result>
 			<result name="alreadyReg">/jsp/error.jsp</result>
 			<result name="error">/jsp/error.jsp</result>
 		</action>
@@ -32,13 +32,13 @@
         </action>
         
         <action name="login" class="ru.spbstu.students.web.actions.LoginAction">
-        	<result name="success" type="redirect">listUser</result>
+        	<result name="success" type="redirect">/index.jsp</result>
         	<result name="not login">/jsp/notLogin.jsp</result>
         	<result name="error">/jsp/error.jsp</result>
         </action>
         
         <action name="logout" class="ru.spbstu.students.web.actions.LogoutAction">
-        	<result name="success">/index.jsp</result>
+        	<result name="success" type="redirect">/index.jsp</result>
         </action>
 	</package>
 </struts>

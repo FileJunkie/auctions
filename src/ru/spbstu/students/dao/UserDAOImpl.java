@@ -111,4 +111,16 @@ public class UserDAOImpl extends QuerySupport implements UserDAO{
 			return "not login";
 		}
 	}
+	
+	public boolean isAdmin(String email){
+		
+		if(email == null || email.isEmpty()){
+			return false;
+		}
+	
+		Query isAdmin = new Query("select admin from users ").append(where(eq("email",email)));
+	
+		return isAdmin.fetch(new IntegerFetcher("admin")) != 0;
+		
+	}
 }
