@@ -62,7 +62,7 @@ public class UserDAOImpl extends QuerySupport implements UserDAO{
 	}
 
 	public List<UserInfo> listUser() {
-		Query q = new Query("select  u.email as email, u.password,  c.name as category, t.name as type" +
+		Query q = new Query("select  u.email as email, u.password,  c.name as category, t.name as type, u.admin as admin" +
 				" from users u " +
 				" join u_categories c on c.id = u.category " +
 				" join u_types t on t.id = u.type");
