@@ -26,6 +26,15 @@
 	<bean id="userDao" class="ru.spbstu.students.dao.UserDAOSQLite">
         <property name="dataSource" ref="dataSource"/>
     </bean>
+    
+    <bean id="blacklist" class="ru.spbstu.students.dao.BlacklistDAOSQLite">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="itemCategories" class="ru.spbstu.students.dao.ItemCategoriesDAOSQLite">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
 </beans>
 
 

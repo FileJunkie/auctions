@@ -11,34 +11,65 @@
     
 	<package name="default" extends="struts-default">
 		
-		<action name="adminUserList" class="ru.spbstu.students.web.actions.AdminUserListAction">
+		<action name="itemCategoriesList" method="getItemCategoriesList" class="ru.spbstu.students.web.actions.ItemCategoriesAction">
+			<result name="success">/jsp/itemCategories.jsp</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="blacklist" method="getBlackList" class="ru.spbstu.students.web.actions.BlacklistAction">
+			<result name="success">/jsp/blacklist.jsp</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="adminConsole" method="adminConsole" class="ru.spbstu.students.web.actions.AdminAction">
+			<result name="success">/jsp/adminConsole.jsp</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="adminUserList" method="adminUserList" class="ru.spbstu.students.web.actions.AdminAction">
 			<result name="success">/jsp/adminUserList.jsp</result>
 			<result name="error">/jsp/error.jsp</result>
 		</action>
 		
-		<action name="insertUser" class="ru.spbstu.students.web.actions.InsertUserAction">
-			<result name="success" type="redirect">/index.jsp</result>
-			<result name="alreadyReg">/jsp/error.jsp</result>
+		<action name="deleteUser" method="deleteUser" class="ru.spbstu.students.web.actions.AdminAction">
+			<result name="success" type="redirect">adminUserList</result>
 			<result name="error">/jsp/error.jsp</result>
 		</action>
 		
-		<action name="register" class="ru.spbstu.students.web.actions.RegisterAction">
+		<action name="editUser" method="editUser" class="ru.spbstu.students.web.actions.AdminAction">
+			<result name="success">/jsp/editUser.jsp</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="register" method="registration" class="ru.spbstu.students.web.actions.UserAction">
         	<result name="success">/jsp/register.jsp</result>
         	<result name="error">/jsp/error.jsp</result>
         </action>
+
+		<action name="insertUser" method="insertUser" class="ru.spbstu.students.web.actions.UserAction">
+			<result name="success" type="redirect">/index.jsp</result>
+			<result name="alreadyReg">/jsp/error.jsp</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>		
         
-        <action name="activation" class="ru.spbstu.students.web.actions.ActivationAction">
+        <action name="activation" method="activation" class="ru.spbstu.students.web.actions.UserAction">
         	<result name="success">/jsp/activationSuccess.jsp</result>
         </action>
         
-        <action name="login" class="ru.spbstu.students.web.actions.LoginAction">
+        <action name="login" method="login" class="ru.spbstu.students.web.actions.UserAction">
         	<result name="success" type="redirect">/index.jsp</result>
         	<result name="not login">/jsp/notLogin.jsp</result>
         	<result name="error">/jsp/error.jsp</result>
         </action>
         
-        <action name="logout" class="ru.spbstu.students.web.actions.LogoutAction">
+        <action name="logout" method="logout" class="ru.spbstu.students.web.actions.UserAction">
         	<result name="success" type="redirect">/index.jsp</result>
         </action>
+        
+        <action name="updateUser" method="updateUser" class="ru.spbstu.students.web.actions.UserAction">
+			<result name="success" type="redirect">adminUserList</result>
+			<result name="error">/jsp/error.jsp</result>
+			<result name="alreadyReg">/jsp/error.jsp</result>
+		</action>
 	</package>
 </struts>

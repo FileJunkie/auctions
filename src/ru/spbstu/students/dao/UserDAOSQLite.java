@@ -62,7 +62,7 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 	}
 
 	public List<UserInfo> getUsers() {
-		Query q = new Query("select  u.email as email, u.password,  c.name as category, t.name as type, u.admin as admin" +
+		Query q = new Query("select u.id as id, u.email as email, u.password,  c.name as category, t.name as type, u.admin as admin, u.active as active " +
 				" from users u " +
 				" join u_categories c on c.id = u.category " +
 				" join u_types t on t.id = u.type");
@@ -71,8 +71,8 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 
 			@Override
 			protected UserInfo fetch() {
-				return new UserInfo(getString("email"), getString("password"), 
-						getString("category"), getString("type"), getInt("admin") != 0);
+				return new UserInfo(getInt("id"), getString("email"), getString("password"), 
+						getString("category"), getString("type"), getInt("admin") != 0, getInt("active") != 0);
 			}
 		});
 	}
@@ -94,16 +94,16 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 		return "success";
 	}
 	
-	public String loginUser (String email, String password) throws Exception {
-		if ((email == null) || (email.trim().length() == 0) || 
-				(password == null) || (password.trim().length() == 0)) {
+	public String loginUser (UserInfo user) throws Exception {
+		if (user == null || user.getEmail() == null || user.getPassword() == null 
+				|| user.getEmail().trim().length() == 0 || user.getPassword().trim().length() == 0) {
 			log.error("Wrong parameters for login");
 			return "not login";
 		}
 		
 		int registered;
-		String pass = Util.getHashMd5(password);
-		Query isExist = new Query("select count(*) as c from users ").append(where(and(and(eq("email",email),eq("password",pass)),eq("active",1))));
+		String pass = Util.getHashMd5(user.getPassword());
+		Query isExist = new Query("select count(*) as c from users ").append(where(and(and(eq("email",user.getEmail()),eq("password",pass)),eq("active",1))));
 		registered = isExist.fetch(new IntegerFetcher("c"));
 		if (registered == 1) {
 			return "success";
@@ -125,7 +125,7 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 	}
 	
 	public UserInfo getUser(int id){
-		Query q = new Query("select  u.email as email, u.password,  c.name as category, t.name as type, u.admin as admin" +
+		Query q = new Query("select u.id as id, u.email as email, u.password,  c.name as category, t.name as type, u.admin as admin, u.active as active " +
 				" from users u " +
 				" join u_categories c on c.id = u.category " +
 				" join u_types t on t.id = u.type ").append(where(eq("u.id", id)));
@@ -134,8 +134,8 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 
 			@Override
 			protected UserInfo fetch() {
-				return new UserInfo(getString("email"), getString("password"), 
-						getString("category"), getString("type"), getInt("admin") != 0);
+				return new UserInfo(getInt("id"), getString("email"), getString("password"), 
+						getString("category"), getString("type"), getInt("admin") != 0, getInt("active") != 0);
 			}
 		}).get(0);
 		
@@ -147,9 +147,9 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 			return "error";
 		}
 		
-		int category, type, registered, active;
+		int category, type, registered, active, admin;
 		
-		Query isExist = new Query("select count(*) as c from users ").append(where(eq("email",user.getEmail())));
+		Query isExist = new Query("select count(*) as c from users ").append(where(eq("id",id)));
 		registered = isExist.fetch(new IntegerFetcher("c"));
 		
 		if (registered != 0) {
@@ -157,7 +157,8 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 			String pass = Util.getHashMd5(user.getPassword());
 			category = UserCategories.getKeyByLabel(user.getCategory());
 			type = UserTypes.getKeyByLabel(user.getType());
-			active = 0;
+			active = user.isActive() == true ? 1 : 0;
+			admin = user.isAdmin() == true ? 1 : 0;
 			String key = Util.getHashMd5(user.getEmail());
 			
 			Query q = new Query("UPDATE users SET ")
@@ -166,6 +167,7 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 			.append("category=" + category + ",")
 			.append("type=" + type + ",")
 			.append("active=" + active + ",")
+			.append("admin=" + admin + ",")
 			.append("key='" + key + "' ")
 			.append("WHERE id=" + id + ";");
 			try {

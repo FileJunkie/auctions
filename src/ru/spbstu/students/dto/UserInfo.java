@@ -7,13 +7,17 @@ public class UserInfo {
 	private String category;
 	private String type;
 	private boolean admin;
+	private boolean active;
+	private int id;
 	
-	public UserInfo(String email, String password, String category, String type, boolean admin) {
+	public UserInfo(int id, String email, String password, String category, String type, boolean admin, boolean active) {
+		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.category = category;
 		this.type = type;
 		this.admin = admin;
+		this.active = active;
 	}
 	
 	public UserInfo() {}
@@ -48,5 +52,21 @@ public class UserInfo {
 
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

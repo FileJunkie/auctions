@@ -15,8 +15,8 @@
 <body>
 	${email}
 	<br />
-	<s:url id="list" action="adminUserList" escapeAmp="false"></s:url>
-	<s:a href="%{list}">User list</s:a>
+	<s:url id="admin" action="adminConsole" escapeAmp="false"></s:url>
+	<s:a href="%{admin}">Admin console</s:a>
 	<s:url id="register" action="register" escapeAmp="false"></s:url>
 	<s:a href="%{register}">Registration</s:a>
 	<s:url id="logout" action="logout" escapeAmp="false"></s:url>
