@@ -51,7 +51,7 @@ INSERT INTO i_states(name) VALUES("Aborted");
 
 CREATE TABLE i_categories(
 	id INTEGER PRIMARY KEY ASC,
-	name TEXT NOT NULL
+	name TEXT NOT NULL UNIQUE
 );
 
 INSERT INTO i_categories(name) VALUES("Cars");
