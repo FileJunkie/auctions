@@ -1,16 +1,15 @@
 package ru.spbstu.students.dto;
 
 import java.sql.Date;
-import java.util.Currency;
 
 public class ItemInfo {
 	private int seller;
 	private String name;
 	private String description;
 	private String photo;
-	private Currency startBid;
+	private double startBid;
 	private String type;
-	private Currency min;
+	private double min;
 	private Date startReg;
 	private Date finishReg;
 	private Date startAuc;
@@ -20,7 +19,7 @@ public class ItemInfo {
 	private int category;
 	
 	public ItemInfo(int seller, String name, String description, String photo,
-			Currency startBid, String type, Currency min, Date startReg,
+			double startBid, String type, double min, Date startReg,
 			Date finishReg, Date startAuc, Date finishAuc, int state,
 			String delivery, int category) {
 		this.seller = seller;
@@ -71,11 +70,11 @@ public class ItemInfo {
 		this.photo = photo;
 	}
 
-	public Currency getStartBid() {
+	public double getStartBid() {
 		return startBid;
 	}
 
-	public void setStartBid(Currency startBid) {
+	public void setStartBid(double startBid) {
 		this.startBid = startBid;
 	}
 
@@ -87,11 +86,11 @@ public class ItemInfo {
 		this.type = type;
 	}
 
-	public Currency getMin() {
+	public double getMin() {
 		return min;
 	}
 
-	public void setMin(Currency min) {
+	public void setMin(double min) {
 		this.min = min;
 	}
 

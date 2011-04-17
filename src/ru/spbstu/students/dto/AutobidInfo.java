@@ -1,14 +1,12 @@
 package ru.spbstu.students.dto;
 
-import java.util.Currency;
-
 public class AutobidInfo {
 	private int user;
 	private int item;
-	private Currency max;
-	private Currency step;
+	private double max;
+	private double step;
 	
-	public AutobidInfo(int user, int item, Currency max, Currency step) {
+	public AutobidInfo(int user, int item, double max, double step) {
 		this.user = user;
 		this.item = item;
 		this.max = max;
@@ -31,19 +29,19 @@ public class AutobidInfo {
 		this.item = item;
 	}
 
-	public Currency getMax() {
+	public double getMax() {
 		return max;
 	}
 
-	public void setMax(Currency max) {
+	public void setMax(double max) {
 		this.max = max;
 	}
 
-	public Currency getStep() {
+	public double getStep() {
 		return step;
 	}
 
-	public void setStep(Currency step) {
+	public void setStep(double step) {
 		this.step = step;
 	}	
 }
