@@ -2,9 +2,9 @@ package ru.spbstu.students.web.actions;
 
 import java.util.List;
 
-import ru.spbstu.students.web.Categories;
+import ru.spbstu.students.web.UserCategories;
 import ru.spbstu.students.web.LoggedUser;
-import ru.spbstu.students.web.Types;
+import ru.spbstu.students.web.UserTypes;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -15,8 +15,8 @@ public class BaseAction extends ActionSupport{
 	 */
 	private static final long serialVersionUID = 4044915638702787675L;
 	
-	private static List<String> categoriesLabels = Categories.labelList();
-	private static List<String> typesLabels = Types.labelList();
+	private static List<String> categoriesLabels = UserCategories.labelList();
+	private static List<String> typesLabels = UserTypes.labelList();
 	private LoggedUser loggedUser;
 	
 	public List<String> getCategoriesLabels() {

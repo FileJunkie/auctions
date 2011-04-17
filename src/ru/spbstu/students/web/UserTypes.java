@@ -4,22 +4,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public enum Categories {
+public enum UserTypes {
 	
-	Lite("Lite",1),
-    Full("Full",2),
-    VIP("VIP",3);
+	Buyer("Buyer",1),
+    Seller("Seller",2);
 	
 	private String label;
 	private int key;
 
-    private Categories(String label, int key) {
+    private UserTypes(String label, int key) {
         this.label = label;
         this.key = key;
     }
     
-    public static Categories getByLabel(String label) {
-        for (Categories f : values()) {
+    public static UserTypes getByLabel(String label) {
+        for (UserTypes f : values()) {
             if (f.label.equals(label)) {
                 return f;
             }
@@ -28,7 +27,7 @@ public enum Categories {
     }
     
     public static int getKeyByLabel(String label) {
-    	for (Categories f : values()) {
+    	for (UserTypes f : values()) {
             if (f.label.equals(label)) {
                 return f.key;
             }
@@ -39,7 +38,7 @@ public enum Categories {
     public static List<String> labelList() {
         List<String> res = new ArrayList<String>();
         
-        for (Categories f : values()) {
+        for (UserTypes f : values()) {
             res.add(f.label);
         }
         Collections.sort(res);
@@ -48,8 +47,8 @@ public enum Categories {
     public String getLabel() {
         return this.label;
     }
-
-	public int getKey() {
+    
+    public int getKey() {
 		return key;
 	}
 

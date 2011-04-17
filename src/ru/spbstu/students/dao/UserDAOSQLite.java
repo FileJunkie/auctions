@@ -7,8 +7,8 @@ import org.apache.log4j.Logger;
 import ru.spbstu.students.dao.querysupport.QuerySupport;
 import ru.spbstu.students.dto.UserInfo;
 import ru.spbstu.students.util.Util;
-import ru.spbstu.students.web.Categories;
-import ru.spbstu.students.web.Types;
+import ru.spbstu.students.web.UserCategories;
+import ru.spbstu.students.web.UserTypes;
 
 public class UserDAOSQLite extends QuerySupport implements UserDAO{
 	
@@ -28,8 +28,8 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 		if (registered == 0) {
 			
 			String pass = Util.getHashMd5(user.getPassword());
-			category = Categories.getKeyByLabel(user.getCategory());
-			type = Types.getKeyByLabel(user.getType());
+			category = UserCategories.getKeyByLabel(user.getCategory());
+			type = UserTypes.getKeyByLabel(user.getType());
 			active = 0;
 			String key = Util.getHashMd5(user.getEmail());
 			
@@ -155,8 +155,8 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 		if (registered != 0) {
 			
 			String pass = Util.getHashMd5(user.getPassword());
-			category = Categories.getKeyByLabel(user.getCategory());
-			type = Types.getKeyByLabel(user.getType());
+			category = UserCategories.getKeyByLabel(user.getCategory());
+			type = UserTypes.getKeyByLabel(user.getType());
 			active = 0;
 			String key = Util.getHashMd5(user.getEmail());
 			
