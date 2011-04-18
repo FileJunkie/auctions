@@ -33,4 +33,15 @@ public class ItemCategoriesDAOSQLite extends QuerySupport implements
 		q.execute();
 	}
 
+	public String getCategory(int catID) {
+		Query q = new Query("SELECT name FROM i_categories ").append(where(eq("id", catID)));
+		
+		return q.list(new Fetcher<String>(){
+			@Override
+			protected String fetch() {
+				return getString("name");
+			}						
+		}).get(0);
+	}
+
 }
