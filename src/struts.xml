@@ -21,6 +21,11 @@
 			<result name="error">/jsp/error.jsp</result>
 		</action>
 		
+		<action name="addBan" method="addBan" class="ru.spbstu.students.web.actions.BlacklistAction">
+			<result name="success" type="redirect">blacklist</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
 		<action name="adminConsole" method="adminConsole" class="ru.spbstu.students.web.actions.AdminAction">
 			<result name="success">/jsp/adminConsole.jsp</result>
 			<result name="error">/jsp/error.jsp</result>

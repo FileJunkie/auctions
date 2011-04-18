@@ -12,6 +12,17 @@
 </style>
 </head>
 <body>
+	<div id="newBan" class="register">
+		<s:form id="ban_form" action="addBan">
+			<table cellpadding="3" cellspacing="0">
+				<tr>
+					<td>Email</td>
+					<td><s:textfield id="email" name="email" /></td>
+					<td><input type='button' value="Add" onclick="jscript:$('#ban_form').submit();"></td>
+				</tr>
+			</table>
+		</s:form>
+	</div>
 	<br>
 	<div id="blacklist">
 	<s:if test="%{result.size() > 0}">
