@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<jsp:include page="/js/functions.jsp" />
 
 <html>
 <head>
@@ -18,7 +19,7 @@
 				<tr>
 					<td>Email</td>
 					<td><s:textfield id="email" name="email" /></td>
-					<td><input type='button' value="Add" onclick="jscript:$('#ban_form').submit();"></td>
+					<td><input type='button' value="Add" onclick="jscript:ban();"></td>
 				</tr>
 			</table>
 		</s:form>

@@ -48,4 +48,8 @@
 	function login() {
 		$('#login_form').submit();
 	}
+	
+	function ban() {
+		$('#ban_form').submit();
+	}
 </script>
