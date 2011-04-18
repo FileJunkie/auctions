@@ -10,5 +10,5 @@ public interface ItemDAO {
 	public List<ItemInfo> getItems(int sellerID);
 	public ItemInfo getItem(int itemID);
 	public void removeItem(int itemID);
-	public void editItem(int itemID);
+	public void editItem(int itemID, ItemInfo item);
 }
