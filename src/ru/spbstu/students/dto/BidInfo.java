@@ -6,13 +6,13 @@ public class BidInfo {
 	private int itemID;
 	private int userID;
 	private double amount;
-	private Date date;
+	private Date time;
 	
-	public BidInfo(int itemID, int userID, double amount, Date date) {
+	public BidInfo(int itemID, int userID, double amount, Date time) {
 		this.itemID = itemID;
 		this.userID = userID;
 		this.amount = amount;
-		this.date = date;
+		this.time = time;
 	}
 
 	public int getItemID() {
@@ -39,11 +39,11 @@ public class BidInfo {
 		this.amount = amount;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getTime() {
+		return time;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setTime(Date time) {
+		this.time = time;
 	}
 }
