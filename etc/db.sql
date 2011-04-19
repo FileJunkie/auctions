@@ -102,4 +102,14 @@ CREATE TABLE autobids(
 	FOREIGN KEY(user) REFERENCES users(id)
 );
 
+CREATE TABLE bids(
+	id INTEGER PRIMARY KEY ASC,
+	item INTEGER NOT NULL,
+	user INTEGER NOT NULL,
+	time TEXT NOT NULL,
+	amount REAL NOT NULL,
+	FOREIGN KEY(item) REFERENCES items(id),
+	FOREIGN KEY(user) REFERENCES users(id)
+);
+
 COMMIT;
