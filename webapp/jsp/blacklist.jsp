@@ -19,7 +19,7 @@
 				<tr>
 					<td>Email</td>
 					<td><s:textfield id="email" name="email" /></td>
-					<td><input type='button' value="Add" onclick="jscript:ban();"></td>
+					<td><input type='button' value="Add" onclick="javascript:submit();"></td>
 				</tr>
 			</table>
 		</s:form>
@@ -30,13 +30,19 @@
 		<div class="content">
 			<table class="userTable" cellpadding="5px">
 				<tr class="even">
+					<s:hidden name="id"/>
 					<th>Email</th>
+					<th>Remove</th>
 				</tr>
 				<s:iterator value="result" status="userStatus">
 					<tr
 						class="<s:if test="#userStatus.odd == true ">odd</s:if><s:else>even</s:else>">
-						<td><s:property/></td>
-					</tr>
+						<td><s:property value="email"/></td>
+						<td><s:url id="remove" action="unban">
+								<s:param name="id" value="%{id}"></s:param>
+							</s:url> <s:a href="%{remove}">Remove</s:a>
+						</td>
+						</tr>
 				</s:iterator>
 			</table>
 		</div>

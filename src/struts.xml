@@ -16,12 +16,37 @@
 			<result name="error">/jsp/error.jsp</result>
 		</action>
 		
+		<action name="addCategory" method="addCategory" class="ru.spbstu.students.web.actions.ItemCategoriesAction">
+			<result name="success" type="redirect">itemCategoriesList</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="editCategory" method="editCategory" class="ru.spbstu.students.web.actions.ItemCategoriesAction">
+			<result name="success">/jsp/editCategory.jsp</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="updateCategory" method="updateCategory" class="ru.spbstu.students.web.actions.ItemCategoriesAction">
+			<result name="success" type="redirect">itemCategoriesList</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="remCategory" method="removeCategory" class="ru.spbstu.students.web.actions.ItemCategoriesAction">
+			<result name="success" type="redirect">itemCategoriesList</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
 		<action name="blacklist" method="getBlackList" class="ru.spbstu.students.web.actions.BlacklistAction">
 			<result name="success">/jsp/blacklist.jsp</result>
 			<result name="error">/jsp/error.jsp</result>
 		</action>
 		
 		<action name="addBan" method="addBan" class="ru.spbstu.students.web.actions.BlacklistAction">
+			<result name="success" type="redirect">blacklist</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="unban" method="unBan" class="ru.spbstu.students.web.actions.BlacklistAction">
 			<result name="success" type="redirect">blacklist</result>
 			<result name="error">/jsp/error.jsp</result>
 		</action>

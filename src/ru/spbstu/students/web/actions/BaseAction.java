@@ -2,8 +2,8 @@ package ru.spbstu.students.web.actions;
 
 import java.util.List;
 
-import ru.spbstu.students.web.UserCategories;
 import ru.spbstu.students.web.LoggedUser;
+import ru.spbstu.students.web.UserCategories;
 import ru.spbstu.students.web.UserTypes;
 
 import com.opensymphony.xwork2.ActionSupport;

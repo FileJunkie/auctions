@@ -45,11 +45,7 @@
 		}
 	}
 	
-	function login() {
-		$('#login_form').submit();
-	}
-	
-	function ban() {
-		$('#ban_form').submit();
+	function submit() {
+		$('#form').submit();
 	}
 </script>

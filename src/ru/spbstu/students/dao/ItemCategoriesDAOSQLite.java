@@ -3,6 +3,7 @@ package ru.spbstu.students.dao;
 import java.util.List;
 
 import ru.spbstu.students.dao.querysupport.QuerySupport;
+import ru.spbstu.students.dto.ItemCategories;
 
 public class ItemCategoriesDAOSQLite extends QuerySupport implements
 		ItemCategoriesDAO {
@@ -12,24 +13,24 @@ public class ItemCategoriesDAOSQLite extends QuerySupport implements
 		q.execute();
 	}
 
-	public List<String> getCategories() {
-		Query q = new Query("SELECT name FROM i_categories");
+	public List<ItemCategories> getCategories() {
+		Query q = new Query("SELECT id, name FROM i_categories");
 		
-		return q.list(new Fetcher<String>(){
+		return q.list(new Fetcher<ItemCategories>(){
 			@Override
-			protected String fetch() {
-				return getString("name");
+			protected ItemCategories fetch() {
+				return new ItemCategories(getInt("id"), getString("name"));
 			}						
 		});
 	}
 
-	public void removeCaterogy(String name) {
-		Query q = new Query("DELETE FROM i_categories ").append(where(eq("name",name)));
+	public void removeCaterogy(int id) {
+		Query q = new Query("DELETE FROM i_categories ").append(where(eq("id",id)));
 		q.execute();
 	}
 
-	public void renameCategory(String oldname, String newname) {
-		Query q = new Query("UPDATE i_categories SET name='").append(newname).append("' ").append(where(eq("name", oldname)));
+	public void renameCategory(int id, String newname) {
+		Query q = new Query("UPDATE i_categories SET name='").append(newname).append("' ").append(where(eq("id", id)));
 		q.execute();
 	}
 

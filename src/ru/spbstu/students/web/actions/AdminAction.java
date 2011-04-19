@@ -20,26 +20,25 @@ public class AdminAction extends BaseAction implements SessionAware {
 	private Map<String, Object> session;
 	private List<UserInfo> result;
 	private UserInfo user;
+	
+	public boolean isAdminSession() {
+		if ((!session.containsKey("email")) || (!userDao.isAdmin((String) session.get("email")))) {
+			return false;
+		} else return true;
+	}
 
 	public String adminConsole() {
 
-		if (!session.containsKey("email")) {
+		if (!isAdminSession()) {
 			return ERROR;
 		}
-
-		if (!userDao.isAdmin((String) session.get("email"))) {
-			return ERROR;
-		}
+		
 		return SUCCESS;
 	}
 
 	public String adminUserList() {
 
-		if (!session.containsKey("email")) {
-			return ERROR;
-		}
-
-		if (!userDao.isAdmin((String) session.get("email"))) {
+		if (!isAdminSession()) {
 			return ERROR;
 		}
 
@@ -53,11 +52,7 @@ public class AdminAction extends BaseAction implements SessionAware {
 	
 	public String deleteUser() {
 
-		if (!session.containsKey("email")) {
-			return ERROR;
-		}
-
-		if (!userDao.isAdmin((String) session.get("email"))) {
+		if (!isAdminSession()) {
 			return ERROR;
 		}
 
@@ -65,6 +60,7 @@ public class AdminAction extends BaseAction implements SessionAware {
 		int id = Integer.parseInt(request.getParameter("id"));
 		if (userDao.getUser(id).getEmail().equals((String) session.get("email"))) {
 			session.remove("email");
+			session.remove("admin");
 		}
 		userDao.removeUser(id);
 		return SUCCESS;
@@ -72,11 +68,7 @@ public class AdminAction extends BaseAction implements SessionAware {
 	
 	public String editUser() {
 
-		if (!session.containsKey("email")) {
-			return ERROR;
-		}
-
-		if (!userDao.isAdmin((String) session.get("email"))) {
+		if (!isAdminSession()) {
 			return ERROR;
 		}
 

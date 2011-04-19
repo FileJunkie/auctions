@@ -3,6 +3,7 @@ package ru.spbstu.students.dao;
 import java.util.List;
 
 import ru.spbstu.students.dao.querysupport.QuerySupport;
+import ru.spbstu.students.dto.BannedEmail;
 
 public class BlacklistDAOSQLite extends QuerySupport implements BlacklistDAO {
 
@@ -11,14 +12,14 @@ public class BlacklistDAOSQLite extends QuerySupport implements BlacklistDAO {
 		ban.execute();
 	}
 
-	public List<String> getBlackList() {
-		Query q = new Query("SELECT email FROM blacklist");
+	public List<BannedEmail> getBlackList() {
+		Query q = new Query("SELECT id, email FROM blacklist");
 		
-		return q.list(new Fetcher<String> () {
+		return q.list(new Fetcher<BannedEmail> () {
 
 			@Override
-			protected String fetch() {
-				return getString("email");
+			protected BannedEmail fetch() {
+				return new BannedEmail(getInt("id"),getString("email"));
 			}
 		});
 	}
@@ -28,8 +29,8 @@ public class BlacklistDAOSQLite extends QuerySupport implements BlacklistDAO {
 		return isBanned.fetch(new IntegerFetcher("c")) > 0;
 	}
 
-	public void unban(String email) {
-		Query unban = new Query("DELETE FROM blacklist ").append(where(eq("email", email)));
+	public void unban(int id) {
+		Query unban = new Query("DELETE FROM blacklist ").append(where(eq("id", id)));
 		unban.execute();
 	}
 
