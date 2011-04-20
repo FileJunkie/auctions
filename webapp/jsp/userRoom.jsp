@@ -2,10 +2,15 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
+<%
+	String email = (String) session.getAttribute("email");
+	Boolean isAdmin = (Boolean) session.getAttribute("admin");
+%>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Blacklist Page</title>
+<title>User room</title>
 <s:head />
 <style type="text/css">
 @import url(style.css);
@@ -27,47 +32,35 @@
 			<s:a href="%{userRoom}"><img src="images/auc_room.png" ALIGN="middle" border="0" style="padding-left: 30px"></s:a>
 			<s:url id="items" action="itemsList" escapeAmp="false"></s:url>
 			<s:a href="%{items}"><img src="images/auc_all_lots.png" ALIGN="middle" border="0" style="padding-left: 30px"></s:a>
+			
+			<% if ((isAdmin != null) && (isAdmin)) { %>
 			<s:url id="admin" action="adminConsole" escapeAmp="false"></s:url>
-			<s:a href="%{admin}"><img src="images/auc_admin.png" ALIGN="middle" border="0" style="padding-left: 25px"></s:a> 
+			<s:a href="%{admin}"><img src="images/auc_admin.png" ALIGN="middle" border="0" style="padding-left: 25px"></s:a> <!-- тут тоже ссылка в виде картинок -->
+			<%}%>
+			
 		</div>
-		<div id="newCategory" class="register" style="margin-left: 250px">
-			<s:form id="form" action="addCategory">
-				<table cellpadding="3" cellspacing="0">
-					<tr>
-						<td>Category</td>
-						<td><s:textfield id="name" name="name" /></td>
-						<td><input type='button' value="Add" onclick="javascript:submit();"></td>
-					</tr>
-				</table>
-			</s:form>
+		<div id="userInfo" style="margin-left: 250px">
+			<table align="left" cellpadding="5px">
+			<tr>
+				<s:hidden name="id"/>
+				<th>Email</th>
+				<th>Category</th>
+				<th>Type</th>
+				<th>Admin</th>
+				<th>Edit</th>
+			</tr>
+			<tr>
+				<td align="center">${user.email}</td>
+				<td align="center">${user.category}</td>
+				<td align="center">${user.type}</td>
+				<td align="center">${user.admin}</td>
+				<td align="center"><s:url id="editURL" action="editUser">
+						<s:param name="id" value="%{id}"></s:param>
+					</s:url> <s:a href="%{editURL}">Edit</s:a>
+				</td>
+			</tr>
+			</table>
 		</div>
-		<br>
-		<div id="itemCategories" style="margin-left: 250px">
-		<s:if test="%{result.size() > 0}">
-			<div>
-				<table cellpadding="5px">
-					<tr>
-						<s:hidden name="id"/>
-						<th>Category</th>
-						<th>Remove</th>
-						<th>Edit</th>
-					</tr>
-					<s:iterator value="result" status="userStatus">
-						<tr>
-							<td><s:property value="name"/></td>
-							<td><s:url id="edit" action="editCategory">
-										<s:param name="id" value="%{id}"></s:param>
-									</s:url> <s:a href="%{edit}">Edit</s:a></td>
-							<td><s:url id="remove" action="remCategory">
-									<s:param name="id" value="%{id}"></s:param>
-								</s:url> <s:a href="%{remove}">Remove</s:a>
-							</td>
-						</tr>
-					</s:iterator>
-				</table>
-			</div>
-		</s:if>
-		</div>
-	</div>	
+ 	</div>
 </body>
 </html>

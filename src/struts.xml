@@ -101,5 +101,10 @@
 			<result name="error">/jsp/error.jsp</result>
 			<result name="alreadyReg">/jsp/error.jsp</result>
 		</action>
+		
+		<action name="userRoom" method="getUserInfo" class="ru.spbstu.students.web.actions.UserRoomAction">
+        	<result name="success">/jsp/userRoom.jsp</result>
+        	<result name="error">/jsp/error.jsp</result>
+        </action>
 	</package>
 </struts>

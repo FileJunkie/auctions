@@ -141,6 +141,23 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 		
 	}
 	
+	public UserInfo getUser(String email){
+		Query q = new Query("select u.id as id, u.email as email, u.password,  c.name as category, t.name as type, u.admin as admin, u.active as active " +
+				" from users u " +
+				" join u_categories c on c.id = u.category " +
+				" join u_types t on t.id = u.type ").append(where(eq("u.email", email)));
+		
+		return q.list(new Fetcher<UserInfo> () {
+
+			@Override
+			protected UserInfo fetch() {
+				return new UserInfo(getInt("id"), getString("email"), getString("password"), 
+						getString("category"), getString("type"), getInt("admin") != 0, getInt("active") != 0);
+			}
+		}).get(0);
+		
+	}
+	
 	public String editUser(int id, UserInfo user) throws Exception{
 		if (user == null || !Util.isValidUser(user)) {
 			log.error("Bad parameters to insert");
