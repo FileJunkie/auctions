@@ -158,7 +158,7 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 		
 	}
 	
-	public String editUser(int id, UserInfo user) throws Exception{
+	public String editUser(UserInfo user) throws Exception{
 		if (user == null || !Util.isValidUser(user)) {
 			log.error("Bad parameters to insert");
 			return "error";
@@ -166,10 +166,10 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 		
 		int category, type, registered, active, admin;
 		
-		Query isExist = new Query("select count(*) as c from users ").append(where(eq("id",id)));
+		Query isExist = new Query("select count(*) as c from users ").append(where(eq("email",user.getEmail())));
 		registered = isExist.fetch(new IntegerFetcher("c"));
 		
-		if (registered != 0) {
+		if (registered == 0) {
 			
 			String pass = Util.getHashMd5(user.getPassword());
 			category = UserCategories.getKeyByLabel(user.getCategory());
@@ -186,7 +186,7 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 			.append("active=" + active + ",")
 			.append("admin=" + admin + ",")
 			.append("key='" + key + "' ")
-			.append("WHERE id=" + id + ";");
+			.append("WHERE email='" + user.getEmail() + "';");
 			try {
 				q.execute();
 			} catch (Exception e) {

@@ -100,11 +100,17 @@
 			<result name="success" type="redirect">adminUserList</result>
 			<result name="error">/jsp/error.jsp</result>
 			<result name="alreadyReg">/jsp/error.jsp</result>
+			<result name="goToUserRoom" type="redirect">userRoom</result>
 		</action>
 		
 		<action name="userRoom" method="getUserInfo" class="ru.spbstu.students.web.actions.UserRoomAction">
         	<result name="success">/jsp/userRoom.jsp</result>
         	<result name="error">/jsp/error.jsp</result>
         </action>
+        
+        <action name="editUserInfo" method="editUserInfo" class="ru.spbstu.students.web.actions.UserRoomAction">
+			<result name="success">/jsp/editUser.jsp</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
 	</package>
 </struts>

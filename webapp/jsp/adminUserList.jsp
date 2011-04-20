@@ -34,7 +34,6 @@
 			<s:url id="admin" action="adminConsole" escapeAmp="false"></s:url>
 			<s:a href="%{admin}"><img src="images/auc_admin.png" ALIGN="middle" border="0" style="padding-left: 25px"></s:a> 
 		</div>
-		<br>
 		<div id="userList" style="margin-left: 250px">
 			<s:if test="%{result.size() > 0}">
 				<div>

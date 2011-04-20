@@ -13,7 +13,7 @@ public interface UserDAO {
 	public boolean isAdmin(String email);
 	public UserInfo getUser(int id);
 	public UserInfo getUser(String email);
-	public String editUser(int id, UserInfo user) throws Exception;
+	public String editUser(UserInfo user) throws Exception;
 	public void removeUser(int id);
 	
 }

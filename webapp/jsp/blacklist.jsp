@@ -36,7 +36,7 @@
 			<s:url id="admin" action="adminConsole" escapeAmp="false"></s:url>
 			<s:a href="%{admin}"><img src="images/auc_admin.png" ALIGN="middle" border="0" style="padding-left: 25px"></s:a> 
 		</div>
-		<div id="newBan" class="register" style="margin-left: 250px">
+		<div id="newBan" class="ui-widget ui-widget-content ui-state-active register" style="margin-left: 250px">
 			<s:form id="ban_form" action="addBan">
 				<table cellpadding="3" cellspacing="0">
 					<tr>

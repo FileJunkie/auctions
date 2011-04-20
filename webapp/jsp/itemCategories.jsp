@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<jsp:include page="/js/functions.jsp" />
 
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Blacklist Page</title>
+<title>Item categories</title>
 <s:head />
 <style type="text/css">
 @import url(style.css);
@@ -30,7 +31,7 @@
 			<s:url id="admin" action="adminConsole" escapeAmp="false"></s:url>
 			<s:a href="%{admin}"><img src="images/auc_admin.png" ALIGN="middle" border="0" style="padding-left: 25px"></s:a> 
 		</div>
-		<div id="newCategory" class="register" style="margin-left: 250px">
+		<div id="newCategory" class="ui-widget ui-widget-content ui-state-active register" style="margin-left: 250px">
 			<s:form id="form" action="addCategory">
 				<table cellpadding="3" cellspacing="0">
 					<tr>

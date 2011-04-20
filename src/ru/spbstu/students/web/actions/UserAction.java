@@ -57,10 +57,14 @@ public class UserAction extends BaseAction implements SessionAware, ModelDriven<
 			Integer id = (Integer) session.get("editUserId");
 			session.remove("editUserId");
 			UserInfo us = userDao.getUser(id);
-			String result = userDao.editUser(id, user);
+			String result = userDao.editUser(user);
 			if (us.getEmail().equals((String) session.get("email"))) {
 				session.remove("email");
 				session.put("email", userDao.getUser(id).getEmail());
+			}
+			if (((Boolean)session.get("editUserInfo")) && (result.equals("success"))) {
+				session.remove("editUserInfo");
+				return "goToUserRoom";
 			}
 			return result;
 		} catch (Exception e) {

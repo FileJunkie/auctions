@@ -40,26 +40,87 @@
 			
 		</div>
 		<div id="userInfo" style="margin-left: 250px">
+			<p><b>Личная информация:</b></p>
 			<table align="left" cellpadding="5px">
 			<tr>
 				<s:hidden name="id"/>
-				<th>Email</th>
-				<th>Category</th>
-				<th>Type</th>
-				<th>Admin</th>
-				<th>Edit</th>
+				<th>Логин</th>
+				<th>Категория</th>
+				<th>Тип</th>
+				<th>Администратор</th>
+				<th>Редактировать</th>
 			</tr>
 			<tr>
 				<td align="center">${user.email}</td>
 				<td align="center">${user.category}</td>
 				<td align="center">${user.type}</td>
 				<td align="center">${user.admin}</td>
-				<td align="center"><s:url id="editURL" action="editUser">
-						<s:param name="id" value="%{id}"></s:param>
-					</s:url> <s:a href="%{editURL}">Edit</s:a>
+				<td align="center"><s:url id="editUserURL" action="editUserInfo">
+						<s:param name="id" value="%{user.id}"></s:param>
+					</s:url> <s:a href="%{editUserURL}">Редактировать</s:a>
 				</td>
 			</tr>
 			</table>
+		</div>
+		<br><br><br><br>
+		<div id="myLots" style="margin-left: 250px">
+			<s:if test="%{itemInfo.size() > 0}">
+				<p><b>Мои лоты:</b></p>
+					<table align="left" cellpadding="5px">
+						<tr>
+							<th>Название</th>
+							<th>Описание</th>
+							<th>Тип</th>
+							<th>Начальная ставка</th>
+							<th>Минимальная цена</th>
+							<th>Подробнее</th>
+						</tr>
+						<s:iterator value="itemInfo" status="stat">
+							<tr>
+								<td><s:property value="name" />
+								</td>
+								<td><s:property value="description" />
+								</td>
+								<td><s:property value="type" />
+								</td>
+								<td><s:property value="startBid" />
+								</td>
+								<td><s:property value="min" />
+								</td>
+							</tr>
+						</s:iterator> 
+					</table>
+			</s:if>
+		</div>
+		<br><br><br>
+		<div id="subscribe" style="margin-left: 250px">
+				
+				<p><b>Участвую в торгах:</b></p>
+					<table align="left" cellpadding="5px">
+						<tr>
+							<th>Название</th>
+							<th>Описание</th>
+							<th>Тип</th>
+							<th>Начальная ставка</th>
+							<th>Минимальная цена</th>
+							<th>Подробнее</th>
+						</tr>
+						<!--<s:iterator value="itemInfo" status="stat">
+							<tr>
+								<td><s:property value="name" />
+								</td>
+								<td><s:property value="description" />
+								</td>
+								<td><s:property value="type" />
+								</td>
+								<td><s:property value="startBid" />
+								</td>
+								<td><s:property value="min" />
+								</td>
+							</tr>
+						</s:iterator> -->
+					</table>
+			
 		</div>
  	</div>
 </body>
