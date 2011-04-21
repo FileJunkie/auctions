@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="j" uri="/struts-jquery-tags"%>
+<j:head jqueryui="true" jquerytheme="humanity" />
 
 <%
 	String email = (String) session.getAttribute("email");
@@ -66,26 +68,37 @@
 		<div id="myLots" style="margin-left: 250px">
 			<s:if test="%{itemInfo.size() > 0}">
 				<p><b>Мои лоты:</b></p>
-					<table align="left" cellpadding="5px">
-						<tr>
-							<th>Название</th>
-							<th>Описание</th>
-							<th>Тип</th>
-							<th>Начальная ставка</th>
-							<th>Минимальная цена</th>
-							<th>Подробнее</th>
-						</tr>
+				<s:hidden name="itemId"/>
+					<table align="left" cellpadding="5px" >
 						<s:iterator value="itemInfo" status="stat">
 							<tr>
-								<td><s:property value="name" />
-								</td>
-								<td><s:property value="description" />
-								</td>
-								<td><s:property value="type" />
-								</td>
-								<td><s:property value="startBid" />
-								</td>
-								<td><s:property value="min" />
+								<td><s:property value="photo" /></td>
+								<td>
+									<table cellpadding="5px">
+									<tr>
+										<td><s:property value="name" /></td>
+										<td><s:property value="type" />
+									</tr>
+									<tr>
+										<td colspan="2">Описание: <s:property value="description" /></td>
+									</tr>
+									<tr>
+										<td colspan="2">Стартовая цена: <s:property value="startBid" /></td>
+									</tr>
+									<tr>
+										<td colspan="2">Срок регистрации:<br><s:property value="startReg"/> - <s:property value="finishReg"/></td>
+									</tr>
+									<tr>
+										<td colspan="2">Срок проведения:<br><s:property value="startAuc"/> - <s:property value="finishAuc"/></td>
+									</tr>
+									<tr>
+										<td colspan="2" align="right">
+											<s:url id="detail" action="detailItem">
+												<s:param name="itemId" value="%{id}"></s:param>
+											</s:url> <s:a href="%{detail}">Подробнее...</s:a>
+										</td>
+									</tr>
+									</table>
 								</td>
 							</tr>
 						</s:iterator> 
@@ -93,34 +106,45 @@
 			</s:if>
 		</div>
 		<br><br><br>
-		<div id="subscribe" style="margin-left: 250px">
-				
+		
+		<!-- ТУПО ТЕСТ ОТОБРАЖЕНИЯ -->
+		
+		<div id="subscribe" style="margin-left: 250px">	
 				<p><b>Участвую в торгах:</b></p>
-					<table align="left" cellpadding="5px">
-						<tr>
-							<th>Название</th>
-							<th>Описание</th>
-							<th>Тип</th>
-							<th>Начальная ставка</th>
-							<th>Минимальная цена</th>
-							<th>Подробнее</th>
-						</tr>
-						<!--<s:iterator value="itemInfo" status="stat">
+					<table align="left" cellpadding="5px" class="ui-widget-content userTable">
+						<s:iterator status="stat" value="{1,2}">
 							<tr>
-								<td><s:property value="name" />
-								</td>
-								<td><s:property value="description" />
-								</td>
-								<td><s:property value="type" />
-								</td>
-								<td><s:property value="startBid" />
-								</td>
-								<td><s:property value="min" />
+								<td>Фото</td>
+								<td>
+									<table cellpadding="5px">
+									<tr>
+										<td>Название</td>
+										<td>Тип аукциона</td>
+									</tr>
+									<tr>
+										<td colspan="2">Описание: </td>
+									</tr>
+									<tr>
+										<td colspan="2">Стартовая цена: </td>
+									</tr>
+									<tr>
+										<td colspan="2">Срок регистрации:<br>Начало - Конец</td>
+									</tr>
+									<tr>
+										<td colspan="2">Срок проведения:<br>Начало - Конец</td>
+									</tr>
+									<tr>
+										<td colspan="2" align="right">
+											<s:url id="detail" action="detailItem">
+												
+											</s:url> <s:a href="%{detail}">Подробнее...</s:a>
+										</td>
+									</tr>
+									</table>
 								</td>
 							</tr>
-						</s:iterator> -->
+						</s:iterator>
 					</table>
-			
 		</div>
  	</div>
 </body>

@@ -54,7 +54,7 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 		return q.list(new Fetcher<ItemInfo>(){
 			@Override
 			protected ItemInfo fetch() {
-				return new ItemInfo(getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
+				return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
 						getInt("type"), new Double(getDouble("min")), getDate("start_reg"), getDate("finish_reg"), getDate("start_auc"), getDate("finish_auc"),
 						getInt("state"), getString("delivery"), getInt("category"));
 			}			
@@ -67,7 +67,7 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 		return q.list(new Fetcher<ItemInfo>(){
 			@Override
 			protected ItemInfo fetch() {
-				return new ItemInfo(getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
+				return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
 						getInt("type"), new Double(getDouble("min")), getDate("start_reg"), getDate("finish_reg"), getDate("start_auc"), getDate("finish_auc"),
 						getInt("state"), getString("delivery"), getInt("category"));
 			}			
@@ -80,7 +80,7 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 		return q.list(new Fetcher<ItemInfo>(){
 			@Override
 			protected ItemInfo fetch() {
-				return new ItemInfo(getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
+				return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
 						getInt("type"), new Double(getDouble("min")), getDate("start_reg"), getDate("finish_reg"), getDate("start_auc"), getDate("finish_auc"),
 						getInt("state"), getString("delivery"), getInt("category"));
 			}			

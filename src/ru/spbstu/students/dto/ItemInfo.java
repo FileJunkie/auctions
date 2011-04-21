@@ -17,11 +17,13 @@ public class ItemInfo {
 	private int state;
 	private String delivery;
 	private int category;
+	private int id;
 	
-	public ItemInfo(int seller, String name, String description, String photo,
+	public ItemInfo(int id, int seller, String name, String description, String photo,
 			double startBid, int type, Double min, Date startReg,
 			Date finishReg, Date startAuc, Date finishAuc, int state,
 			String delivery, int category) {
+		this.id = id;
 		this.seller = seller;
 		this.name = name;
 		this.description = description;
@@ -148,6 +150,14 @@ public class ItemInfo {
 
 	public void setCategory(int category) {
 		this.category = category;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

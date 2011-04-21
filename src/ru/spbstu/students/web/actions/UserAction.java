@@ -44,6 +44,9 @@ public class UserAction extends BaseAction implements SessionAware, ModelDriven<
 				if (userDao.isAdmin(user.getEmail())) {
 					session.put ( "admin", true);
 				}
+				if (userDao.getUser(user.getEmail()).getType().equals("Seller")) {
+					session.put ("seller", true);
+				}
 			}
 			return result;
 		} catch (Exception e) {
@@ -76,6 +79,7 @@ public class UserAction extends BaseAction implements SessionAware, ModelDriven<
 	public String logout(){
 		session.remove("email");
 		session.remove("admin");
+		session.remove("seller");
 		return SUCCESS;
 	}
 	

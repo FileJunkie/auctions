@@ -61,6 +61,7 @@ public class AdminAction extends BaseAction implements SessionAware {
 		if (userDao.getUser(id).getEmail().equals((String) session.get("email"))) {
 			session.remove("email");
 			session.remove("admin");
+			session.remove("seller");
 		}
 		userDao.removeUser(id);
 		return SUCCESS;
