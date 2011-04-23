@@ -23,6 +23,17 @@ public class ItemCategoriesDAOSQLite extends QuerySupport implements
 			}						
 		});
 	}
+	
+	public List<String> getCategoriesName() {
+		Query q = new Query("SELECT name FROM i_categories");
+		
+		return q.list(new Fetcher<String>(){
+			@Override
+			protected String fetch() {
+				return getString("name");
+			}						
+		});
+	}
 
 	public void removeCaterogy(int id) {
 		Query q = new Query("DELETE FROM i_categories ").append(where(eq("id",id)));
@@ -41,6 +52,17 @@ public class ItemCategoriesDAOSQLite extends QuerySupport implements
 			@Override
 			protected String fetch() {
 				return getString("name");
+			}						
+		}).get(0);
+	}
+	
+	public Integer getCategory(String name) {
+		Query q = new Query("SELECT id FROM i_categories ").append(where(eq("name", name)));
+		
+		return q.list(new Fetcher<Integer>(){
+			@Override
+			protected Integer fetch() {
+				return getInt("id");
 			}						
 		}).get(0);
 	}

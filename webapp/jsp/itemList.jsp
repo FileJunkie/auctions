@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ taglib prefix="j" uri="/struts-jquery-tags"%>
-<j:head jqueryui="true" jquerytheme="humanity" />
+<jsp:include page="/js/functions.jsp" />
+<jsp:include page="/js/calendar.jsp" />
 
 <%
-	String email = (String) session.getAttribute("email");
 	Boolean isAdmin = (Boolean) session.getAttribute("admin");
 	Boolean seller = (Boolean) session.getAttribute ("seller");
 %>
@@ -13,7 +12,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>User room</title>
+<title>Userlist</title>
 <s:head />
 <style type="text/css">
 @import url(style.css);
@@ -41,42 +40,15 @@
 			<s:url id="addItem" action="addItem" escapeAmp="false"></s:url>
 			<s:a href="%{addItem}"><img src="images/auc_put_lot.png" ALIGN="middle" border="0" style="padding-left: 30px"></s:a>
 			<%} %>
-			<% if ((isAdmin != null) && (isAdmin)) { %>
 			<s:url id="admin" action="adminConsole" escapeAmp="false"></s:url>
-			<s:a href="%{admin}"><img src="images/auc_admin.png" ALIGN="middle" border="0" style="padding-left: 25px"></s:a> <!-- тут тоже ссылка в виде картинок -->
-			<%}%>
-			
+			<s:a href="%{admin}"><img src="images/auc_admin.png" ALIGN="middle" border="0" style="padding-left: 25px"></s:a> 
 		</div>
-		<div id="userInfo" style="margin-left: 250px">
-			<p><b>Личная информация:</b></p>
-			<table align="left" cellpadding="5px">
-			<tr>
-				<s:hidden name="id"/>
-				<th>Логин</th>
-				<th>Категория</th>
-				<th>Тип</th>
-				<th>Администратор</th>
-				<th>Редактировать</th>
-			</tr>
-			<tr>
-				<td align="center">${user.email}</td>
-				<td align="center">${user.category}</td>
-				<td align="center">${user.type}</td>
-				<td align="center">${user.admin}</td>
-				<td align="center"><s:url id="editUserURL" action="editUserInfo">
-						<s:param name="id" value="%{user.id}"></s:param>
-					</s:url> <s:a href="%{editUserURL}">Редактировать</s:a>
-				</td>
-			</tr>
-			</table>
-		</div>
-		<br><br><br><br>
-		<div id="myLots" style="margin-left: 250px">
-			<s:if test="%{itemInfo.size() > 0}">
-				<p><b>Мои лоты:</b></p>
+		<div id="itemList" style="margin-left: 250px">
+			<s:if test="%{itemList.size() > 0}">
+				<p><b>Все лоты:</b></p>
 				<s:hidden name="itemId"/>
 					<table align="left" cellpadding="5px" class="ui-widget-content userTable">
-						<s:iterator value="itemInfo" status="stat">
+						<s:iterator value="itemList" status="stat">
 							<tr>
 								<td><img src="<s:property value='photo'/>" width="200px" height="200px"></td>
 								<td>
@@ -110,48 +82,10 @@
 						</s:iterator> 
 					</table>
 			</s:if>
+			<s:else>
+				<p><b>Лоты отсутствуют</b></p>
+			</s:else>
 		</div>
-		<br><br><br>
-		
-		<!-- ТУПО ТЕСТ ОТОБРАЖЕНИЯ -->
-		
-		<div id="subscribe" style="margin-left: 250px">	
-				<p><b>Участвую в торгах:</b></p>
-					<table align="left" cellpadding="5px" class="ui-widget-content userTable">
-						<s:iterator status="stat" value="{1,2}">
-							<tr>
-								<td>Фото</td>
-								<td>
-									<table cellpadding="5px">
-									<tr>
-										<td>Название</td>
-										<td>Тип аукциона</td>
-									</tr>
-									<tr>
-										<td colspan="2">Описание: </td>
-									</tr>
-									<tr>
-										<td colspan="2">Стартовая цена: </td>
-									</tr>
-									<tr>
-										<td colspan="2">Срок регистрации:<br>Начало - Конец</td>
-									</tr>
-									<tr>
-										<td colspan="2">Срок проведения:<br>Начало - Конец</td>
-									</tr>
-									<tr>
-										<td colspan="2" align="right">
-											<s:url id="detail" action="detailItem">
-												
-											</s:url> <s:a href="%{detail}">Подробнее...</s:a>
-										</td>
-									</tr>
-									</table>
-								</td>
-							</tr>
-						</s:iterator>
-					</table>
-		</div>
- 	</div>
+	</div>
 </body>
 </html>

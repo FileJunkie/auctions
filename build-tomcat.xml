@@ -29,6 +29,10 @@
 	</target>
 
 	<target name="prepare">
+		<mkdir dir="${war.dir}/../tmp" />
+		<copy todir="${war.dir}/../tmp" overwrite="yes">
+			<fileset dir="${war.dir}/cache"/>
+		</copy>
 		<delete dir="${war.dir}" failonerror="no" />
 		<mkdir dir="${war.dir}/WEB-INF/classes" />
 		<mkdir dir="${war.dir}/WEB-INF/lib" />
@@ -36,6 +40,10 @@
 			<fileset dir="${basedir}/webapp"/>
 		</copy>
 		
+		<copy todir="${war.dir}/cache" overwrite="yes">
+			<fileset dir="${war.dir}/../tmp"/>
+	    </copy>
+		<delete dir="${war.dir}/../tmp" failonerror="no" />
 		<copy todir="${war.dir}/WEB-INF/classes/" overwrite="yes">
 			<fileset dir="${basedir}/src">
 	           <include name="**/*.properties" />

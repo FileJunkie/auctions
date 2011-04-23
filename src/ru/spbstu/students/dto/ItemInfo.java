@@ -1,5 +1,6 @@
 package ru.spbstu.students.dto;
 
+import java.io.File;
 import java.util.Date;
 
 public class ItemInfo {
@@ -8,7 +9,7 @@ public class ItemInfo {
 	private String description;
 	private String photo;
 	private double startBid;
-	private int type;
+	private String type;
 	private Double min;
 	private Date startReg;
 	private Date finishReg;
@@ -16,13 +17,14 @@ public class ItemInfo {
 	private Date finishAuc;
 	private int state;
 	private String delivery;
-	private int category;
+	private String category;
 	private int id;
+	private File image;
 	
 	public ItemInfo(int id, int seller, String name, String description, String photo,
-			double startBid, int type, Double min, Date startReg,
+			double startBid, String type, Double min, Date startReg,
 			Date finishReg, Date startAuc, Date finishAuc, int state,
-			String delivery, int category) {
+			String delivery, String category) {
 		this.id = id;
 		this.seller = seller;
 		this.name = name;
@@ -39,6 +41,8 @@ public class ItemInfo {
 		this.delivery = delivery;
 		this.category = category;
 	}
+
+	public ItemInfo() {	}
 
 	public int getSeller() {
 		return seller;
@@ -80,11 +84,11 @@ public class ItemInfo {
 		this.startBid = startBid;
 	}
 
-	public int getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -100,32 +104,32 @@ public class ItemInfo {
 		return startReg;
 	}
 
-	public void setStartReg(Date startReg) {
-		this.startReg = startReg;
+	public void setStartReg(String startReg) {
+		this.startReg = java.sql.Date.valueOf(startReg);
 	}
 
 	public Date getFinishReg() {
 		return finishReg;
 	}
 
-	public void setFinishReg(Date finishReg) {
-		this.finishReg = finishReg;
+	public void setFinishReg(String finishReg) {
+		this.finishReg = java.sql.Date.valueOf(finishReg);
 	}
 
 	public Date getStartAuc() {
 		return startAuc;
 	}
 
-	public void setStartAuc(Date startAuc) {
-		this.startAuc = startAuc;
+	public void setStartAuc(String startAuc) {
+		this.startAuc = java.sql.Date.valueOf(startAuc);
 	}
 
 	public Date getFinishAuc() {
 		return finishAuc;
 	}
 
-	public void setFinishAuc(Date finishAuc) {
-		this.finishAuc = finishAuc;
+	public void setFinishAuc(String finishAuc) {
+		this.finishAuc = java.sql.Date.valueOf(finishAuc);
 	}
 
 	public int getState() {
@@ -144,11 +148,11 @@ public class ItemInfo {
 		this.delivery = delivery;
 	}
 
-	public int getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(int category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 
@@ -158,6 +162,14 @@ public class ItemInfo {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public File getImage() {
+		return image;
+	}
+
+	public void setImage(File image) {
+		this.image = image;
 	}
 	
 	

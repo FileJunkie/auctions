@@ -23,6 +23,10 @@
 		$('#confPass').removeClass('ui-state-error');
 		$('#register_form').submit();
 	}
+	
+	function beforeItemSubmit() {
+		$('#addItemForm').submit();
+	}
 
 	function ismail() {
 		var email = document.getElementById('email').value;

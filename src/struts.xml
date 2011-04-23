@@ -112,5 +112,47 @@
 			<result name="success">/jsp/editUser.jsp</result>
 			<result name="error">/jsp/error.jsp</result>
 		</action>
+		
+		<action name="addItem" method="addItem" class="ru.spbstu.students.web.actions.ItemAction">
+			<result name="success">/jsp/addItem.jsp</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="pushItem" method="insertItem" class="ru.spbstu.students.web.actions.ItemAction">
+			<interceptor-ref name="fileUpload">
+        		<param name="maximumSize">2097152</param>
+        		<param name="allowedTypes">
+            		image/png,image/gif,image/jpeg,image/pjpeg
+        		</param>
+    		</interceptor-ref>
+    		<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="success" type="redirect">userRoom</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="itemsList" method="getItemsList" class="ru.spbstu.students.web.actions.ItemAction">
+			<result name="success">/jsp/itemList.jsp</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="detailItem" method="detailsItem" class="ru.spbstu.students.web.actions.ItemAction">
+			<result name="success">/jsp/detailsItem.jsp</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="editItemInfo" method="editItemInfo" class="ru.spbstu.students.web.actions.ItemAction">
+			<result name="success">/jsp/editItem.jsp</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="removeItem" method="removeItem" class="ru.spbstu.students.web.actions.ItemAction">
+			<result name="success" type="redirect">itemsList</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="updateItem" method="updateItemInfo" class="ru.spbstu.students.web.actions.ItemAction">
+			<result name="success" type="redirect">itemsList</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
 	</package>
 </struts>
