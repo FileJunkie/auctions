@@ -2,6 +2,8 @@ package ru.spbstu.students.dao;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import ru.spbstu.students.dao.querysupport.QuerySupport;
@@ -126,4 +128,50 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 		q.execute();
 	}
 
+	public boolean registerIn(int itemID, int userID) {
+		Date now = new Date();
+		
+		Query q = new Query("SELECT start_reg, finish_reg FROM items ").append(where(eq("id", itemID)));
+		ArrayList<Date> dates = q.list(new Fetcher<ArrayList<Date>>(){
+			@Override
+			protected ArrayList<Date> fetch(){
+				ArrayList<Date> res = new ArrayList<Date>();
+				try {
+					res.add(df.parse(getString("start_reg")));					
+				} catch (ParseException e) {
+					res.add(null);
+				}
+				try {
+					res.add(df.parse(getString("finish_reg")));
+				} catch (ParseException e) {
+					res.add(null);
+				}
+				return res;
+			}
+		}).get(0);
+		
+		if(dates.get(0) != null){
+			if(dates.get(0).compareTo(now) > 0){
+				return false;				
+			}
+		}
+		if(dates.get(1) != null){
+			if(dates.get(1).compareTo(now) < 0){
+				return false;
+			}
+		}
+		
+		q = new Query("INSERT INTO register(item,user) VALUES(")
+			.append(itemID + ",")
+			.append(userID + ")");
+		q.execute();
+		
+		return true;
+	}
+
+	public void unregisterIn(int itemID, int userID) {
+		Query q = new Query("DELETE FROM register ").append(where(and(eq("item",itemID),eq("user",userID))));
+		q.execute();
+	}
+	
 }

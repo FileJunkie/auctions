@@ -179,6 +179,33 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
             return ERROR;
         }	
 	}
+	
+	public String registerIn(){
+		if (!session.containsKey("email"))
+			return ERROR;
+		
+		int userId = userDao.getUser((String)session.get("email")).getId();
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		int itemId = Integer.parseInt(request.getParameter("itemId"));
+		if(!itemDao.registerIn(itemId, userId)){
+			return ERROR;
+		}
+		
+		return SUCCESS;
+	}
+	
+	public String unregisterIn(){
+		if (!session.containsKey("email"))
+			return ERROR;
+		
+		int userId = userDao.getUser((String)session.get("email")).getId();
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		int itemId = Integer.parseInt(request.getParameter("itemId"));
+		
+		itemDao.unregisterIn(itemId, userId);
+		
+		return SUCCESS;
+	}
 
 	public void setSession(Map<String, Object> session) {
 		this.session = session; 

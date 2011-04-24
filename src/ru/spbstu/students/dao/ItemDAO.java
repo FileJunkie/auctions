@@ -11,4 +11,6 @@ public interface ItemDAO {
 	public ItemInfo getItem(int itemID);
 	public void removeItem(int itemID);
 	public void editItem(int itemID, ItemInfo item);
+	public boolean registerIn(int itemID, int userID);
+	public void unregisterIn(int itemID, int userID);
 }
