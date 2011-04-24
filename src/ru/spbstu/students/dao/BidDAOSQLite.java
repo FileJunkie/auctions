@@ -11,13 +11,29 @@ public class BidDAOSQLite extends QuerySupport implements BidDAO {
 
 	static final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL);
 	
-	public void addBid(BidInfo bid) {		
-		Query q = new Query("INSERT INTO bids(item, user, time, amount) VALUES(")
+	public boolean addBid(BidInfo bid) {
+		Query q = new Query("SELECT amount FROM bids ")
+			.append(where(and(eq("item", bid.getItemID()),eq("user", bid.getUserID()))))
+			.append(" ORDER BY amount DESC LIMIT 1");
+		double max = q.list(new Fetcher<Double>(){
+			@Override
+			protected Double fetch(){
+				return getDouble("amount");
+			}
+		}).get(0);		
+		
+		if(max > bid.getAmount()){
+			return false;
+		}
+		
+		q = new Query("INSERT INTO bids(item, user, time, amount) VALUES(")
 			.append(bid.getItemID() + ",")
 			.append(bid.getUserID() + ",")
 			.append("'" + df.format(bid.getTime()) + "',")
 			.append(bid.getAmount() + ")");
 		q.execute();
+		
+		return true;
 	}
 
 	public List<BidInfo> getBids(int itemID) {

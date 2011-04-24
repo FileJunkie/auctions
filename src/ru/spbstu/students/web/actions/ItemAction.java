@@ -1,6 +1,7 @@
 package ru.spbstu.students.web.actions;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,9 +11,11 @@ import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 
+import ru.spbstu.students.dao.BidDAO;
 import ru.spbstu.students.dao.ItemCategoriesDAO;
 import ru.spbstu.students.dao.ItemDAO;
 import ru.spbstu.students.dao.UserDAO;
+import ru.spbstu.students.dto.BidInfo;
 import ru.spbstu.students.dto.ItemInfo;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -26,8 +29,10 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 	private ItemDAO itemDao;
 	private ItemCategoriesDAO itemCategories;
 	private UserDAO userDao;
+	private BidDAO bidDao;
 	private List<String> categoryList;
 	private List<ItemInfo> itemList;
+	private List<BidInfo> bidList;
 	
 	public String addItem() {
 		if (!session.containsKey("email"))
@@ -206,6 +211,35 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		
 		return SUCCESS;
 	}
+	
+	public String bid(){
+		if (!session.containsKey("email"))
+			return ERROR;
+		
+		int userId = userDao.getUser((String)session.get("email")).getId();
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		int itemId = Integer.parseInt(request.getParameter("itemId"));
+		double amount = Double.parseDouble(request.getParameter("amount"));
+		if(!bidDao.addBid(new BidInfo(itemId, userId, amount, new Date()))){
+			return ERROR;
+		}
+		
+		return SUCCESS;
+	}
+	
+	public String getBids(){		
+		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+		int itemId = Integer.parseInt(request.getParameter("itemId"));
+		
+		try{
+			bidList = bidDao.getBids(itemId);
+		}
+		catch(Exception e){
+			return ERROR;
+		}
+		
+		return SUCCESS;
+	}
 
 	public void setSession(Map<String, Object> session) {
 		this.session = session; 
@@ -246,4 +280,17 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 	public void setItemList(List<ItemInfo> itemList) {
 		this.itemList = itemList;
 	}
+
+	public void setBidDao(BidDAO bidDao) {
+		this.bidDao = bidDao;
+	}
+
+	public List<BidInfo> getBidList() {
+		return bidList;
+	}
+
+	public void setBidList(List<BidInfo> bidList) {
+		this.bidList = bidList;
+	}	
+		
 }
