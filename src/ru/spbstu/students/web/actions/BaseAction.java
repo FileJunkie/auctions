@@ -2,6 +2,7 @@ package ru.spbstu.students.web.actions;
 
 import java.util.List;
 
+import ru.spbstu.students.dto.BidInfo;
 import ru.spbstu.students.web.AuctionTypes;
 import ru.spbstu.students.web.LoggedUser;
 import ru.spbstu.students.web.UserCategories;

@@ -42,3 +42,9 @@ background-color: #FAF0E6;
 .register {
 width: 400px;
 }
+
+.table.ui-table-items {
+    border-color:inherit;
+    border-width:1px;
+    border-style:solid;
+}

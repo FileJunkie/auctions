@@ -11,6 +11,8 @@
 	Date startReg = (Date) session.getAttribute("startReg");
 	Date finishReg = (Date) session.getAttribute("finishReg");
 	Boolean seller = (Boolean) session.getAttribute ("seller");
+	Boolean isAdmin = (Boolean) session.getAttribute("admin");
+	Boolean isRegestered = (Boolean) session.getAttribute("isRegistered");
 %>
 
 <html>
@@ -44,8 +46,10 @@
 			<s:url id="addItem" action="addItem" escapeAmp="false"></s:url>
 			<s:a href="%{addItem}"><img src="images/auc_put_lot.png" ALIGN="middle" border="0" style="padding-left: 30px"></s:a>
 			<%} %>
+			<% if ((isAdmin != null) && (isAdmin)) { %>
 			<s:url id="admin" action="adminConsole" escapeAmp="false"></s:url>
-			<s:a href="%{admin}"><img src="images/auc_admin.png" ALIGN="middle" border="0" style="padding-left: 25px"></s:a> 
+			<s:a href="%{admin}"><img src="images/auc_admin.png" ALIGN="middle" border="0" style="padding-left: 25px"></s:a> <!-- тут тоже ссылка в виде картинок -->
+			<%}%>
 		</div>
 		<div id="detailsItem" style="margin-left: 250px">
 				<s:hidden name="itemId"/>
@@ -89,13 +93,24 @@
 							<%		}
 								}
 								if (seller == null) {
-									if ((startReg.compareTo(cal.getTime()) < 0) && (finishReg.compareTo(cal.getTime()) > 0)) { %>
+									if ((startReg.compareTo(cal.getTime()) < 0) && (finishReg.compareTo(cal.getTime()) > 0) && (isRegestered != null) && !isRegestered) { %>
 							<tr>
-								<td colspan="2" align="center">Принять участие</td>
+								<td colspan="2" align="center"><s:url id="regURL" action="registerAuc">
+									<s:param name="itemId" value="%{item.id}"></s:param>
+									</s:url> <s:a href="%{regURL}">Принять участие</s:a>
+								</td>
 							</tr>	
-									<%} if ((startAuc.compareTo(cal.getTime()) < 0) && (finishAuc.compareTo(cal.getTime()) > 0)) { %>
+									<%} if ((startAuc.compareTo(cal.getTime()) < 0) && (finishAuc.compareTo(cal.getTime()) > 0) && (isRegestered != null) && isRegestered) { %>
 							<tr>
-								<td colspan="2">Сделать ставку:<br>Add bid</td>
+								<td colspan="2" align="center">
+									<table cellpadding="5px">
+									<s:form id="addBid" action="newBid">
+										<s:hidden name="itemID" value="%{item.id}" />
+										Сделать ставку: <s:textfield name="amount" />
+										<s:submit value="Поставить"/>
+									</s:form>
+									</table>
+								</td>
 							</tr>
 							<%		}
 								}

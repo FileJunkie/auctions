@@ -154,5 +154,15 @@
 			<result name="success" type="redirect">itemsList</result>
 			<result name="error">/jsp/error.jsp</result>
 		</action>
+		
+		<action name="registerAuc" method="registerIn" class="ru.spbstu.students.web.actions.ItemAction">
+			<result name="success" type="redirect">itemsList</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="newBid" method="bid" class="ru.spbstu.students.web.actions.BidAction">
+			<result name="success" type="redirect">itemsList</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
 	</package>
 </struts>

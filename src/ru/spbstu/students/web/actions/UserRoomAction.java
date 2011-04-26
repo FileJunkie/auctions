@@ -23,6 +23,7 @@ public class UserRoomAction extends BaseAction implements SessionAware{
 	private ItemDAO itemDao;
 	private UserInfo user;
 	private List<ItemInfo> itemInfo;
+	private List<ItemInfo> registerItems;
 
 	public String getUserInfo() {
 		
@@ -31,6 +32,7 @@ public class UserRoomAction extends BaseAction implements SessionAware{
 		
 		user = userDao.getUser((String)session.get("email"));
 		itemInfo = itemDao.getItems(user.getId());
+		registerItems = itemDao.getBuyerItems(user.getId());
 		if (user != null) {
 			return SUCCESS;
 		} else {
@@ -77,6 +79,14 @@ public class UserRoomAction extends BaseAction implements SessionAware{
 
 	public void setItemInfo(List<ItemInfo> itemInfo) {
 		this.itemInfo = itemInfo;
+	}
+
+	public List<ItemInfo> getRegisterItems() {
+		return registerItems;
+	}
+
+	public void setRegisterItems(List<ItemInfo> registerItems) {
+		this.registerItems = registerItems;
 	}
 
 	public void setItemDao(ItemDAO itemDao) {

@@ -116,33 +116,34 @@
 		<!-- ТУПО ТЕСТ ОТОБРАЖЕНИЯ -->
 		
 		<div id="subscribe" style="margin-left: 250px">	
+			<s:if test="%{registerItems.size() > 0}">
 				<p><b>Участвую в торгах:</b></p>
 					<table align="left" cellpadding="5px" class="ui-widget-content userTable">
-						<s:iterator status="stat" value="{1,2}">
+						<s:iterator value="registerItems" status="stat">
 							<tr>
-								<td>Фото</td>
+								<td><img src="<s:property value='photo'/>" width="200px" height="200px"></td>
 								<td>
 									<table cellpadding="5px">
 									<tr>
-										<td>Название</td>
-										<td>Тип аукциона</td>
+										<td><s:property value="name" /></td>
+										<td><s:property value="type" />
 									</tr>
 									<tr>
-										<td colspan="2">Описание: </td>
+										<td colspan="2">Описание: <s:property value="description" /></td>
 									</tr>
 									<tr>
-										<td colspan="2">Стартовая цена: </td>
+										<td colspan="2">Стартовая цена: <s:property value="startBid" /></td>
 									</tr>
 									<tr>
-										<td colspan="2">Срок регистрации:<br>Начало - Конец</td>
+										<td colspan="2">Срок регистрации:<br><s:property value="startReg"/> - <s:property value="finishReg"/></td>
 									</tr>
 									<tr>
-										<td colspan="2">Срок проведения:<br>Начало - Конец</td>
+										<td colspan="2">Срок проведения:<br><s:property value="startAuc"/> - <s:property value="finishAuc"/></td>
 									</tr>
 									<tr>
 										<td colspan="2" align="right">
 											<s:url id="detail" action="detailItem">
-												
+												<s:param name="itemId" value="%{id}"></s:param>
 											</s:url> <s:a href="%{detail}">Подробнее...</s:a>
 										</td>
 									</tr>
@@ -151,6 +152,7 @@
 							</tr>
 						</s:iterator>
 					</table>
+			</s:if>
 		</div>
  	</div>
 </body>

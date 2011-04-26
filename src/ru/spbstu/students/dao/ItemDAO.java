@@ -13,4 +13,5 @@ public interface ItemDAO {
 	public void editItem(int itemID, ItemInfo item);
 	public boolean registerIn(int itemID, int userID);
 	public void unregisterIn(int itemID, int userID);
+	public List<ItemInfo> getBuyerItems(int buyerID);
 }

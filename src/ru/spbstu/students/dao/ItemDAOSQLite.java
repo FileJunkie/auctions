@@ -174,4 +174,28 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 		q.execute();
 	}
 	
+	public List<ItemInfo> getBuyerItems(int buyerID) {
+		Query q = new Query("SELECT i.id, i.seller, i.name, i.description, i.photo, " +
+				" i.start_bid, t.name as type, i.min, i.start_reg, i.finish_reg, " +
+				" i.start_auc, i.finish_auc, i.state, i.delivery, c.name as category FROM items i " +
+				" join i_categories c on c.id = i.category " +
+				" join i_types t on t.id = i.type " +
+				" join register r on r.item = i.id ").append(where(eq("r.user", buyerID)));
+		
+		return q.list(new Fetcher<ItemInfo>(){
+			@Override
+			protected ItemInfo fetch() {
+				try {
+					return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
+							getString("type"), new Double(getDouble("min")), df.parse(getString("start_reg")), df.parse(getString("finish_reg")), df.parse(getString("start_auc")), df.parse(getString("finish_auc")),
+							getInt("state"), getString("delivery"), getString("category"));
+				} catch (ParseException e) {
+					return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
+							getString("type"), new Double(getDouble("min")), null, null, null, null,
+							getInt("state"), getString("delivery"), getString("category"));
+				}
+			}			
+		});
+	}
+	
 }

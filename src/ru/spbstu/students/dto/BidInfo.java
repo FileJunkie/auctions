@@ -15,6 +15,8 @@ public class BidInfo {
 		this.time = time;
 	}
 
+	public BidInfo() {}
+
 	public int getItemID() {
 		return itemID;
 	}
