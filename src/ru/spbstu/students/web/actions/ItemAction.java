@@ -101,6 +101,8 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 			int userId = userDao.getUser((String)session.get("email")).getId();
 			if (registerDao.getItems(userId).contains(id))
 				session.put("isRegistered", true);
+			else 
+				session.put("isRegistered", false);
 			session.put("startAuc", item.getStartAuc());
 			session.put("finishAuc", item.getFinishAuc());
 			session.put("startReg", item.getStartReg());

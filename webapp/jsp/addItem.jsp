@@ -3,7 +3,8 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <link rel="stylesheet" type="text/css" href="<s:url value="/style.css"/>"/>
 <jsp:include page="/js/functions.jsp" />
-<jsp:include page="/js/calendar.jsp" />
+<link type="text/css" href="/js/latest.css" rel="Stylesheet" />
+<jsp:include page="/js/latest.jsp" />
 
 <%
 	Boolean isAdmin = (Boolean) session.getAttribute("admin");
@@ -60,29 +61,29 @@
 						<tr>
 							<td>Start registration </td>
 							<td><s:textfield id="startReg" name="startReg"
-									cssClass="text ui-state-default ui-corner-all" value="yyyy-mm-dd"
-									onfocus="this.select();lcs(this)" onclick="event.cancelBubble=true;this.select();lcs(this)"/>
+									value="yyyy-mm-dd"
+									cssClass="datepickerTimeField"/>
 							</td>
 						</tr>
 						<tr>
 							<td>Finish registration </td>
 							<td><s:textfield id="finishReg" name="finishReg"
-									cssClass="text ui-state-default ui-corner-all" value="yyyy-mm-dd"
-									onfocus="this.select();lcs(this)" onclick="event.cancelBubble=true;this.select();lcs(this)"/>
+									value="yyyy-mm-dd"
+									cssClass="datepickerTimeField"/>
 							</td>
 						</tr>
 						<tr>
 							<td>Start auction </td>
 							<td><s:textfield id="startAuc" name="startAuc"
-									cssClass="text ui-state-default ui-corner-all" value="yyyy-mm-dd"
-									onfocus="this.select();lcs(this)" onclick="event.cancelBubble=true;this.select();lcs(this)"/>
+									value="yyyy-mm-dd"
+									cssClass="datepickerTimeField"/>
 							</td>
 						</tr>
 						<tr>
 							<td>Finish auction </td>
 							<td><s:textfield id="finishAuc" name="finishAuc"
-									cssClass="text ui-state-default ui-corner-all" value="yyyy-mm-dd"
-									onfocus="this.select();lcs(this)" onclick="event.cancelBubble=true;this.select();lcs(this)"/>
+									value="yyyy-mm-dd"
+									cssClass="datepickerTimeField"/>
 							</td>
 						</tr>
 					</table>

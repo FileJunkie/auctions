@@ -1,7 +1,11 @@
 package ru.spbstu.students.dto;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class ItemInfo {
 	private int seller;
@@ -105,7 +109,10 @@ public class ItemInfo {
 	}
 
 	public void setStartReg(String startReg) {
-		this.startReg = java.sql.Date.valueOf(startReg);
+		List<Integer> args = parseStringTokenizer(startReg);
+		Calendar c = Calendar.getInstance();
+		c.set(args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5));
+		this.startReg = c.getTime();
 	}
 
 	public Date getFinishReg() {
@@ -113,7 +120,10 @@ public class ItemInfo {
 	}
 
 	public void setFinishReg(String finishReg) {
-		this.finishReg = java.sql.Date.valueOf(finishReg);
+		List<Integer> args = parseStringTokenizer(finishReg);
+		Calendar c = Calendar.getInstance();
+		c.set(args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5));
+		this.finishReg = c.getTime();
 	}
 
 	public Date getStartAuc() {
@@ -121,7 +131,10 @@ public class ItemInfo {
 	}
 
 	public void setStartAuc(String startAuc) {
-		this.startAuc = java.sql.Date.valueOf(startAuc);
+		List<Integer> args = parseStringTokenizer(startAuc);
+		Calendar c = Calendar.getInstance();
+		c.set(args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5));
+		this.startAuc = c.getTime();
 	}
 
 	public Date getFinishAuc() {
@@ -129,7 +142,10 @@ public class ItemInfo {
 	}
 
 	public void setFinishAuc(String finishAuc) {
-		this.finishAuc = java.sql.Date.valueOf(finishAuc);
+		List<Integer> args = parseStringTokenizer(finishAuc);
+		Calendar c = Calendar.getInstance();
+		c.set(args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5));
+		this.finishAuc = c.getTime();
 	}
 
 	public int getState() {
@@ -172,5 +188,18 @@ public class ItemInfo {
 		this.image = image;
 	}
 	
+	public static ArrayList<Integer> parseStringTokenizer(String date) {
+	      
+	      String szDelemiters = "-: "; 
+	      ArrayList<Integer> searchIds = new ArrayList<Integer>();
+	      StringTokenizer st = new StringTokenizer(date, szDelemiters, false);
+	      while(st.hasMoreTokens())
+	      {
+	        searchIds.add(Integer.parseInt(st.nextToken().trim()));     
+	      } 
+	      
+	      return searchIds;
+	      
+	  }
 	
 }

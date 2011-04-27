@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <jsp:include page="/js/functions.jsp" />
-<jsp:include page="/js/calendar.jsp" />
 
 <%
 	Boolean isAdmin = (Boolean) session.getAttribute("admin");
