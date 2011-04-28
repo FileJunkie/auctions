@@ -4,16 +4,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 
 import ru.spbstu.students.dao.BidDAO;
 import ru.spbstu.students.dao.UserDAO;
 import ru.spbstu.students.dto.BidInfo;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 
 public class BidAction extends BaseAction implements SessionAware, ModelDriven<BidInfo>  {
@@ -41,9 +37,7 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 	}
 	
 	public String getBids(){		
-		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-		int itemId = Integer.parseInt(request.getParameter("itemId"));
-		
+		int itemId = (Integer) session.get("itemId");		
 		try{
 			bidList = bidDao.getBids(itemId);
 		}

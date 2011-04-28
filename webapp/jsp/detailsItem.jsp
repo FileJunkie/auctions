@@ -4,7 +4,7 @@
 <%@ taglib prefix="j" uri="/struts-jquery-tags"%>
 <j:head jqueryui="true" jquerytheme="humanity" />
 <%@ page import="java.util.*" %>
-
+<jsp:include page="/js/functions.jsp" />
 <%
 	Date startAuc = (Date) session.getAttribute("startAuc");
 	Date finishAuc = (Date) session.getAttribute("finishAuc");
@@ -115,22 +115,12 @@
 							<%		}
 								}
 							%>
-							<s:if test="%{bidList.size() > 0}">
-							<p><b>Ставки:</b></p>
+							<tr><td colspan="2">Ставки:<td></tr>
 							<tr>
 								<td colspan="2" align="center">
-									<table cellpadding="5px">
-										<s:iterator value="bidList" status="stat">
-										<tr>
-											<td><s:property value="userID" /></td>
-											<td><s:property value="amount" /></td>
-											<td>${time}</td>
-										</tr>
-										</s:iterator>
-									</table>
+									<div id="bids"></div>
 								</td>
 							</tr>
-							</s:if>
 					</table>
 		</div>
 	</div>

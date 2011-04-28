@@ -164,5 +164,10 @@
 			<result name="success" type="redirect">detailItem</result>
 			<result name="error">/jsp/error.jsp</result>
 		</action>
+		
+		<action name="getBids" method="getBids" class="ru.spbstu.students.web.actions.BidAction">
+			<result name="success">/jsp/bids.jsp</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
 	</package>
 </struts>
