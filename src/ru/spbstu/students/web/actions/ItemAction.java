@@ -1,7 +1,6 @@
 package ru.spbstu.students.web.actions;
 
 import java.io.File;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +29,8 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 	private ItemDAO itemDao;
 	private ItemCategoriesDAO itemCategories;
 	private UserDAO userDao;
+	private BidDAO bidDao;
+	private List<BidInfo> bidList;
 	private List<String> categoryList;
 	private List<ItemInfo> itemList;
 	private RegisterDAO registerDao;
@@ -94,11 +95,19 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 			session.remove("finishReg");
 		}
 		
-		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-		int id = Integer.parseInt(request.getParameter("itemId"));
+		int id = 0;
+		try {
+			HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+			id = Integer.parseInt(request.getParameter("itemId"));
+			session.put("itemId", id);
+		} catch (Exception e) {
+			id = (Integer) session.get("itemId");
+		}
+		
 		item = itemDao.getItem(id);
 		if (item != null) {
 			int userId = userDao.getUser((String)session.get("email")).getId();
+			bidList = bidDao.getBids(id);
 			if (registerDao.getItems(userId).contains(id))
 				session.put("isRegistered", true);
 			else 
@@ -259,5 +268,17 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 
 	public void setRegisterDao(RegisterDAO registerDao) {
 		this.registerDao = registerDao;
+	}
+	
+	public void setBidDao(BidDAO bidDao) {
+		this.bidDao = bidDao;
+	}
+
+	public List<BidInfo> getBidList() {
+		return bidList;
+	}
+
+	public void setBidList(List<BidInfo> bidList) {
+		this.bidList = bidList;
 	}
 }

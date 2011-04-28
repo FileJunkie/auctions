@@ -111,7 +111,7 @@ public class ItemInfo {
 	public void setStartReg(String startReg) {
 		List<Integer> args = parseStringTokenizer(startReg);
 		Calendar c = Calendar.getInstance();
-		c.set(args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5));
+		c.set(args.get(0), args.get(1)-1, args.get(2), args.get(3), args.get(4), args.get(5));
 		this.startReg = c.getTime();
 	}
 
@@ -122,7 +122,7 @@ public class ItemInfo {
 	public void setFinishReg(String finishReg) {
 		List<Integer> args = parseStringTokenizer(finishReg);
 		Calendar c = Calendar.getInstance();
-		c.set(args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5));
+		c.set(args.get(0), args.get(1)-1, args.get(2), args.get(3), args.get(4), args.get(5));
 		this.finishReg = c.getTime();
 	}
 
@@ -133,7 +133,7 @@ public class ItemInfo {
 	public void setStartAuc(String startAuc) {
 		List<Integer> args = parseStringTokenizer(startAuc);
 		Calendar c = Calendar.getInstance();
-		c.set(args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5));
+		c.set(args.get(0), args.get(1)-1, args.get(2), args.get(3), args.get(4), args.get(5));
 		this.startAuc = c.getTime();
 	}
 
@@ -144,7 +144,7 @@ public class ItemInfo {
 	public void setFinishAuc(String finishAuc) {
 		List<Integer> args = parseStringTokenizer(finishAuc);
 		Calendar c = Calendar.getInstance();
-		c.set(args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5));
+		c.set(args.get(0), args.get(1)-1, args.get(2), args.get(3), args.get(4), args.get(5));
 		this.finishAuc = c.getTime();
 	}
 

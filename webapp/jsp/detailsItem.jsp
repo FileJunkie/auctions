@@ -115,7 +115,22 @@
 							<%		}
 								}
 							%>
-							
+							<s:if test="%{bidList.size() > 0}">
+							<p><b>Ставки:</b></p>
+							<tr>
+								<td colspan="2" align="center">
+									<table cellpadding="5px">
+										<s:iterator value="bidList" status="stat">
+										<tr>
+											<td><s:property value="userID" /></td>
+											<td><s:property value="amount" /></td>
+											<td>${time}</td>
+										</tr>
+										</s:iterator>
+									</table>
+								</td>
+							</tr>
+							</s:if>
 					</table>
 		</div>
 	</div>
