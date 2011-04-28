@@ -29,7 +29,7 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 		int userId = userDao.getUser((String)session.get("email")).getId();
 		bid.setUserID(userId);
 		bid.setTime(new Date());
-		if(!bidDao.addBid(bid)){
+		if(!bidDao.addBid(bid).equals("success")){
 			return ERROR;
 		}
 		

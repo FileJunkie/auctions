@@ -2,7 +2,6 @@ package ru.spbstu.students.web.actions;
 
 import java.util.List;
 
-import ru.spbstu.students.dto.BidInfo;
 import ru.spbstu.students.web.AuctionTypes;
 import ru.spbstu.students.web.LoggedUser;
 import ru.spbstu.students.web.UserCategories;
@@ -12,9 +11,6 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class BaseAction extends ActionSupport{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4044915638702787675L;
 	
 	private static List<String> categoriesLabels = UserCategories.labelList();
