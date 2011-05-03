@@ -112,4 +112,12 @@ CREATE TABLE bids(
 	FOREIGN KEY(user) REFERENCES users(id)
 );
 
+CREATE TABLE winners(
+	item INTEGER NOT NULL,
+	user INTEGER NOT NULL,
+	PRIMARY KEY(item, user),
+	FOREIGN KEY(item) REFERENCES items(id),
+	FOREIGN KEY(user) REFERENCES users(id)
+);
+
 COMMIT;

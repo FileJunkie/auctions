@@ -221,5 +221,19 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 			}			
 		});
 	}
-	
+
+	public int getWinner(int itemID){
+		ItemInfo item = getItem(itemID);
+		if(item.getState() != 2){
+			return -1;
+		}
+		
+		Query q = new Query("SELECT user FROM winners WHERE ").append(where(eq("item", itemID)));
+		return q.list(new Fetcher<Integer>(){
+			@Override
+			protected Integer fetch(){
+				return getInt("user");
+			}
+		}).get(0);
+	}
 }

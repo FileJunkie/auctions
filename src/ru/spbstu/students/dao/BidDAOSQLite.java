@@ -89,4 +89,15 @@ public class BidDAOSQLite extends QuerySupport implements BidDAO {
 		q.execute();
 	}
 
+	public void dutchBuy(int itemID, int userID){
+		Query q = new Query("UPDATE items SET ")
+			.append("state=2 ")
+			.append(where(eq("id",itemID)));
+		q.execute();
+		
+		q = new Query("INSERT INTO winners(item,user) VALUES(")
+			.append(itemID + ",")
+			.append(userID + ")");
+		q.execute();
+	}	
 }
