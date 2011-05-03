@@ -96,8 +96,23 @@ public class BidDAOSQLite extends QuerySupport implements BidDAO, ApplicationCon
 		q.execute();
 	}
 
+	public void dutchBuy(int itemID, int userID){
+		endAuction(itemID);
+		
+		Query q = new Query("INSERT INTO winners(item,user) VALUES(")
+			.append(itemID + ",")
+			.append(userID + ")");
+		q.execute();
+	}
+	
+	public void endAuction(int itemID){
+		Query q = new Query("UPDATE items SET ")
+			.append("state=2 ")
+			.append(where(eq("id",itemID)));
+		q.execute();		
+	}
+	
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 		context = arg0;
 	}
-
 }
