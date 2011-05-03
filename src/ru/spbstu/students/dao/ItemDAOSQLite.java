@@ -228,12 +228,28 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 			return -1;
 		}
 		
-		Query q = new Query("SELECT user FROM winners WHERE ").append(where(eq("item", itemID)));
-		return q.list(new Fetcher<Integer>(){
-			@Override
-			protected Integer fetch(){
-				return getInt("user");
-			}
-		}).get(0);
+		if(item.getType().equals("English")){
+			Query q = new Query("SELECT user FROM bids ")
+				.append(where(eq("item",itemID)))
+				.append(" ORDER BY amount DESC LIMIT 1");
+			return q.list(new Fetcher<Integer>(){
+				@Override
+				protected Integer fetch(){
+					return getInt("user");
+				}
+			}).get(0);
+		}
+		else if(item.getType().equals("Dutch")){
+			Query q = new Query("SELECT user FROM winners WHERE ").append(where(eq("item", itemID)));
+			return q.list(new Fetcher<Integer>(){
+				@Override
+				protected Integer fetch(){
+					return getInt("user");
+				}
+			}).get(0);
+		}
+		else{
+			return -1;
+		}
 	}
 }
