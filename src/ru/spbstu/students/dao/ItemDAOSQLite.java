@@ -28,7 +28,7 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 			.append("'" + df.format(item.getStartAuc()) + "',")
 			.append("'" + df.format(item.getFinishAuc()) + "',")
 			.append(item.getState() + ",")
-			.append(item.getDelivery() == null ? "null," : "'" + item.getDelivery() + "'," )
+			.append(item.getDelivery() == null ? "null," : "'" + df.format(item.getDelivery()) + "'," )
 			.append(item.getCategory())
 			.append(")");
 		q.execute();
@@ -48,7 +48,7 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 			.append("start_auc=" + "'" + df.format(item.getStartAuc()) + "',")
 			.append("finish_auc=" + "'" + df.format(item.getFinishAuc()) + "',")
 			.append("state=" + item.getState() + ",")
-			.append("delivery=" + (item.getDelivery() == null ? "null," : "'" + item.getDelivery() + "',") )
+			.append("delivery=" + (item.getDelivery() == null ? "null," : "'" + df.format(item.getDelivery()) + "',") )
 			.append("category=" + item.getCategory() + " ")
 			.append(where(eq("id", itemID)));
 		q.execute();
@@ -63,15 +63,21 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 		
 		return q.list(new Fetcher<ItemInfo>(){
 			@Override
-			protected ItemInfo fetch() {
+			protected ItemInfo fetch()  {
 				try {
 					return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
 							getString("type"), new Double(getDouble("min")), df.parse(getString("start_reg")), df.parse(getString("finish_reg")), df.parse(getString("start_auc")), df.parse(getString("finish_auc")),
-							getInt("state"), getString("delivery"), getString("category"));
+							getInt("state"), getString("delivery") != null ? df.parse(getString("delivery")) : null, getString("category"));
 				} catch (ParseException e) {
-					return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
-							getString("type"), new Double(getDouble("min")), null, null, null, null,
-							getInt("state"), getString("delivery"), getString("category"));
+					try {
+						return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
+								getString("type"), new Double(getDouble("min")), null, null, null, null,
+								getInt("state"), getString("delivery") != null ? df.parse(getString("delivery")) : null, getString("category"));
+					} catch (ParseException e1) {
+						return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
+								getString("type"), new Double(getDouble("min")), null, null, null, null,
+								getInt("state"), null, getString("category"));
+					}
 				}
 			}			
 		}).get(0);
@@ -86,15 +92,21 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 		
 		return q.list(new Fetcher<ItemInfo>(){
 			@Override
-			protected ItemInfo fetch() {
+			protected ItemInfo fetch()  {
 				try {
 					return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
 							getString("type"), new Double(getDouble("min")), df.parse(getString("start_reg")), df.parse(getString("finish_reg")), df.parse(getString("start_auc")), df.parse(getString("finish_auc")),
-							getInt("state"), getString("delivery"), getString("category"));
+							getInt("state"), getString("delivery") != null ? df.parse(getString("delivery")) : null, getString("category"));
 				} catch (ParseException e) {
-					return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
-							getString("type"), new Double(getDouble("min")), null, null, null, null,
-							getInt("state"), getString("delivery"), getString("category"));
+					try {
+						return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
+								getString("type"), new Double(getDouble("min")), null, null, null, null,
+								getInt("state"), getString("delivery") != null ? df.parse(getString("delivery")) : null, getString("category"));
+					} catch (ParseException e1) {
+						return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
+								getString("type"), new Double(getDouble("min")), null, null, null, null,
+								getInt("state"), null, getString("category"));
+					}
 				}
 			}			
 		});
@@ -109,15 +121,21 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 		
 		return q.list(new Fetcher<ItemInfo>(){
 			@Override
-			protected ItemInfo fetch() {
+			protected ItemInfo fetch()  {
 				try {
 					return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
 							getString("type"), new Double(getDouble("min")), df.parse(getString("start_reg")), df.parse(getString("finish_reg")), df.parse(getString("start_auc")), df.parse(getString("finish_auc")),
-							getInt("state"), getString("delivery"), getString("category"));
+							getInt("state"), getString("delivery") != null ? df.parse(getString("delivery")) : null, getString("category"));
 				} catch (ParseException e) {
-					return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
-							getString("type"), new Double(getDouble("min")), null, null, null, null,
-							getInt("state"), getString("delivery"), getString("category"));
+					try {
+						return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
+								getString("type"), new Double(getDouble("min")), null, null, null, null,
+								getInt("state"), getString("delivery") != null ? df.parse(getString("delivery")) : null, getString("category"));
+					} catch (ParseException e1) {
+						return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
+								getString("type"), new Double(getDouble("min")), null, null, null, null,
+								getInt("state"), null, getString("category"));
+					}
 				}
 			}			
 		});
@@ -184,15 +202,21 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 		
 		return q.list(new Fetcher<ItemInfo>(){
 			@Override
-			protected ItemInfo fetch() {
+			protected ItemInfo fetch()  {
 				try {
 					return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
 							getString("type"), new Double(getDouble("min")), df.parse(getString("start_reg")), df.parse(getString("finish_reg")), df.parse(getString("start_auc")), df.parse(getString("finish_auc")),
-							getInt("state"), getString("delivery"), getString("category"));
+							getInt("state"), getString("delivery") != null ? df.parse(getString("delivery")) : null, getString("category"));
 				} catch (ParseException e) {
-					return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
-							getString("type"), new Double(getDouble("min")), null, null, null, null,
-							getInt("state"), getString("delivery"), getString("category"));
+					try {
+						return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
+								getString("type"), new Double(getDouble("min")), null, null, null, null,
+								getInt("state"), getString("delivery") != null ? df.parse(getString("delivery")) : null, getString("category"));
+					} catch (ParseException e1) {
+						return new ItemInfo(getInt("id"), getInt("seller"), getString("name"), getString("description"), getString("photo"), getDouble("start_bid"), 
+								getString("type"), new Double(getDouble("min")), null, null, null, null,
+								getInt("state"), null, getString("category"));
+					}
 				}
 			}			
 		});

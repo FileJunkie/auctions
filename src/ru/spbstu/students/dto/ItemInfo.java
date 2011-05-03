@@ -20,7 +20,7 @@ public class ItemInfo {
 	private Date startAuc;
 	private Date finishAuc;
 	private int state;
-	private String delivery;
+	private Date delivery;
 	private String category;
 	private int id;
 	private File image;
@@ -28,7 +28,7 @@ public class ItemInfo {
 	public ItemInfo(int id, int seller, String name, String description, String photo,
 			double startBid, String type, Double min, Date startReg,
 			Date finishReg, Date startAuc, Date finishAuc, int state,
-			String delivery, String category) {
+			Date delivery, String category) {
 		this.id = id;
 		this.seller = seller;
 		this.name = name;
@@ -156,11 +156,11 @@ public class ItemInfo {
 		this.state = state;
 	}
 
-	public String getDelivery() {
+	public Date getDelivery() {
 		return delivery;
 	}
 
-	public void setDelivery(String delivery) {
+	public void setDelivery(Date delivery) {
 		this.delivery = delivery;
 	}
 
