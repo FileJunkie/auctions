@@ -6,9 +6,9 @@ import java.util.List;
 
 public enum UserCategories {
 	
-	Lite("Lite",1),
+	VIP("Vip",1),
     Full("Full",2),
-    VIP("VIP",3);
+    Lite("Lite",3);
 	
 	private String label;
 	private int key;

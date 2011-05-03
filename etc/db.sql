@@ -6,9 +6,9 @@ CREATE TABLE u_categories(
 	name TEXT NOT NULL
 );
 
-INSERT INTO u_categories(name) VALUES("Lite");
-INSERT INTO u_categories(name) VALUES("Full");
 INSERT INTO u_categories(name) VALUES("VIP");
+INSERT INTO u_categories(name) VALUES("Full");
+INSERT INTO u_categories(name) VALUES("Lite");
 
 CREATE TABLE u_types(
 	id INTEGER PRIMARY KEY ASC,
