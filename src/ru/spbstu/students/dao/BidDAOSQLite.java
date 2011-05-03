@@ -4,16 +4,23 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.List;
 
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
 import ru.spbstu.students.dao.querysupport.QuerySupport;
 import ru.spbstu.students.dto.BidInfo;
 import ru.spbstu.students.dto.ItemInfo;
 
-public class BidDAOSQLite extends QuerySupport implements BidDAO {
+public class BidDAOSQLite extends QuerySupport implements BidDAO, ApplicationContextAware {
 
 	private static final DateFormat df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL);
-	
-	public String addBid(BidInfo bid) {		
-		ItemInfo item = (new ItemDAOSQLite()).getItem(bid.getItemID());
+	private ApplicationContext context;
+
+	public String addBid(BidInfo bid) {	
+		
+		ItemDAO itemDao = (ItemDAO) context.getBean("itemDao");
+		ItemInfo item = itemDao.getItem(bid.getItemID());
 		double step = item.getStartBid() * 0.05; // 5% shall be the minimal step
 		
 		if(item.getType().equals("English")){
@@ -87,6 +94,10 @@ public class BidDAOSQLite extends QuerySupport implements BidDAO {
 	public void removeBid(int bidID) {
 		Query q = new Query("DELETE FROM bids ").append(where(eq("id", bidID)));
 		q.execute();
+	}
+
+	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
+		context = arg0;
 	}
 
 }

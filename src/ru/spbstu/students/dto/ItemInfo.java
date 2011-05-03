@@ -160,8 +160,11 @@ public class ItemInfo {
 		return delivery;
 	}
 
-	public void setDelivery(Date delivery) {
-		this.delivery = delivery;
+	public void setDelivery(String delivery) {
+		List<Integer> args = parseStringTokenizer(delivery);
+		Calendar c = Calendar.getInstance();
+		c.set(args.get(0), args.get(1)-1, args.get(2), args.get(3), args.get(4), args.get(5));
+		this.delivery = c.getTime();
 	}
 
 	public String getCategory() {
