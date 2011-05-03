@@ -2,6 +2,7 @@ package ru.spbstu.students.web.actions;
 
 import java.util.Map;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.apache.struts2.interceptor.SessionAware;
 
 import ru.spbstu.students.dao.UserDAO;
@@ -40,6 +41,7 @@ public class UserAction extends BaseAction implements SessionAware, ModelDriven<
 		try {
 			String result = userDao.loginUser(user);
 			if (result.equals("success")) {
+				PropertyConfigurator.configure("log4j.properties");
 				session.put ( "email", user.getEmail()); 
 				if (userDao.isAdmin(user.getEmail())) {
 					session.put ( "admin", true);

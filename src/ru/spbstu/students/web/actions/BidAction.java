@@ -3,17 +3,24 @@ package ru.spbstu.students.web.actions;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.SessionAware;
 
 import ru.spbstu.students.dao.BidDAO;
 import ru.spbstu.students.dao.UserDAO;
 import ru.spbstu.students.dto.BidInfo;
+import ru.spbstu.students.util.PriorityThread;
+import ru.spbstu.students.web.PriorityAddBid;
+import ru.spbstu.students.web.PriorityGetBidList;
+import ru.spbstu.students.web.UserCategories;
 
 import com.opensymphony.xwork2.ModelDriven;
 
 public class BidAction extends BaseAction implements SessionAware, ModelDriven<BidInfo>  {
 
+	private static final Logger log = Logger.getLogger(BidAction.class);
 
 	private static final long serialVersionUID = -5972555139531303599L;
 	private BidInfo bid = new BidInfo();
@@ -29,22 +36,79 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 		int userId = userDao.getUser((String)session.get("email")).getId();
 		bid.setUserID(userId);
 		bid.setTime(new Date());
-		if(!bidDao.addBid(bid).equals("success")){
-			return ERROR;
+		
+		//int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		
+		//log.info("Start  addBid transaction. Request ID: " + requestId + "User ID: " + userId + "Item ID: " + bid.getItemID());
+		
+		PriorityAddBid addBid = new PriorityAddBid();
+		addBid.setBid(bid);
+		addBid.setBidDao(bidDao);
+		addBid.setUserType(UserCategories.getKeyByLabel(userDao.getUser((String)session.get("email")).getCategory()));
+		
+		boolean isFind = false;
+		String result = null;
+		PriorityThread.addQueue.add(addBid);
+		while (true) {
+			for (PriorityAddBid b : PriorityThread.resQueue) {
+				if ((b.getBid().getUserID() == userId) && (b.getBid().getItemID() == bid.getItemID()) && b.getResult() != null) {
+					isFind = true;
+					result = b.getResult();
+					PriorityThread.resQueue.remove(b);
+					break;
+				}
+			}
+			if (isFind)
+				break;
 		}
 		
+		if(!result.equals("success")){
+			//log.info("Finish addBid transaction, request ID: " + requestId);
+			return ERROR;
+		}
+		//log.info("Finish addBid transaction, request ID: " + requestId);
 		return SUCCESS;
 	}
 	
-	public String getBids(){		
-		int itemId = (Integer) session.get("itemId");		
+	public String getBids(){	
+		
+		if (!session.containsKey("email"))
+			return ERROR;
+		
+		int itemId = (Integer) session.get("itemId");	
+		int userId = userDao.getUser((String)session.get("email")).getId();
+		
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		log.info("Start  getBid transaction. Request ID: " + requestId + ", User ID: " + userId + ", Item ID: " + itemId);
+		
 		try{
-			bidList = bidDao.getBids(itemId);
+			PriorityGetBidList bid = new PriorityGetBidList();
+			bid.setEmail((String)session.get("email"));
+			bid.setItemId(itemId);
+			bid.setUserType(UserCategories.getKeyByLabel(userDao.getUser((String)session.get("email")).getCategory()));
+			bid.setBidDao(bidDao);
+
+			boolean isFind = false;
+			PriorityThread.inQueue.add(bid);
+			while (true) {
+				for (PriorityGetBidList b : PriorityThread.outQueue) {
+					if (b.getEmail().equals((String) session.get("email"))
+							&& (b.getItemId() == itemId) && (b.getBidList() != null)) {
+						isFind = true;
+						bidList = b.getBidList();
+						PriorityThread.outQueue.remove(b);
+						break;
+					}
+				}
+				if (isFind)
+					break;
+			}
 		}
 		catch(Exception e){
+			log.info("Finish getBid transaction, Request ID: " + requestId);
 			return ERROR;
 		}
-		
+		log.info("Finish getBid transaction, Request ID: " + requestId);
 		return SUCCESS;
 	}
 	

@@ -10,7 +10,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 
-import ru.spbstu.students.dao.BidDAO;
 import ru.spbstu.students.dao.ItemCategoriesDAO;
 import ru.spbstu.students.dao.ItemDAO;
 import ru.spbstu.students.dao.RegisterDAO;
@@ -29,7 +28,6 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 	private ItemDAO itemDao;
 	private ItemCategoriesDAO itemCategories;
 	private UserDAO userDao;
-	private BidDAO bidDao;
 	private List<BidInfo> bidList;
 	private List<String> categoryList;
 	private List<ItemInfo> itemList;
@@ -107,7 +105,6 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		item = itemDao.getItem(id);
 		if (item != null) {
 			int userId = userDao.getUser((String)session.get("email")).getId();
-			bidList = bidDao.getBids(id);
 			if (registerDao.getItems(userId).contains(id))
 				session.put("isRegistered", true);
 			else 
@@ -268,10 +265,6 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 
 	public void setRegisterDao(RegisterDAO registerDao) {
 		this.registerDao = registerDao;
-	}
-	
-	public void setBidDao(BidDAO bidDao) {
-		this.bidDao = bidDao;
 	}
 
 	public List<BidInfo> getBidList() {
