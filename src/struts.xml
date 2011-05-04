@@ -179,5 +179,10 @@
 			<result name="success">/jsp/item.jsp</result>
 			<result name="error">/jsp/error.jsp</result>
 		</action>
+		
+		<action name="newAutobid" method="autoBid" class="ru.spbstu.students.web.actions.BidAction">
+			<result name="success" type="redirect">detailItem</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
 	</package>
 </struts>

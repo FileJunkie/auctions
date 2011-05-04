@@ -13,6 +13,8 @@ public class AutobidInfo {
 		this.step = step;
 	}
 
+	public AutobidInfo() {}
+
 	public int getUser() {
 		return user;
 	}

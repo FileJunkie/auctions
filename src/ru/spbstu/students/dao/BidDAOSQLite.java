@@ -2,6 +2,7 @@ package ru.spbstu.students.dao;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeansException;
@@ -9,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import ru.spbstu.students.dao.querysupport.QuerySupport;
+import ru.spbstu.students.dto.AutobidInfo;
 import ru.spbstu.students.dto.BidInfo;
 import ru.spbstu.students.dto.ItemInfo;
 
@@ -114,5 +116,25 @@ public class BidDAOSQLite extends QuerySupport implements BidDAO, ApplicationCon
 	
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 		context = arg0;
+	}
+
+	public void refreshBids(int itemID) {
+		AutobidsDAO autobidDao = (AutobidsDAO) context.getBean("autobidDao");
+		List<AutobidInfo> autobidList = autobidDao.getAutobidList(itemID);
+		BidInfo bid = new BidInfo();
+		List<BidInfo> bidList;
+		boolean isAdd = false;
+		for (AutobidInfo ab : autobidList) {
+			bidList = this.getBids(itemID);
+			bid = bidList.get(bidList.size()-1);
+			if ((bid.getUserID() != ab.getUser()) && (ab.getMax() <= bid.getAmount() * 1.05)) {
+				this.addBid(new BidInfo(itemID, ab.getUser(), bid.getAmount() * 1.05, new Date()));
+				isAdd = true;
+			}
+		}
+		if (isAdd) {
+			refreshBids(itemID);
+			isAdd = false;
+		}
 	}
 }

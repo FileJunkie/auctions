@@ -10,4 +10,5 @@ public interface BidDAO {
 	public List<BidInfo> getBids(int itemID);
 	public void dutchBuy(int itemID, int userID);
 	public void endAuction(int itemID);
+	public void refreshBids(int itemID);
 }

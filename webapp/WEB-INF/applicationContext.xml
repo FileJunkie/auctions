@@ -47,6 +47,9 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
     
+    <bean id="autobidDao" class="ru.spbstu.students.dao.AutobidsDAOSQLite">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 </beans>
 
 
