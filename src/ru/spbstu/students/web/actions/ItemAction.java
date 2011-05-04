@@ -32,6 +32,7 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 	private List<String> categoryList;
 	private List<ItemInfo> itemList;
 	private RegisterDAO registerDao;
+	private String winner;
 	
 	public String addItem() {
 		if (!session.containsKey("email"))
@@ -86,11 +87,33 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		if (!session.containsKey("email"))
 			return ERROR;
 		
+		int id = 0;
+		try {
+			HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
+			id = Integer.parseInt(request.getParameter("itemId"));
+			session.put("itemId", id);
+		} catch (Exception e) {
+			id = (Integer) session.get("itemId");
+		}
+		
+		item = itemDao.getItem(id);
+		if (item != null) {
+			return SUCCESS;
+		} else {
+			return ERROR;
+		}
+	}
+	
+	public String updateDetails() {
+		if (!session.containsKey("email"))
+			return ERROR;
+		
 		if (session.containsKey("startAuc")) {
 			session.remove("startAuc");
 			session.remove("finishAuc");
 			session.remove("startReg");
 			session.remove("finishReg");
+			session.remove("aucState");
 		}
 		
 		int id = 0;
@@ -113,6 +136,12 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 			session.put("finishAuc", item.getFinishAuc());
 			session.put("startReg", item.getStartReg());
 			session.put("finishReg", item.getFinishReg());
+			session.put("aucState", item.getState());
+			
+			if (item.getState() == 2) {
+				winner = userDao.getUser(itemDao.getWinner(id)).getEmail();
+			}
+			
 			return SUCCESS;
 		} else {
 			return ERROR;
@@ -273,5 +302,9 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 
 	public void setBidList(List<BidInfo> bidList) {
 		this.bidList = bidList;
+	}
+
+	public String getWinner() {
+		return winner;
 	}
 }

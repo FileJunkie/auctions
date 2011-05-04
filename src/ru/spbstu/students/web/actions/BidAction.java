@@ -9,8 +9,10 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.SessionAware;
 
 import ru.spbstu.students.dao.BidDAO;
+import ru.spbstu.students.dao.ItemDAO;
 import ru.spbstu.students.dao.UserDAO;
 import ru.spbstu.students.dto.BidInfo;
+import ru.spbstu.students.dto.ItemInfo;
 import ru.spbstu.students.util.PriorityThread;
 import ru.spbstu.students.web.PriorityAddBid;
 import ru.spbstu.students.web.PriorityGetBidList;
@@ -27,7 +29,10 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 	private Map<String, Object> session; 
 	private BidDAO bidDao;
 	private List<BidInfo> bidList;
+	private String aucType;
 	private UserDAO userDao;
+	private ItemDAO itemDao;
+	private double lastBid;
 	
 	public String bid(){
 		if (!session.containsKey("email"))
@@ -75,9 +80,8 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 		if (!session.containsKey("email"))
 			return ERROR;
 		
-		int itemId = (Integer) session.get("itemId");	
+		int itemId = (Integer) session.get("itemId");
 		int userId = userDao.getUser((String)session.get("email")).getId();
-		
 		int requestId = new Random().nextInt(Integer.MAX_VALUE);
 		log.info("Start  getBid transaction. Request ID: " + requestId + ", User ID: " + userId + ", Item ID: " + itemId);
 		
@@ -108,7 +112,26 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 			log.info("Finish getBid transaction, Request ID: " + requestId);
 			return ERROR;
 		}
+		aucType = itemDao.getItem(itemId).getType();
+		if (!bidList.isEmpty()) {
+			lastBid = bidList.get(bidList.size()-1).getAmount();
+		}
 		log.info("Finish getBid transaction, Request ID: " + requestId);
+		return SUCCESS;
+	}
+	
+	public String buyItemDutch(){
+
+		if (!session.containsKey("email"))
+			return ERROR;
+		
+		int itemId = (Integer) session.get("itemId");
+		int userId = userDao.getUser((String)session.get("email")).getId();
+		try {
+			bidDao.dutchBuy(itemId, userId);
+		} catch (Exception e) {
+			return ERROR;
+		}
 		return SUCCESS;
 	}
 	
@@ -142,6 +165,22 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 
 	public void setBid(BidInfo bid) {
 		this.bid = bid;
+	}
+
+	public String getAucType() {
+		return aucType;
+	}
+
+	public void setAucType(String aucType) {
+		this.aucType = aucType;
+	}
+
+	public void setItemDao(ItemDAO itemDao) {
+		this.itemDao = itemDao;
+	}
+
+	public double getLastBid() {
+		return lastBid;
 	}		
 
 }

@@ -169,5 +169,15 @@
 			<result name="success">/jsp/bids.jsp</result>
 			<result name="error">/jsp/error.jsp</result>
 		</action>
+		
+		<action name="agree" method="buyItemDutch" class="ru.spbstu.students.web.actions.BidAction">
+			<result name="success" type="redirect">detailItem</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
+		<action name="updateItemInfo" method="updateDetails" class="ru.spbstu.students.web.actions.ItemAction">
+			<result name="success">/jsp/item.jsp</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
 	</package>
 </struts>
