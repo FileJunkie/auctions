@@ -64,18 +64,25 @@
 		<%}
 		}%>
 							
-		<s:if test="%{item.type == English}">
+		<s:if test="%{item.type == 'English'}">
 			<% if (seller == null) {
 				if ((startAuc.compareTo(cal.getTime()) < 0) && (finishAuc.compareTo(cal.getTime()) > 0) && (isRegestered != null) && isRegestered) { %>
 				<tr>
 					<td colspan="2" align="center">
-					<table cellpadding="5px">
 						<s:form id="addBid" action="newBid">
 							<s:hidden name="itemID" value="%{item.id}" />
 								Сделать ставку: <s:textfield name="amount" />
 								<s:submit value="Поставить"/>
 						</s:form>
-					</table>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+							<s:form id="addAutobid" action="newAutobid">
+								<s:hidden name="item" value="%{item.id}" />
+								Максимальное значение для автоставки: <s:textfield name="max" />
+								<s:submit value="Сделать автоставку"/>
+							</s:form>
 					</td>
 				</tr>
 				<%}
@@ -93,17 +100,6 @@
 							<s:hidden name="itemID" value="%{item.id}" />
 							Сделать ставку: <s:textfield name="amount" />
 							<s:submit value="Поставить"/>
-						</s:form>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<table cellpadding="5px">
-						<s:form id="addAutobid" action="newAutobid">
-							<s:hidden name="item" value="%{item.id}" />
-							Максимальное значение для автоставки: <s:textfield name="max" />
-							<s:submit value="Сделать автоставку"/>
 						</s:form>
 					</table>
 				</td>

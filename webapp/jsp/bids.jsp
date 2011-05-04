@@ -3,7 +3,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 <s:if test="%{bidList.size() > 0}">
-	<s:if test="%{aucType} == English">
+	<s:if test="%{aucType == 'English'}">
 	<table cellpadding="5px">
 		<s:iterator value="bidList" status="stat">
 			<tr>
