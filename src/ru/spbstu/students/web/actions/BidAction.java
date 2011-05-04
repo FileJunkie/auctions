@@ -41,9 +41,9 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 		bid.setUserID(userId);
 		bid.setTime(new Date());
 		
-		//int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
 		
-		//log.info("Start  addBid transaction. Request ID: " + requestId + "User ID: " + userId + "Item ID: " + bid.getItemID());
+		log.info("Start  addBid transaction. Request ID: " + requestId + "User ID: " + userId + "Item ID: " + bid.getItemID() + "User category: " + userDao.getUser(userId).getCategory());
 		
 		PriorityAddBid addBid = new PriorityAddBid();
 		addBid.setBid(bid);
@@ -69,10 +69,10 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 		bidDao.refreshBids(bid.getItemID());
 		
 		if(!result.equals("success")){
-			//log.info("Finish addBid transaction, request ID: " + requestId);
+			log.info("Finish addBid transaction, request ID: " + requestId);
 			return ERROR;
 		}
-		//log.info("Finish addBid transaction, request ID: " + requestId);
+		log.info("Finish addBid transaction, request ID: " + requestId);
 		return SUCCESS;
 	}
 	
@@ -84,7 +84,7 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 		int itemId = (Integer) session.get("itemId");
 		int userId = userDao.getUser((String)session.get("email")).getId();
 		int requestId = new Random().nextInt(Integer.MAX_VALUE);
-		log.info("Start  getBid transaction. Request ID: " + requestId + ", User ID: " + userId + ", Item ID: " + itemId);
+		log.info("Start  getBid transaction. Request ID: " + requestId + ", User ID: " + userId + ", Item ID: " + itemId + "User category: " + userDao.getUser(userId).getCategory());
 		
 		try{
 			PriorityGetBidList bid = new PriorityGetBidList();
@@ -128,11 +128,15 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 		
 		int itemId = (Integer) session.get("itemId");
 		int userId = userDao.getUser((String)session.get("email")).getId();
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		log.info("Start  buyItemDutch transaction. Request ID: " + requestId + ", User ID: " + userId + ", Item ID: " + itemId + "User category: " + userDao.getUser(userId).getCategory());
 		try {
-			bidDao.dutchBuy(itemId, userId);
+			bidDao.dutchBuy(itemId, userId);			
 		} catch (Exception e) {
+			log.info("Finish buyItemDutch transaction, Request ID: " + requestId);
 			return ERROR;
 		}
+		log.info("Finish buyItemDutch transaction, Request ID: " + requestId);
 		return SUCCESS;
 	}
 	

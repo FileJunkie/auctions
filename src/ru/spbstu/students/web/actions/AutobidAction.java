@@ -3,6 +3,7 @@ package ru.spbstu.students.web.actions;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.SessionAware;
@@ -38,6 +39,10 @@ public class AutobidAction extends BaseAction implements SessionAware, ModelDriv
 		int userId = userDao.getUser((String)session.get("email")).getId();
 		ItemInfo item = itemDao.getItem(autobid.getItem());
 		double step = item.getStartBid() * 0.05;
+
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		
+		log.info("Start  autoBid transaction. Request ID: " + requestId + "User ID: " + userId + "Item ID: " + item.getId() + "User category: " + userDao.getUser(userId).getCategory());
 		
 		autobid.setUser(userId);
 		autobid.setStep(step);
@@ -58,8 +63,10 @@ public class AutobidAction extends BaseAction implements SessionAware, ModelDriv
 			bidDao.refreshBids(autobid.getItem());
 			
 		} catch (Exception e) {
+			log.info("Finish autoBid transaction, request ID: " + requestId);
 			return ERROR;
 		}
+		log.info("Finish autoBid transaction, request ID: " + requestId);
 		return SUCCESS;
 	}
 	

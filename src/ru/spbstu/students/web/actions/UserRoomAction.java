@@ -16,7 +16,7 @@ import ru.spbstu.students.dto.ItemInfo;
 import ru.spbstu.students.dto.UserInfo;
 
 public class UserRoomAction extends BaseAction implements SessionAware{
-	
+
 	private static final long serialVersionUID = 7223787251407889941L;
 	private Map<String, Object> session;
 	private UserDAO userDao;

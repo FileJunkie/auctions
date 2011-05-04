@@ -3,10 +3,12 @@ package ru.spbstu.students.web.actions;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -21,6 +23,8 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 
 public class ItemAction extends BaseAction implements SessionAware, ModelDriven<ItemInfo> {
+	
+	private static final Logger log = Logger.getLogger(ItemAction.class);
 	
 	private static final long serialVersionUID = 9214786442552920670L;
 	private ItemInfo item = new ItemInfo();
@@ -37,7 +41,14 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 	public String addItem() {
 		if (!session.containsKey("email"))
 			return ERROR;
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		
+		log.info("Start  addItem transaction. Request ID: " + requestId + "User ID: " + userDao.getUser((String)session.get("email")).getId() + "User category: " + userDao.getUser(userDao.getUser((String)session.get("email")).getId()).getCategory());
+		
 		categoryList = itemCategories.getCategoriesName();
+		
+		log.info("Finish addItem transaction, request ID: " + requestId);
+		
 		return SUCCESS;
 	}
 	
@@ -45,6 +56,10 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		
 		if (!session.containsKey("email"))
 			return ERROR;
+		
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		
+		log.info("Start  insertItem transaction. Request ID: " + requestId + "User ID: " + userDao.getUser((String)session.get("email")).getId() + "User category: " + userDao.getUser(userDao.getUser((String)session.get("email")).getId()).getCategory());
 		
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		String pathToPhoto = new String();
@@ -63,9 +78,11 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 			item.setCategory(itemCategories.getCategory(item.getCategory()).toString());
 			item.setState(1);
 			itemDao.addItem(item);
+			log.info("Finish insertItem transaction, request ID: " + requestId);
 			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.info("Finish insertItem transaction, request ID: " + requestId);
 			return ERROR;
 		}
 	}
@@ -74,11 +91,17 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		
 		if (!session.containsKey("email"))
 			return ERROR;
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		
+		log.info("Start  getItemsList transaction. Request ID: " + requestId + "User ID: " + userDao.getUser((String)session.get("email")).getId() + "User category: " + userDao.getUser(userDao.getUser((String)session.get("email")).getId()).getCategory());
+		
 		try {
 			itemList = itemDao.getItems();
+			log.info("Finish getItemsList transaction, request ID: " + requestId);
 			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.info("Finish getItemsList transaction, request ID: " + requestId);
 			return ERROR;
 		}	
 	}
@@ -86,6 +109,10 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 	public String detailsItem() {
 		if (!session.containsKey("email"))
 			return ERROR;
+		
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		
+		log.info("Start  detailsItem transaction. Request ID: " + requestId + "User ID: " + userDao.getUser((String)session.get("email")).getId() + "User category: " + userDao.getUser(userDao.getUser((String)session.get("email")).getId()).getCategory());
 		
 		int id = 0;
 		try {
@@ -97,6 +124,7 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		}
 		
 		item = itemDao.getItem(id);
+		log.info("Finish detailsItem transaction, request ID: " + requestId);
 		if (item != null) {
 			return SUCCESS;
 		} else {
@@ -107,6 +135,10 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 	public String updateDetails() {
 		if (!session.containsKey("email"))
 			return ERROR;
+		
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		
+		log.info("Start  updateDetails transaction. Request ID: " + requestId + "User ID: " + userDao.getUser((String)session.get("email")).getId() + "User category: " + userDao.getUser(userDao.getUser((String)session.get("email")).getId()).getCategory());
 		
 		if (session.containsKey("startAuc")) {
 			session.remove("startAuc");
@@ -141,9 +173,10 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 			if (item.getState() == 2) {
 				winner = userDao.getUser(itemDao.getWinner(id)).getEmail();
 			}
-			
+			log.info("Finish updateDetails transaction, request ID: " + requestId);
 			return SUCCESS;
 		} else {
+			log.info("Finish updateDetails transaction, request ID: " + requestId);
 			return ERROR;
 		}
 	}
@@ -154,18 +187,26 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 			return ERROR;
 		
 		int userId = userDao.getUser((String)session.get("email")).getId();
+		
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		
+		log.info("Start  editItemInfo transaction. Request ID: " + requestId + "User ID: " + userId + "User category: " + userDao.getUser(userDao.getUser((String)session.get("email")).getId()).getCategory());
+		
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		int itemId = Integer.parseInt(request.getParameter("itemId"));
 		item = itemDao.getItem(itemId);
 		if (item.getSeller() != userId) {
+			log.info("Finish editItemInfo transaction, request ID: " + requestId);
 			return ERROR;
 		}
 		
 		if (item != null) {
 			session.put ( "editItemId", itemId); 
 			categoryList = itemCategories.getCategoriesName();
+			log.info("Finish editItemInfo transaction, request ID: " + requestId);
 			return SUCCESS;
 		} else {
+			log.info("Finish editItemInfo transaction, request ID: " + requestId);
 			return ERROR;
 		}
 	}
@@ -173,6 +214,10 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 	public String updateItemInfo() {
 		if (!session.containsKey("email"))
 			return ERROR;
+		
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		
+		log.info("Start  updateItemInfo transaction. Request ID: " + requestId + "User ID: " + userDao.getUser((String)session.get("email")).getId() + "User category: " + userDao.getUser(userDao.getUser((String)session.get("email")).getId()).getCategory());
 		
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		String pathToPhoto = new String();
@@ -193,9 +238,11 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 			Integer id = (Integer) session.get("editItemId");
 			session.remove("editItemId");
 			itemDao.editItem(id, item);
+			log.info("Finish updateItemInfo transaction, request ID: " + requestId);
 			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
+			log.info("Finish updateItemInfo transaction, request ID: " + requestId);
 			return ERROR;
 		}
 	}
@@ -204,11 +251,16 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		if (!session.containsKey("email"))
 			return ERROR;
 		
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		
+		log.info("Start  removeItem transaction. Request ID: " + requestId + "User ID: " + userDao.getUser((String)session.get("email")).getId() + "User category: " + userDao.getUser(userDao.getUser((String)session.get("email")).getId()).getCategory());
+		
 		int userId = userDao.getUser((String)session.get("email")).getId();
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		int itemId = Integer.parseInt(request.getParameter("itemId"));
 		item = itemDao.getItem(itemId);
 		if (item.getSeller() != userId) {
+			log.info("Finish removeItem transaction, request ID: " + requestId);
 			return ERROR;
 		}
 		
@@ -217,10 +269,12 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
             File fileToDel = new File(filePath + item.getPhoto());
             FileUtils.forceDelete(fileToDel);
             itemDao.removeItem(itemId);
+            log.info("Finish removeItem transaction, request ID: " + requestId);
             return SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
             addActionError(e.getMessage());
+            log.info("Finish removeItem transaction, request ID: " + requestId);
             return ERROR;
         }	
 	}
@@ -229,13 +283,18 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		if (!session.containsKey("email"))
 			return ERROR;
 		
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		
+		log.info("Start  registerIn transaction. Request ID: " + requestId + "User ID: " + userDao.getUser((String)session.get("email")).getId() + "User category: " + userDao.getUser(userDao.getUser((String)session.get("email")).getId()).getCategory());
+		
 		int userId = userDao.getUser((String)session.get("email")).getId();
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		int itemId = Integer.parseInt(request.getParameter("itemId"));
 		if(!itemDao.registerIn(itemId, userId)){
+			log.info("Finish registerIn transaction, request ID: " + requestId);
 			return ERROR;
 		}
-		
+		log.info("Finish registerIn transaction, request ID: " + requestId);
 		return SUCCESS;
 	}
 	
@@ -243,12 +302,16 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		if (!session.containsKey("email"))
 			return ERROR;
 		
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		
+		log.info("Start  unregisterIn transaction. Request ID: " + requestId + "User ID: " + userDao.getUser((String)session.get("email")).getId() + "User category: " + userDao.getUser(userDao.getUser((String)session.get("email")).getId()).getCategory());
+		
 		int userId = userDao.getUser((String)session.get("email")).getId();
 		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
 		int itemId = Integer.parseInt(request.getParameter("itemId"));
 		
 		itemDao.unregisterIn(itemId, userId);
-		
+		log.info("Finish unregisterIn transaction, request ID: " + requestId);
 		return SUCCESS;
 	}
 	
