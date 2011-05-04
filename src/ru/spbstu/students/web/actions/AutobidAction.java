@@ -48,10 +48,10 @@ public class AutobidAction extends BaseAction implements SessionAware, ModelDriv
 			BidInfo bid;
 			if (!bidList.isEmpty()) {
 				bid = bidList.get(bidList.size()-1);
-				if (bid.getUserID() != userId) {
+				if ((bid.getUserID() != userId) && (autobid.getMax() <= bid.getAmount() * 1.05)) {
 					bidDao.addBid(new BidInfo(autobid.getItem(), userId, bid.getAmount() * 1.05, new Date()));
 				}
-			} else {
+			} else if (autobid.getMax() <= item.getStartBid() * 1.05){
 				bidDao.addBid(new BidInfo(autobid.getItem(), userId, item.getStartBid() * 1.05, new Date()));
 			}
 			

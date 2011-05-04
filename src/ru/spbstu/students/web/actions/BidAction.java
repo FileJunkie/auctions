@@ -8,11 +8,9 @@ import java.util.Random;
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.SessionAware;
 
-import ru.spbstu.students.dao.AutobidsDAO;
 import ru.spbstu.students.dao.BidDAO;
 import ru.spbstu.students.dao.ItemDAO;
 import ru.spbstu.students.dao.UserDAO;
-import ru.spbstu.students.dto.AutobidInfo;
 import ru.spbstu.students.dto.BidInfo;
 import ru.spbstu.students.util.PriorityThread;
 import ru.spbstu.students.web.PriorityAddBid;
@@ -34,7 +32,6 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 	private UserDAO userDao;
 	private ItemDAO itemDao;
 	private double lastBid;
-	private AutobidsDAO autobidDao;
 	
 	public String bid(){
 		if (!session.containsKey("email"))
@@ -67,12 +64,9 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 			}
 			if (isFind)
 				break;
-		}
-		
-		List<AutobidInfo> autobidList = autobidDao.getAutobidList(bid.getItemID());
-		if (!autobidList.isEmpty()) {
-			bidDao.refreshBids(bid.getItemID());
-		}
+		}		
+
+		bidDao.refreshBids(bid.getItemID());
 		
 		if(!result.equals("success")){
 			//log.info("Finish addBid transaction, request ID: " + requestId);
