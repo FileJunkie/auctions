@@ -7,7 +7,7 @@
 	<table cellpadding="5px">
 		<s:iterator value="bidList" status="stat">
 			<tr>
-				<td><s:property value="userID" /></td>
+				<td><s:property value="user" /></td>
 				<td><s:property value="amount" /></td>
 				<td>${time}</td>
 			</tr>

@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import ru.spbstu.students.dto.UserInfo;
 
@@ -52,5 +54,11 @@ public class Util {
 		} else {
 			return false;
 		}
+	}
+	
+	public static double format(double num, int col) {
+		NumberFormat aFormat = NumberFormat.getNumberInstance(Locale.UK);
+		aFormat.setMaximumFractionDigits(col);
+		return Double.parseDouble(aFormat.format(num));
 	}
 }

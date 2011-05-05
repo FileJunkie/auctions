@@ -38,7 +38,8 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 			return ERROR;
 		
 		int userId = userDao.getUser((String)session.get("email")).getId();
-		bid.setUserID(userId);
+		String email = (String)session.get("email");
+		bid.setUser(email);
 		bid.setTime(new Date());
 		
 		int requestId = new Random().nextInt(Integer.MAX_VALUE);
@@ -55,7 +56,7 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 		PriorityThread.addQueue.add(addBid);
 		while (true) {
 			for (PriorityAddBid b : PriorityThread.resQueue) {
-				if ((b.getBid().getUserID() == userId) && (b.getBid().getItemID() == bid.getItemID()) && b.getResult() != null) {
+				if ((b.getBid().getUser().equals(email)) && (b.getBid().getItemID() == bid.getItemID()) && b.getResult() != null) {
 					isFind = true;
 					result = b.getResult();
 					PriorityThread.resQueue.remove(b);

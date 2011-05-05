@@ -7,8 +7,9 @@
 
 $(document).ready(function(){
 	setInterval("$('#bids').load('getBids');",1000); // По умолчанию время обновления 1 секунда.
-	
-	$('#detailsItem').load('updateItemInfo'); // По умолчанию время обновления 1 секунда.
+	setInterval("$('#detailsItem').load('updateItemInfo');",60000);  // По умолчанию время обновления 60 секунд.
+	$('#detailsItem').load('updateItemInfo');
+	$('#bids').load('getBids');
 }); 
 	
 </script>

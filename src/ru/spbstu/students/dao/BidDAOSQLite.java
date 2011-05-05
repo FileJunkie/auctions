@@ -13,6 +13,8 @@ import ru.spbstu.students.dao.querysupport.QuerySupport;
 import ru.spbstu.students.dto.AutobidInfo;
 import ru.spbstu.students.dto.BidInfo;
 import ru.spbstu.students.dto.ItemInfo;
+import ru.spbstu.students.dto.UserInfo;
+import ru.spbstu.students.util.Util;
 
 public class BidDAOSQLite extends QuerySupport implements BidDAO, ApplicationContextAware {
 
@@ -69,25 +71,26 @@ public class BidDAOSQLite extends QuerySupport implements BidDAO, ApplicationCon
 		
 		Query q = new Query("INSERT INTO bids(item, user, time, amount) VALUES(")
 			.append(bid.getItemID() + ",")
-			.append(bid.getUserID() + ",")
+			.append("'" + bid.getUser() + "',")
 			.append("'" + df.format(bid.getTime()) + "',")
-			.append(bid.getAmount() + ")");
+			.append(Util.format(bid.getAmount(), 2) + ")");
 		q.execute();
 		
 		return "success";
 	}
 
 	public List<BidInfo> getBids(int itemID) {
-		Query q = new Query("SELECT * FROM bids ")
+		Query q = new Query("SELECT b.item as item, u.email as user, b.amount as amount, b.time as time " +
+				" FROM bids b join users u on b.user = u.email ")
 			.append(where(eq("item", itemID)));
 		
 		return q.list(new Fetcher<BidInfo>(){
 			@Override
 			protected BidInfo fetch() { 				
 				try {
-					return new BidInfo(getInt("item"), getInt("user"), getDouble("amount"), df.parse(getString("time")));
+					return new BidInfo(getInt("item"), getString("user"), getDouble("amount"), df.parse(getString("time")));
 				} catch (ParseException e) {
-					return new BidInfo(getInt("item"), getInt("user"), getDouble("amount"), null);
+					return new BidInfo(getInt("item"), getString("user"), getDouble("amount"), null);
 				}
 			}
 		});
@@ -120,15 +123,18 @@ public class BidDAOSQLite extends QuerySupport implements BidDAO, ApplicationCon
 
 	public void refreshBids(int itemID) {
 		AutobidsDAO autobidDao = (AutobidsDAO) context.getBean("autobidDao");
+		UserDAO userDao = (UserDAO) context.getBean("userDao");
 		List<AutobidInfo> autobidList = autobidDao.getAutobidList(itemID);
 		BidInfo bid = new BidInfo();
 		List<BidInfo> bidList;
+		UserInfo user;
 		boolean isAdd = false;
 		for (AutobidInfo ab : autobidList) {
 			bidList = this.getBids(itemID);
 			bid = bidList.get(bidList.size()-1);
-			if ((bid.getUserID() != ab.getUser()) && (ab.getMax() <= bid.getAmount() * 1.05)) {
-				this.addBid(new BidInfo(itemID, ab.getUser(), bid.getAmount() * 1.05, new Date()));
+			user = userDao.getUser(ab.getUser());
+			if ((!bid.getUser().equals(user.getEmail())) && (ab.getMax() >= bid.getAmount() * 1.05)) {
+				this.addBid(new BidInfo(itemID, user.getEmail(), bid.getAmount() * 1.05, new Date()));
 				isAdd = true;
 			}
 		}

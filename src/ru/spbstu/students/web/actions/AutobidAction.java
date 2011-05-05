@@ -37,6 +37,7 @@ public class AutobidAction extends BaseAction implements SessionAware, ModelDriv
 			return ERROR;
 		
 		int userId = userDao.getUser((String)session.get("email")).getId();
+		String email = (String)session.get("email");
 		ItemInfo item = itemDao.getItem(autobid.getItem());
 		double step = item.getStartBid() * 0.05;
 
@@ -53,11 +54,11 @@ public class AutobidAction extends BaseAction implements SessionAware, ModelDriv
 			BidInfo bid;
 			if (!bidList.isEmpty()) {
 				bid = bidList.get(bidList.size()-1);
-				if ((bid.getUserID() != userId) && (autobid.getMax() <= bid.getAmount() * 1.05)) {
-					bidDao.addBid(new BidInfo(autobid.getItem(), userId, bid.getAmount() * 1.05, new Date()));
+				if ((!bid.getUser().equals(email)) && (autobid.getMax() >= bid.getAmount() * 1.05)) {
+					bidDao.addBid(new BidInfo(autobid.getItem(), email, bid.getAmount() * 1.05, new Date()));
 				}
-			} else if (autobid.getMax() <= item.getStartBid() * 1.05){
-				bidDao.addBid(new BidInfo(autobid.getItem(), userId, item.getStartBid() * 1.05, new Date()));
+			} else if (autobid.getMax() >= item.getStartBid() * 1.05){
+				bidDao.addBid(new BidInfo(autobid.getItem(), email, item.getStartBid() * 1.05, new Date()));
 			}
 			
 			bidDao.refreshBids(autobid.getItem());
