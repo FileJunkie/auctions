@@ -15,6 +15,8 @@ import ru.spbstu.students.dao.UserDAO;
 import ru.spbstu.students.dto.AutobidInfo;
 import ru.spbstu.students.dto.BidInfo;
 import ru.spbstu.students.dto.ItemInfo;
+import ru.spbstu.students.util.CounterThread;
+import ru.spbstu.students.web.UserCategories;
 
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -44,6 +46,7 @@ public class AutobidAction extends BaseAction implements SessionAware, ModelDriv
 		int requestId = new Random().nextInt(Integer.MAX_VALUE);
 		
 		log.info("Start  autoBid transaction. Request ID: " + requestId + "User ID: " + userId + "Item ID: " + item.getId() + "User category: " + userDao.getUser(userId).getCategory());
+		CounterThread.inc(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
 		
 		autobid.setUser(userId);
 		autobid.setStep(step);
@@ -65,9 +68,11 @@ public class AutobidAction extends BaseAction implements SessionAware, ModelDriv
 			
 		} catch (Exception e) {
 			log.info("Finish autoBid transaction, request ID: " + requestId);
+			CounterThread.dec(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
 			return ERROR;
 		}
 		log.info("Finish autoBid transaction, request ID: " + requestId);
+		CounterThread.dec(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
 		return SUCCESS;
 	}
 	

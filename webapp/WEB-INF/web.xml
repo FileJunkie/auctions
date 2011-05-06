@@ -13,6 +13,10 @@
   <listener>
         <listener-class>ru.spbstu.students.util.PriorityThread</listener-class>
    </listener>
+   
+   <listener>
+        <listener-class>ru.spbstu.students.util.CounterThread</listener-class>
+   </listener>
   
   <filter-mapping>
     <filter-name>struts2</filter-name>
