@@ -17,7 +17,6 @@ import com.opensymphony.xwork2.ModelDriven;
 
 public class BlacklistAction extends BaseAction implements SessionAware, ModelDriven<BannedEmail> {
 	
-
 	private static final long serialVersionUID = -223161690140383249L;
 	private List<BannedEmail> result;
 	private BlacklistDAO blacklist;

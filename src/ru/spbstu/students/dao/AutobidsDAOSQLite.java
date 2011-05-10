@@ -1,5 +1,7 @@
 package ru.spbstu.students.dao;
 
+import java.util.List;
+
 import ru.spbstu.students.dao.querysupport.QuerySupport;
 import ru.spbstu.students.dto.AutobidInfo;
 
@@ -32,10 +34,20 @@ public class AutobidsDAOSQLite extends QuerySupport implements AutobidsDAO {
 			}
 		}).get(0);		
 	}
+	
+	public List<AutobidInfo> getAutobidList(int itemID) {
+		Query q = new Query("SELECT item, user, max, step FROM autobids ").append(where(eq("item",itemID)));
+		
+		return q.list(new Fetcher<AutobidInfo>(){			
+			@Override
+			protected AutobidInfo fetch() {
+				return new AutobidInfo(getInt("user"), getInt("item"), getDouble("max"), getDouble("step"));
+			}
+		});		
+	}
 
 	public void removeAutobid(int itemID, int userID) {
 		Query q = new Query("DELETE FROM autobids ").append(where(and(eq("item",itemID),eq("user",userID))));
 		q.execute();
 	}
-
 }

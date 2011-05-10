@@ -14,7 +14,7 @@ import ru.spbstu.students.dao.UserDAO;
 import ru.spbstu.students.dto.UserInfo;
 
 public class AdminAction extends BaseAction implements SessionAware {
-
+	
 	private static final long serialVersionUID = 2968415355537519942L;
 	private UserDAO userDao;
 	private Map<String, Object> session;

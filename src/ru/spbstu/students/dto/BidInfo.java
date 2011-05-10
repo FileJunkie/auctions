@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class BidInfo {
 	private int itemID;
-	private int userID;
+	private String user;
 	private double amount;
 	private Date time;
 	
-	public BidInfo(int itemID, int userID, double amount, Date time) {
+	public BidInfo(int itemID, String user, double amount, Date time) {
 		this.itemID = itemID;
-		this.userID = userID;
+		this.user = user;
 		this.amount = amount;
 		this.time = time;
 	}
@@ -25,12 +25,12 @@ public class BidInfo {
 		this.itemID = itemID;
 	}
 
-	public int getUserID() {
-		return userID;
+	public String getUser() {
+		return user;
 	}
 
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	public double getAmount() {

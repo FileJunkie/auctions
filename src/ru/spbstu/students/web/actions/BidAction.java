@@ -9,8 +9,10 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.SessionAware;
 
 import ru.spbstu.students.dao.BidDAO;
+import ru.spbstu.students.dao.ItemDAO;
 import ru.spbstu.students.dao.UserDAO;
 import ru.spbstu.students.dto.BidInfo;
+import ru.spbstu.students.util.CounterThread;
 import ru.spbstu.students.util.PriorityThread;
 import ru.spbstu.students.web.PriorityAddBid;
 import ru.spbstu.students.web.PriorityGetBidList;
@@ -27,19 +29,24 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 	private Map<String, Object> session; 
 	private BidDAO bidDao;
 	private List<BidInfo> bidList;
+	private String aucType;
 	private UserDAO userDao;
+	private ItemDAO itemDao;
+	private double lastBid;
 	
 	public String bid(){
 		if (!session.containsKey("email"))
 			return ERROR;
 		
 		int userId = userDao.getUser((String)session.get("email")).getId();
-		bid.setUserID(userId);
+		String email = (String)session.get("email");
+		bid.setUser(email);
 		bid.setTime(new Date());
 		
-		//int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
 		
-		//log.info("Start  addBid transaction. Request ID: " + requestId + "User ID: " + userId + "Item ID: " + bid.getItemID());
+		log.info("Start  addBid transaction. Request ID: " + requestId + "User ID: " + userId + "Item ID: " + bid.getItemID() + "User category: " + userDao.getUser(userId).getCategory());
+		CounterThread.inc(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
 		
 		PriorityAddBid addBid = new PriorityAddBid();
 		addBid.setBid(bid);
@@ -51,7 +58,7 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 		PriorityThread.addQueue.add(addBid);
 		while (true) {
 			for (PriorityAddBid b : PriorityThread.resQueue) {
-				if ((b.getBid().getUserID() == userId) && (b.getBid().getItemID() == bid.getItemID()) && b.getResult() != null) {
+				if ((b.getBid().getUser().equals(email)) && (b.getBid().getItemID() == bid.getItemID()) && b.getResult() != null) {
 					isFind = true;
 					result = b.getResult();
 					PriorityThread.resQueue.remove(b);
@@ -60,13 +67,17 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 			}
 			if (isFind)
 				break;
-		}
+		}		
+
+		bidDao.refreshBids(bid.getItemID());
 		
 		if(!result.equals("success")){
-			//log.info("Finish addBid transaction, request ID: " + requestId);
+			log.info("Finish addBid transaction, request ID: " + requestId);
+			CounterThread.dec(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
 			return ERROR;
 		}
-		//log.info("Finish addBid transaction, request ID: " + requestId);
+		log.info("Finish addBid transaction, request ID: " + requestId);
+		CounterThread.dec(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
 		return SUCCESS;
 	}
 	
@@ -75,11 +86,11 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 		if (!session.containsKey("email"))
 			return ERROR;
 		
-		int itemId = (Integer) session.get("itemId");	
+		int itemId = (Integer) session.get("itemId");
 		int userId = userDao.getUser((String)session.get("email")).getId();
-		
 		int requestId = new Random().nextInt(Integer.MAX_VALUE);
-		log.info("Start  getBid transaction. Request ID: " + requestId + ", User ID: " + userId + ", Item ID: " + itemId);
+		log.info("Start  getBid transaction. Request ID: " + requestId + ", User ID: " + userId + ", Item ID: " + itemId + "User category: " + userDao.getUser(userId).getCategory());
+		CounterThread.inc(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
 		
 		try{
 			PriorityGetBidList bid = new PriorityGetBidList();
@@ -106,9 +117,37 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 		}
 		catch(Exception e){
 			log.info("Finish getBid transaction, Request ID: " + requestId);
+			CounterThread.dec(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
 			return ERROR;
 		}
+		aucType = itemDao.getItem(itemId).getType();
+		if (!bidList.isEmpty()) {
+			lastBid = bidList.get(bidList.size()-1).getAmount();
+		}
 		log.info("Finish getBid transaction, Request ID: " + requestId);
+		CounterThread.dec(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
+		return SUCCESS;
+	}
+	
+	public String buyItemDutch(){
+
+		if (!session.containsKey("email"))
+			return ERROR;
+		
+		int itemId = (Integer) session.get("itemId");
+		int userId = userDao.getUser((String)session.get("email")).getId();
+		int requestId = new Random().nextInt(Integer.MAX_VALUE);
+		log.info("Start  buyItemDutch transaction. Request ID: " + requestId + ", User ID: " + userId + ", Item ID: " + itemId + "User category: " + userDao.getUser(userId).getCategory());
+		CounterThread.inc(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
+		try {
+			bidDao.dutchBuy(itemId, userId);			
+		} catch (Exception e) {
+			log.info("Finish buyItemDutch transaction, Request ID: " + requestId);
+			CounterThread.dec(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
+			return ERROR;
+		}
+		log.info("Finish buyItemDutch transaction, Request ID: " + requestId);
+		CounterThread.dec(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
 		return SUCCESS;
 	}
 	
@@ -142,6 +181,22 @@ public class BidAction extends BaseAction implements SessionAware, ModelDriven<B
 
 	public void setBid(BidInfo bid) {
 		this.bid = bid;
+	}
+
+	public String getAucType() {
+		return aucType;
+	}
+
+	public void setAucType(String aucType) {
+		this.aucType = aucType;
+	}
+
+	public void setItemDao(ItemDAO itemDao) {
+		this.itemDao = itemDao;
+	}
+
+	public double getLastBid() {
+		return lastBid;
 	}		
 
 }

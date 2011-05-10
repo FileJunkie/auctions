@@ -5,10 +5,6 @@
 
 <script type="text/javascript">
 
-	$(document).ready(function(){
-	setInterval("$('#bids').load('getBids');",1000); // По умолчанию время обновления 1 секунда.
-	}); 
-	
 	function beforeSubmit() {
 		if (!ismail()) {
 			$('#email').addClass('ui-state-error')
