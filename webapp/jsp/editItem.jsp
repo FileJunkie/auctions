@@ -122,6 +122,13 @@
 									cssClass="datepickerTimeField"/>
 							</td>
 						</tr>
+						<tr>
+							<td>Delivery date </td>
+							<td><s:textfield id="delivery" name="delivery"
+									value="yyyy-mm-dd"
+									cssClass="datepickerTimeField"/>
+							</td>
+						</tr>
 					</table>
 				<div align="right" style="padding-right: 20px">
 					<input type='button' class="ui-state-default ui-corner-all" value="Edit" onclick='javascript:beforeItemSubmit();'>

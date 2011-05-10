@@ -47,7 +47,15 @@
 			<s:a href="%{blacklist}">Blacklist</s:a>
 			<s:url id="itemCategories" action="itemCategoriesList" escapeAmp="false"></s:url>
 			<s:a href="%{itemCategories}">Item categories list</s:a>
-			<br />
+			<br/><br/>
+			Counter (VIP): ${counter}
+			Perm. counter (VIP): ${permCounter}
+			<br/>
+			Counter (Full): ${counterFull}
+			Perm. counter (Full): ${permCounterFull}
+			<br/>
+			Counter (Lite): ${counterLite}
+			Perm. counter (Lite): ${permCounterLite}
 		</div>
 	</div>
 </body>

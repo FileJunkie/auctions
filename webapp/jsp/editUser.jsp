@@ -38,8 +38,10 @@
 			<s:url id="addItem" action="addItem" escapeAmp="false"></s:url>
 			<s:a href="%{addItem}"><img src="images/auc_put_lot.png" ALIGN="middle" border="0" style="padding-left: 30px"></s:a>
 			<%} %>
+			<% if ((isAdmin != null) && (isAdmin)) { %>
 			<s:url id="admin" action="adminConsole" escapeAmp="false"></s:url>
-			<s:a href="%{admin}"><img src="images/auc_admin.png" ALIGN="middle" border="0" style="padding-left: 25px"></s:a> 
+			<s:a href="%{admin}"><img src="images/auc_admin.png" ALIGN="middle" border="0" style="padding-left: 25px"></s:a> <!-- тут тоже ссылка в виде картинок -->
+			<%}%>
 		</div>
 		<div id="editUser"  style="margin-left: 250px" 
 				class="ui-widget ui-widget-content ui-state-active register">

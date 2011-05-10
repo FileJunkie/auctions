@@ -12,6 +12,8 @@ import com.opensymphony.xwork2.ActionContext;
 
 import ru.spbstu.students.dao.UserDAO;
 import ru.spbstu.students.dto.UserInfo;
+import ru.spbstu.students.util.CounterThread;
+import ru.spbstu.students.web.UserCategories;
 
 public class AdminAction extends BaseAction implements SessionAware {
 	
@@ -20,6 +22,12 @@ public class AdminAction extends BaseAction implements SessionAware {
 	private Map<String, Object> session;
 	private List<UserInfo> result;
 	private UserInfo user;
+	private int counter;
+	private int permCounter;
+	private int counterFull;
+	private int permCounterFull;
+	private int counterLite;
+	private int permCounterLite;
 	
 	public boolean isAdminSession() {
 		if ((!session.containsKey("email")) || (!userDao.isAdmin((String) session.get("email")))) {
@@ -32,7 +40,12 @@ public class AdminAction extends BaseAction implements SessionAware {
 		if (!isAdminSession()) {
 			return ERROR;
 		}
-		
+		counter = CounterThread.getCounter(UserCategories.VIP);
+		permCounter = CounterThread.getCounterPermanent(UserCategories.VIP);
+		counterLite = CounterThread.getCounter(UserCategories.Lite);
+		permCounterLite = CounterThread.getCounterPermanent(UserCategories.Lite);
+		counterFull = CounterThread.getCounter(UserCategories.Full);
+		permCounterFull = CounterThread.getCounterPermanent(UserCategories.Full);
 		return SUCCESS;
 	}
 
@@ -102,5 +115,53 @@ public class AdminAction extends BaseAction implements SessionAware {
 
 	public void setUser(UserInfo user) {
 		this.user = user;
+	}
+
+	public int getCounter() {
+		return counter;
+	}
+
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
+
+	public int getPermCounter() {
+		return permCounter;
+	}
+
+	public void setPermCounter(int permCounter) {
+		this.permCounter = permCounter;
+	}
+
+	public int getCounterFull() {
+		return counterFull;
+	}
+
+	public void setCounterFull(int counterFull) {
+		this.counterFull = counterFull;
+	}
+
+	public int getPermCounterFull() {
+		return permCounterFull;
+	}
+
+	public void setPermCounterFull(int permCounterFull) {
+		this.permCounterFull = permCounterFull;
+	}
+
+	public int getCounterLite() {
+		return counterLite;
+	}
+
+	public void setCounterLite(int counterLite) {
+		this.counterLite = counterLite;
+	}
+
+	public int getPermCounterLite() {
+		return permCounterLite;
+	}
+
+	public void setPermCounterLite(int permCounterLite) {
+		this.permCounterLite = permCounterLite;
 	}
 }

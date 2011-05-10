@@ -54,7 +54,7 @@
 	<div>
 		<div style="float: left; width: 250px;">
 			<a href="index.jsp"><img src="images/auc_main.png" ALIGN="middle" border="0" style="padding-left: 30px"></a>
-			<s:url id="items" action="itemsList" escapeAmp="false"></s:url>
+			<s:url id="items" action="itemsListNotReg" escapeAmp="false"></s:url>
 			<s:a href="%{items}"><img src="images/auc_all_lots.png" ALIGN="middle" border="0" style="padding-left: 30px"></s:a>
 			<%
 				if (email != null) {

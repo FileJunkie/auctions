@@ -39,7 +39,7 @@ public class CounterThread implements ServletContextListener {
 					CounterDiff cd = queue.poll();
 					if(cd.isUp()){
 						counters.put(cd.getCategory(), counters.get(cd.getCategory()) + 1); // I know it's not atomical. Fuck it. 
-						countersPermanent.put(cd.getCategory(), counters.get(cd.getCategory()) + 1); // Only one thread can access it, anyway
+						countersPermanent.put(cd.getCategory(), countersPermanent.get(cd.getCategory()) + 1); // Only one thread can access it, anyway
 					}
 					else{
 						counters.put(cd.getCategory(), counters.get(cd.getCategory()) - 1); // In worst case the old value will be returned by getter 
@@ -49,7 +49,7 @@ public class CounterThread implements ServletContextListener {
 		}
 	};
 	
-	public void contextDestroyed(ServletContextEvent arg0) {
+	public void contextInitialized(ServletContextEvent arg0) {
 		for(UserCategories uc : UserCategories.values()){
 			counters.put(uc, 0);
 			countersPermanent.put(uc, 0);
@@ -57,7 +57,7 @@ public class CounterThread implements ServletContextListener {
 		new Thread(runnable).start();
 	}
 
-	public void contextInitialized(ServletContextEvent arg0) {
+	public void contextDestroyed(ServletContextEvent arg0) {
 		run = false;
 	}
 	
@@ -69,11 +69,11 @@ public class CounterThread implements ServletContextListener {
 		queue.add(new CounterDiff(uc, false));
 	}
 
-	public int getCounter(UserCategories uc){
+	public static int getCounter(UserCategories uc){
 		return counters.get(uc);
 	}
 	
-	public int getCounterPermanent(UserCategories uc){
+	public static int getCounterPermanent(UserCategories uc){
 		return countersPermanent.get(uc);
 	}
 }

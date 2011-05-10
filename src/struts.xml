@@ -135,6 +135,11 @@
 			<result name="error">/jsp/error.jsp</result>
 		</action>
 		
+		<action name="itemsListNotReg" method="getItemsListNotReg" class="ru.spbstu.students.web.actions.ItemAction">
+			<result name="success">/jsp/itemList.jsp</result>
+			<result name="error">/jsp/error.jsp</result>
+		</action>
+		
 		<action name="detailItem" method="detailsItem" class="ru.spbstu.students.web.actions.ItemAction">
 			<result name="success">/jsp/detailsItem.jsp</result>
 			<result name="error">/jsp/error.jsp</result>

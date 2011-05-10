@@ -34,6 +34,9 @@
 			<tr>
 				<td colspan="2">Срок проведения:<br>${item.startAuc} - ${item.finishAuc}</td>
 			</tr>
+			<tr>
+				<td colspan="2">Поставка:<br>${item.delivery}</td>
+			</tr>
 			</table>
 		</td>
 	</tr> 

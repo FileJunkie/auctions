@@ -116,6 +116,16 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		}	
 	}
 	
+	public String getItemsListNotReg() {
+		try {
+			itemList = itemDao.getItems();
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}	
+	}
+	
 	public String detailsItem() {
 		if (!session.containsKey("email"))
 			return ERROR;
