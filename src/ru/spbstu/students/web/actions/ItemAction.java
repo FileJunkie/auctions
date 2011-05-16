@@ -1,6 +1,7 @@
 package ru.spbstu.students.web.actions;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -158,6 +159,7 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		if (!session.containsKey("email"))
 			return ERROR;
 		
+		Calendar cal = Calendar.getInstance();
 		int requestId = new Random().nextInt(Integer.MAX_VALUE);
 		
 		int userId = userDao.getUser((String)session.get("email")).getId();
@@ -192,6 +194,10 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 			session.put("startReg", item.getStartReg());
 			session.put("finishReg", item.getFinishReg());
 			session.put("aucState", item.getState());
+			
+			if (item.getFinishAuc().compareTo(cal.getTime()) < 0) {
+				item.setState(2);
+			}
 			
 			if (item.getState() == 2) {
 				winner = userDao.getUser(itemDao.getWinner(id)).getEmail();
