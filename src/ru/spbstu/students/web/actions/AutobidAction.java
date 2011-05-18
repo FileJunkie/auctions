@@ -50,15 +50,28 @@ public class AutobidAction extends BaseAction implements SessionAware, ModelDriv
 		
 		autobid.setUser(userId);
 		autobid.setStep(step);
-		try {
-			autobidDao.addAutobid(autobid);
 		
+		try {
+			AutobidInfo ab = autobidDao.getAutobid(item.getId(), userId);
+			if (ab != null) {
+				if (ab.getMax() < autobid.getMax()) {
+					autobidDao.removeAutobid(item.getId(), userId);
+					autobidDao.addAutobid(autobid);
+				} else {
+					log.info("Finish autoBid transaction, request ID: "	+ requestId);
+					CounterThread.dec(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
+					return SUCCESS;
+				}
+			} else {
+				autobidDao.addAutobid(autobid);
+			}
+
 			bidList = bidDao.getBids(autobid.getItem());
 			BidInfo bid;
 			if (!bidList.isEmpty()) {
 				bid = bidList.get(bidList.size()-1);
-				if ((!bid.getUser().equals(email)) && (autobid.getMax() >= bid.getAmount() * 1.05)) {
-					bidDao.addBid(new BidInfo(autobid.getItem(), email, bid.getAmount() * 1.05, new Date()));
+				if ((!bid.getUser().equals(email)) && (autobid.getMax() >= (bid.getAmount() + item.getStartBid()*0.05))) {
+					bidDao.addBid(new BidInfo(autobid.getItem(), email, (bid.getAmount() + item.getStartBid()*0.05), new Date()));
 				}
 			} else if (autobid.getMax() >= item.getStartBid() * 1.05){
 				bidDao.addBid(new BidInfo(autobid.getItem(), email, item.getStartBid() * 1.05, new Date()));

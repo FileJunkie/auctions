@@ -55,10 +55,4 @@ public class Util {
 			return false;
 		}
 	}
-	
-	public static double format(double num, int col) {
-		NumberFormat aFormat = NumberFormat.getNumberInstance(Locale.UK);
-		aFormat.setMaximumFractionDigits(col);
-		return Double.parseDouble(aFormat.format(num));
-	}
 }

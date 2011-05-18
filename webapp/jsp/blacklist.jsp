@@ -1,7 +1,30 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<jsp:include page="/js/functions.jsp" />
+<%@ taglib prefix="j" uri="/struts-jquery-tags"%>
+<j:head jqueryui="true" jquerytheme="humanity" />
+
+<script type="text/javascript">
+
+	function beforeSubmit() {
+		
+		if (!isValid()) {
+			$('#email').addClass('ui-state-error')
+						.toggle('shake', {}, 150);
+			return false;
+			$('#email').removeClass('ui-state-error');
+		}
+		$('#ban_form').submit();
+	}
+	
+	function isValid() {
+		var email = document.getElementById('email').value; 
+		if (email.length == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+</script>
 
 <%
 	String email = (String) session.getAttribute("email");
@@ -9,9 +32,7 @@
 	Boolean seller = (Boolean) session.getAttribute ("seller");
 %>
 
-<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Blacklist Page</title>
 <s:head />
 <style type="text/css">
@@ -49,7 +70,7 @@
 					<tr>
 						<td>Email</td>
 						<td><s:textfield id="email" name="email" /></td>
-						<td><input type='button' value="Add" onclick="javascript:submit();"></td>
+						<td><input type='button' value="Add" onclick="javascript:beforeSubmit();"></td>
 					</tr>
 				</table>
 			</s:form>
@@ -79,4 +100,3 @@
 		</div>
 	</div>
 </body>
-</html>

@@ -92,6 +92,9 @@
 										<td colspan="2">Стартовая цена: <s:property value="startBid" /></td>
 									</tr>
 									<tr>
+										<td colspan="2">Минимальная цена: <s:property value="min" /></td>
+									</tr>
+									<tr>
 										<td colspan="2">Срок регистрации:<br><s:property value="startReg"/> - <s:property value="finishReg"/></td>
 									</tr>
 									<tr>
@@ -133,6 +136,9 @@
 									</tr>
 									<tr>
 										<td colspan="2">Стартовая цена: <s:property value="startBid" /></td>
+									</tr>
+									<tr>
+										<td colspan="2">Минимальная цена: <s:property value="min" /></td>
 									</tr>
 									<tr>
 										<td colspan="2">Срок регистрации:<br><s:property value="startReg"/> - <s:property value="finishReg"/></td>

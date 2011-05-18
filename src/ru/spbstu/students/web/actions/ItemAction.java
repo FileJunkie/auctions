@@ -7,11 +7,13 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import ru.spbstu.students.dao.ItemCategoriesDAO;
 import ru.spbstu.students.dao.ItemDAO;
@@ -35,11 +37,11 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 	private ItemDAO itemDao;
 	private ItemCategoriesDAO itemCategories;
 	private UserDAO userDao;
-	private List<BidInfo> bidList;
 	private List<String> categoryList;
 	private List<ItemInfo> itemList;
 	private RegisterDAO registerDao;
 	private String winner;
+	private DataSource dataSource;
 	
 	public String addItem() {
 		if (!session.containsKey("email"))
@@ -195,12 +197,19 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 			session.put("finishReg", item.getFinishReg());
 			session.put("aucState", item.getState());
 			
-			if (item.getFinishAuc().compareTo(cal.getTime()) < 0) {
+			if ((item.getState() != 2)&&(item.getFinishAuc().compareTo(cal.getTime()) < 0)) {
 				item.setState(2);
+				JdbcTemplate edit = new JdbcTemplate(dataSource);
+				edit.execute("UPDATE items SET state = 2 where id = " + id);
+				session.remove("aucState");
+				session.put("aucState", 2);
 			}
 			
 			if (item.getState() == 2) {
-				winner = userDao.getUser(itemDao.getWinner(id)).getEmail();
+				String win = itemDao.getWinner(id);
+				if (win != null) {
+					winner = userDao.getUser(win).getEmail();
+				}
 			}
 			log.info("Finish updateDetails transaction, request ID: " + requestId);
 			CounterThread.dec(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
@@ -407,15 +416,11 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		this.registerDao = registerDao;
 	}
 
-	public List<BidInfo> getBidList() {
-		return bidList;
-	}
-
-	public void setBidList(List<BidInfo> bidList) {
-		this.bidList = bidList;
-	}
-
 	public String getWinner() {
 		return winner;
+	}
+	
+	public void setDataSource(DataSource ds) {
+		dataSource = ds;
 	}
 }

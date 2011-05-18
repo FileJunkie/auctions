@@ -1,14 +1,35 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<link rel="stylesheet" type="text/css" href="<s:url value="/style.css"/>"/>
-<jsp:include page="/js/functions.jsp" />
+<%@ taglib prefix="j" uri="/struts-jquery-tags"%>
+<j:head jqueryui="true" jquerytheme="humanity" />
+
+<script type="text/javascript">
+
+	function beforeSubmit() {
+		
+		if (!isValid()) {
+			$('#name').addClass('ui-state-error')
+						.toggle('shake', {}, 150);
+			return false;
+			$('#name').removeClass('ui-state-error');
+		}
+		$('#form').submit();
+	}
+	
+	function isValid() {
+		var name = document.getElementById('name').value; 
+		if (name.length == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+</script>
 
 <%
 	Boolean seller = (Boolean) session.getAttribute ("seller");
 %>
 
-<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Edit Category</title>
@@ -43,7 +64,7 @@
 			<s:a href="%{admin}"><img src="images/auc_admin.png" ALIGN="middle" border="0" style="padding-left: 25px"></s:a> 
 		</div>
 		<div id="editCategory"
-			class="ui-widget ui-widget-content ui-state-active register">
+			class="ui-widget ui-widget-content ui-state-active register" style="margin-left: 250px">
 			<s:form id="form" action="updateCategory">
 				<table cellpadding="3" cellspacing="0">
 				<tr>
@@ -54,10 +75,9 @@
 				</tr>
 				</table>
 				<div align="right" style="padding-right: 20px">
-				<input type='button' class="ui-state-default ui-corner-all" value="Edit" onclick='javascript:submit();'>
+				<input type='button' class="ui-state-default ui-corner-all" value="Edit" onclick='javascript:beforeSubmit();'>
 				</div>
 			</s:form>
 		</div>
 		</div>
 	</body>
-</html>

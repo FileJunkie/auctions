@@ -27,12 +27,16 @@ public class AutobidsDAOSQLite extends QuerySupport implements AutobidsDAO {
 	public AutobidInfo getAutobid(int itemID, int userID) {
 		Query q = new Query("SELECT item, user, max, step FROM autobids ").append(where(and(eq("item",itemID),eq("user",userID))));
 		
-		return q.list(new Fetcher<AutobidInfo>(){			
+		List<AutobidInfo> abList = q.list(new Fetcher<AutobidInfo>(){			
 			@Override
 			protected AutobidInfo fetch() {
 				return new AutobidInfo(getInt("user"), getInt("item"), getDouble("max"), getDouble("step"));
 			}
-		}).get(0);		
+		});	
+		if (!abList.isEmpty()) {
+			return abList.get(0);
+		} else
+			return null;
 	}
 	
 	public List<AutobidInfo> getAutobidList(int itemID) {

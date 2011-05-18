@@ -14,7 +14,6 @@ import ru.spbstu.students.dto.AutobidInfo;
 import ru.spbstu.students.dto.BidInfo;
 import ru.spbstu.students.dto.ItemInfo;
 import ru.spbstu.students.dto.UserInfo;
-import ru.spbstu.students.util.Util;
 
 public class BidDAOSQLite extends QuerySupport implements BidDAO, ApplicationContextAware {
 
@@ -73,7 +72,7 @@ public class BidDAOSQLite extends QuerySupport implements BidDAO, ApplicationCon
 			.append(bid.getItemID() + ",")
 			.append("'" + bid.getUser() + "',")
 			.append("'" + df.format(bid.getTime()) + "',")
-			.append(Util.format(bid.getAmount(), 2) + ")");
+			.append(bid.getAmount() + ")");
 		q.execute();
 		
 		return "success";
@@ -124,6 +123,8 @@ public class BidDAOSQLite extends QuerySupport implements BidDAO, ApplicationCon
 	public void refreshBids(int itemID) {
 		AutobidsDAO autobidDao = (AutobidsDAO) context.getBean("autobidDao");
 		UserDAO userDao = (UserDAO) context.getBean("userDao");
+		ItemDAO itemDao = (ItemDAO) context.getBean("itemDao");
+		ItemInfo item = itemDao.getItem(itemID);
 		List<AutobidInfo> autobidList = autobidDao.getAutobidList(itemID);
 		BidInfo bid = new BidInfo();
 		List<BidInfo> bidList;
@@ -133,8 +134,8 @@ public class BidDAOSQLite extends QuerySupport implements BidDAO, ApplicationCon
 			bidList = this.getBids(itemID);
 			bid = bidList.get(bidList.size()-1);
 			user = userDao.getUser(ab.getUser());
-			if ((!bid.getUser().equals(user.getEmail())) && (ab.getMax() >= bid.getAmount() * 1.05)) {
-				this.addBid(new BidInfo(itemID, user.getEmail(), bid.getAmount() * 1.05, new Date()));
+			if ((!bid.getUser().equals(user.getEmail())) && (ab.getMax() >= (bid.getAmount() + item.getStartBid()*0.05))) {
+				this.addBid(new BidInfo(itemID, user.getEmail(), (bid.getAmount() + item.getStartBid()*0.05), new Date()));
 				isAdd = true;
 			}
 		}

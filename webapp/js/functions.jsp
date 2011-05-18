@@ -48,8 +48,4 @@
 			return false;
 		}
 	}
-	
-	function submit() {
-		$('#form').submit();
-	}
 </script>

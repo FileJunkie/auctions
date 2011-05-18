@@ -14,5 +14,5 @@ public interface ItemDAO {
 	public boolean registerIn(int itemID, int userID);
 	public void unregisterIn(int itemID, int userID);
 	public List<ItemInfo> getBuyerItems(int buyerID);
-	public int getWinner(int itemID);
+	public String getWinner(int itemID);
 }

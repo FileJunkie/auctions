@@ -29,6 +29,9 @@
 				<td colspan="2">Стартовая цена: ${item.startBid}</td>
 			</tr>
 			<tr>
+				<td colspan="2">Минимальная цена: ${item.min}</td>
+			</tr>
+			<tr>
 				<td colspan="2">Срок регистрации:<br>${item.startReg} - ${item.finishReg}</td>
 			</tr>
 			<tr>
@@ -120,7 +123,12 @@
 		<%} else if (aucState == 2) { %>
 			<tr>
 				<td colspan="2" align="center">
+					<s:if test="%{winner != null}">
 					Аукцион выиграл ${winner}
+					</s:if>
+					<s:else>
+					Аукцион окончен. Победителей нет.
+					</s:else>
 				</td>
 			</tr>
 		<%} %>

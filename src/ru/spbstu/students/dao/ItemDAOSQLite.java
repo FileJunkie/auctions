@@ -49,7 +49,7 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 			.append("finish_auc=" + "'" + df.format(item.getFinishAuc()) + "',")
 			.append("state=" + item.getState() + ",")
 			.append("delivery=" + (item.getDelivery() == null ? "null," : "'" + df.format(item.getDelivery()) + "',") )
-			.append("category=" + item.getCategory() + " ")
+			.append("category= '" + item.getCategory() + "' ")
 			.append(where(eq("id", itemID)));
 		q.execute();
 	}
@@ -222,34 +222,42 @@ public class ItemDAOSQLite extends QuerySupport implements ItemDAO {
 		});
 	}
 
-	public int getWinner(int itemID){
+	public String getWinner(int itemID){
 		ItemInfo item = getItem(itemID);
 		if(item.getState() != 2){
-			return -1;
+			return null;
 		}
 		
 		if(item.getType().equals("English")){
-			Query q = new Query("SELECT user FROM bids ")
+			Query q = new Query("SELECT user FROM bids b join items i on i.id = b.item ")
 				.append(where(eq("item",itemID)))
-				.append(" ORDER BY amount DESC LIMIT 1");
-			return q.list(new Fetcher<Integer>(){
+				.append(" and i.min < b.amount ORDER BY amount DESC LIMIT 1");
+			List<String> users = q.list(new Fetcher<String>(){
 				@Override
-				protected Integer fetch(){
-					return getInt("user");
+				protected String fetch(){
+					return getString("user");
 				}
-			}).get(0);
+			});
+			if (!users.isEmpty()) {
+				return users.get(0);
+			} else
+				return null;
 		}
 		else if(item.getType().equals("Dutch")){
 			Query q = new Query("SELECT user FROM winners WHERE ").append(where(eq("item", itemID)));
-			return q.list(new Fetcher<Integer>(){
+			List<String> users = q.list(new Fetcher<String>(){
 				@Override
-				protected Integer fetch(){
-					return getInt("user");
+				protected String fetch(){
+					return getString("user");
 				}
-			}).get(0);
+			});
+			if (!users.isEmpty()) {
+				return users.get(0);
+			} else
+				return null;
 		}
 		else{
-			return -1;
+			return null;
 		}
 	}
 }

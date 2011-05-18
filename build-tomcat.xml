@@ -75,6 +75,7 @@
 	<target name="tomcat.deploy">
 	  <delete dir="${tomcat.base}"/>
 	  <mkdir dir="${tomcat.base}"/>
+	  <mkdir dir="${war.dir}/cache"/>
 	  <unzip dest="${build.path}" src="${tomcat.image}"/>
 	  <property name="web.root" location="${war.dir}"/>
 	  <echo>Tomcat context looks in ${web.root}</echo>
