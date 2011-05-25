@@ -69,19 +69,24 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		log.info("Start  insertItem transaction. Request ID: " + requestId + "User ID: " + userDao.getUser((String)session.get("email")).getId() + "User category: " + userDao.getUser(userDao.getUser((String)session.get("email")).getId()).getCategory());
 		CounterThread.inc(UserCategories.getByLabel(userDao.getUser(userDao.getUser((String)session.get("email")).getId()).getCategory()));
 		
-		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-		String pathToPhoto = new String();
-		try {
-            String filePath = request.getSession().getServletContext().getRealPath("/");
-            File fileToCreate = new File(filePath + "cache/", item.getImage().getName());
-            FileUtils.copyFile(item.getImage(), fileToCreate);
-            pathToPhoto = "cache/" + item.getImage().getName();
-        } catch (Exception e) {
-            e.printStackTrace();
-            addActionError(e.getMessage());
-        }		
-		try {
+		if (item.getImage() != null) {
+			HttpServletRequest request = (HttpServletRequest) ActionContext
+					.getContext().get(ServletActionContext.HTTP_REQUEST);
+			String pathToPhoto = new String();
+			try {
+				String filePath = request.getSession().getServletContext()
+						.getRealPath("/");
+				File fileToCreate = new File(filePath + "cache/", item
+						.getImage().getName());
+				FileUtils.copyFile(item.getImage(), fileToCreate);
+				pathToPhoto = "cache/" + item.getImage().getName();
+			} catch (Exception e) {
+				e.printStackTrace();
+				addActionError(e.getMessage());
+			}
 			item.setPhoto(pathToPhoto);
+		}
+		try {
 			item.setSeller(userDao.getUser((String)session.get("email")).getId());
 			item.setCategory(itemCategories.getCategory(item.getCategory()).toString());
 			item.setState(1);
@@ -264,20 +269,24 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		int userId = userDao.getUser((String)session.get("email")).getId();
 		log.info("Start  updateItemInfo transaction. Request ID: " + requestId + "User ID: " + userId + "User category: " + userDao.getUser(userId).getCategory());
 		CounterThread.inc(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
-		
-		HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-		String pathToPhoto = new String();
-		try {
-            String filePath = request.getSession().getServletContext().getRealPath("/");
-            File fileToCreate = new File(filePath + "cache/", item.getImage().getName());
-            FileUtils.copyFile(item.getImage(), fileToCreate);
-            pathToPhoto = "cache/" + item.getImage().getName();
-        } catch (Exception e) {
-            e.printStackTrace();
-            addActionError(e.getMessage());
-        }		
-		try {
+		if (item.getImage() != null) {
+			HttpServletRequest request = (HttpServletRequest) ActionContext
+					.getContext().get(ServletActionContext.HTTP_REQUEST);
+			String pathToPhoto = new String();
+			try {
+				String filePath = request.getSession().getServletContext()
+						.getRealPath("/");
+				File fileToCreate = new File(filePath + "cache/", item
+						.getImage().getName());
+				FileUtils.copyFile(item.getImage(), fileToCreate);
+				pathToPhoto = "cache/" + item.getImage().getName();
+			} catch (Exception e) {
+				e.printStackTrace();
+				addActionError(e.getMessage());
+			}
 			item.setPhoto(pathToPhoto);
+		}
+		try {
 			item.setSeller(userId);
 			item.setCategory(itemCategories.getCategory(item.getCategory()).toString());
 			item.setState(1);
@@ -315,9 +324,11 @@ public class ItemAction extends BaseAction implements SessionAware, ModelDriven<
 		}
 		
 		try {
-            String filePath = request.getSession().getServletContext().getRealPath("/");
-            File fileToDel = new File(filePath + item.getPhoto());
-            FileUtils.forceDelete(fileToDel);
+			if (item.getPhoto() != null) {
+				String filePath = request.getSession().getServletContext().getRealPath("/");
+				File fileToDel = new File(filePath + item.getPhoto());
+				FileUtils.forceDelete(fileToDel);
+			}
             itemDao.removeItem(itemId);
             log.info("Finish removeItem transaction, request ID: " + requestId);
             CounterThread.dec(UserCategories.getByLabel(userDao.getUser(userId).getCategory()));
