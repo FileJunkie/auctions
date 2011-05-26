@@ -113,14 +113,15 @@
 		<%	}
 		  }	%>
 		</s:else>
-							
-		<tr><td colspan="2">Ставки:<td></tr>
-		<tr>
-			<td colspan="2" align="center">
-				<div id="bids"></div>
-			</td>
-		</tr>
-		<%} else if (aucState == 2) { %>
+		<% if ((startAuc.compareTo(cal.getTime()) < 0) && (finishAuc.compareTo(cal.getTime()) > 0)) { %>					
+			<tr><td colspan="2">Ставки:<td></tr>
+			<tr>
+				<td colspan="2" align="center">
+					<div id="bids"></div>
+				</td>
+			</tr>
+		<% }
+		} else if (aucState == 2) { %>
 			<tr>
 				<td colspan="2" align="center">
 					<s:if test="%{winner != null}">
