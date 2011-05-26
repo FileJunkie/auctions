@@ -25,7 +25,18 @@
 	}
 	
 	function beforeItemSubmit() {
-		$('#addItemForm').submit();
+		
+		if (document.getElementById('name').value.length == 0) {
+			document.getElementById('lotName').style.display = "block";
+		} else if (document.getElementById('desc').value.length == 0) {
+			document.getElementById('lotDesc').style.display = "block";
+		} else if (document.getElementById('startBid').value.length == 0) {
+			document.getElementById('start').style.display = "block";
+		} else if (document.getElementById('min').value.length == 0) {
+			document.getElementById('lotMin').style.display = "block";
+		} else {
+			$('#addItemForm').submit();
+		}
 	}
 
 	function ismail() {
