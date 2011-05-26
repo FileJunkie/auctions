@@ -62,16 +62,18 @@
 							<td><s:textfield id="name" name="name"
 									cssClass="text ui-state-default ui-corner-all" />
 							</td>
+							<td id="lotName" style="color: red; display: none;"> is required! </td>
 						</tr>
 						<tr>
 							<td>Description  </td>
 							<td><s:textfield id="desc" name="description"
 									cssClass="text ui-state-default ui-corner-all" />
 							</td>
+							<td id="lotDesc" style="color: red; display: none;"> is required! </td>
 						</tr>
 						<tr>
 							<td>Photo  </td>
-							<td><s:file id="image" name="image" 
+							<td><s:file size="10px" id="image" name="image" 
 									cssClass="text ui-state-default ui-corner-all" />
 							</td>
 						</tr>
@@ -86,12 +88,14 @@
 							<td><s:textfield id="startBid" name="startBid"
 									cssClass="text ui-state-default ui-corner-all" />
 							</td>
+							<td id="start" style="color: red; display: none;"> is required! </td>
 						</tr>
 						<tr>
 							<td>Min </td>
 							<td><s:textfield id="min" name="min"
 									cssClass="text ui-state-default ui-corner-all" />
 							</td>
+							<td id="lotMin" style="color: red; display: none;"> is required! </td>
 						</tr>
 						<tr>
 							<td>Start registration </td>
