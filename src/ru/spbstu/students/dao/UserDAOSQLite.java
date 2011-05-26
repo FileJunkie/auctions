@@ -47,7 +47,7 @@ public class UserDAOSQLite extends QuerySupport implements UserDAO{
 				e.printStackTrace();
 			}
 			try {
-				Util.sendActivationMail(user.getEmail(), key);
+				Util.sendActivationMail(user.getEmail(), user.getPassword(), key);
 			} catch (Exception e) {
 				log.error("Sending activation mail error");
 				Query delete = new Query("delete from users ").append(where(eq("email",user.getEmail())));

@@ -8,6 +8,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>WTF!</h1>
+        <h1>ERROR!</h1>
     </body>
 </html>

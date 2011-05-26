@@ -26,13 +26,13 @@ public class Util {
 		return md5;
 	}
 	
-	public static void sendActivationMail(String email, String key) throws Exception {
+	public static void sendActivationMail(String email, String pass, String key) throws Exception {
 		String subject = "Registration new user";
-		String body = "Hello, " + email + "! To comlete the registration " +
+		String body = "Hello, " + email + "! Your password is " + pass + " To comlete the registration " +
 				"you should go to this link: ";
 		String sender = "auction.group51721@mail.ru";
 		String user = "auction.group51721";
-		String passw = "auction.group51721";
+		String passw = "auction";
 		
 		try {
 	        InetAddress addr = InetAddress.getLocalHost();

