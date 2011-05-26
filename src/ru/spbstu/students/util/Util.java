@@ -36,7 +36,7 @@ public class Util {
 		
 		try {
 	        InetAddress addr = InetAddress.getLocalHost();
-	        String hostname = addr.getHostName();
+	        String hostname = addr.getHostAddress();
 	        body += "http://" + hostname + ":8080/Auction/activation.action?key=" + key;
 	    } catch (UnknownHostException e) {
 	    	e.printStackTrace();
